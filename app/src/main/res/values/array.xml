@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="user_role">
+        <item>@string/penyedia_jasa</item>
+        <item>@string/pengguna_jasa</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+
+    <string-array name="job_fields">
+        <item>@string/pelayanan</item>
+        <item>@string/logistik</item>
+        <item>@string/penjualan</item>
+        <item>@string/pendidikan</item>
+        <item>@string/media</item>
+        <item>@string/teknisi</item>
+        <item>@string/pertukangan</item>
+        <item>@string/perikanan</item>
+    </string-array>
+
+</resources>

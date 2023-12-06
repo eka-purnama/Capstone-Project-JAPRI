@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addjob.AddJobActivity">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+        
+        <TextView
+            android:id="@+id/title_worker_name"
+            style="@style/text_title"
+            android:layout_marginTop="16dp"
+            android:text="@string/worker_name_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/workerNameEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_worker_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_worker_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:inputType="none"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_job_name"
+            style="@style/text_title"
+            android:text="@string/job_name_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workerNameEditTextLayout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/jobNameEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_job_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/job_name_hint"
+                android:inputType="text"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_start_date"
+            style="@style/text_title"
+            android:text="@string/start_date_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jobNameEditTextLayout"/>
+
+        <ImageButton
+            android:id="@+id/start_date_picker"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey"
+            android:contentDescription="@string/btn_date_content"
+            android:onClick="showDatePicker"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_start_date"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/start_date_title"
+            android:layout_marginStart="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/start_date_picker"
+            app:layout_constraintTop_toTopOf="@+id/start_date_picker"
+            app:layout_constraintBottom_toBottomOf="@+id/start_date_picker"/>
+
+        <TextView
+            android:id="@+id/title_end_date"
+            style="@style/text_title"
+            android:text="@string/end_date_title"
+            android:layout_marginStart="90dp"
+            app:layout_constraintStart_toEndOf="@id/title_start_date"
+            app:layout_constraintTop_toTopOf="@+id/title_start_date"/>
+
+        <ImageButton
+            android:id="@+id/end_date_picker"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btn_date_content"
+            android:onClick="showDatePicker"
+            android:src="@drawable/ic_calendar"
+            android:backgroundTint="@color/grey"
+            app:layout_constraintStart_toStartOf="@+id/title_end_date"
+            app:layout_constraintTop_toBottomOf="@+id/title_end_date"/>
+
+        <TextView
+            android:id="@+id/tv_end_date"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/end_date_title"
+            android:layout_marginStart="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/end_date_picker"
+            app:layout_constraintTop_toTopOf="@+id/end_date_picker"
+            app:layout_constraintBottom_toBottomOf="@+id/end_date_picker"/>
+
+        <TextView
+            android:id="@+id/title_start_time"
+            style="@style/text_title"
+            android:text="@string/start_time_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_date_picker"/>
+
+        <ImageButton
+            android:id="@+id/start_time_picker"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btn_date_content"
+            android:onClick="showDatePicker"
+            android:src="@drawable/ic_time_clock"
+            android:backgroundTint="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_start_time" />
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/start_time_title"
+            android:layout_marginStart="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/start_time_picker"
+            app:layout_constraintTop_toTopOf="@+id/start_time_picker"
+            app:layout_constraintBottom_toBottomOf="@+id/start_time_picker"/>
+
+        <TextView
+            android:id="@+id/title_end_time"
+            style="@style/text_title"
+            android:text="@string/end_time_title"
+            android:layout_marginStart="90dp"
+            app:layout_constraintStart_toEndOf="@id/title_start_time"
+            app:layout_constraintTop_toTopOf="@+id/title_start_time"/>
+
+        <ImageButton
+            android:id="@+id/end_time_picker"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btn_date_content"
+            android:onClick="showDatePicker"
+            android:src="@drawable/ic_time_clock"
+            android:backgroundTint="@color/grey"
+            app:layout_constraintStart_toStartOf="@+id/title_end_time"
+            app:layout_constraintTop_toBottomOf="@+id/title_end_time" />
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/end_time_title"
+            android:layout_marginStart="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/end_time_picker"
+            app:layout_constraintTop_toTopOf="@+id/end_time_picker"
+            app:layout_constraintBottom_toBottomOf="@+id/end_time_picker"/>
+
+        <TextView
+            android:id="@+id/title_salary"
+            style="@style/text_title"
+            android:text="@string/salary_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_time_picker"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/salaryEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_salary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_salary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/salary_hint"
+                android:inputType="number"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_job_address"
+            style="@style/text_title"
+            android:text="@string/address_job_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/salaryEditTextLayout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_job_address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_job_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_job_hint"
+                android:inputType="text"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_job_desc"
+            style="@style/text_title"
+            android:text="@string/detail_job_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressEditTextLayout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/jobDetailEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:counterEnabled="true"
+            app:counterMaxLength="255"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_job_desc">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_job_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/detail_job_hint"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:maxLength="255"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_add_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/text_add_job"
+            android:backgroundTint="@color/orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jobDetailEditTextLayout"
+            tools:ignore="TextContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

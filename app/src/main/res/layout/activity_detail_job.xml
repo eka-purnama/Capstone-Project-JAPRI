@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detailjob.DetailJobActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <TextView
+            android:id="@+id/tv_job_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/job_name_title"
+            android:textColor="@color/orange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/tv_job_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/address_job_title"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_job_name"
+            app:drawableStartCompat="@drawable/ic_outline_location" />
+
+        <TextView
+            android:id="@+id/tv_job_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/job_date"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_job_address"
+            app:drawableStartCompat="@drawable/ic_outline_calendar"/>
+
+        <TextView
+            android:id="@+id/tv_job_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/job_time"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_job_date"
+            app:drawableStartCompat="@drawable/ic_outline_time"/>
+
+        <TextView
+            android:id="@+id/salary_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_title"
+            android:text="@string/salary_title"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_job_time" />
+
+        <TextView
+            android:id="@+id/tv_job_salary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/salary_title"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/salary_title"
+            app:layout_constraintTop_toTopOf="@+id/salary_title" />
+
+        <TextView
+            android:id="@+id/detail_job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_title"
+            android:text="@string/detail_job_title"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/salary_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/detail_job_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_job_title"
+            android:justificationMode="inter_word"
+            tools:targetApi="o" />
+
+        <TextView
+            android:id="@+id/person_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_title"
+            android:text="@string/employee_title"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_job" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/blue"
+            android:src="@drawable/user_photo"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/person_type"
+            android:contentDescription="@string/user_photo" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body"
+            android:text="@string/username_hint"
+            android:layout_marginStart="6dp"
+            app:layout_constraintStart_toEndOf="@+id/user_photo"
+            app:layout_constraintTop_toTopOf="@+id/user_photo"
+            app:layout_constraintBottom_toBottomOf="@+id/user_photo"/>
+
+        <TextView
+            android:id="@+id/title_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_title"
+            android:text="@string/title_rating"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_photo" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:theme="@style/RatingBar"
+            android:stepSize="1"
+            android:numStars="5"
+            android:rating="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_rating"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/title_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_title"
+            android:text="@string/title_review"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/reviewEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:counterEnabled="true"
+            app:counterMaxLength="255"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_review">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/review_hint"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:maxLength="255"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_finish"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:backgroundTint="@color/orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviewEditTextLayout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
