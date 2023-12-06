@@ -3,8 +3,13 @@ const storage = require('../config/bucket');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { json } = require('express');
+const sharp = require('sharp');
 
 const bucket = storage.bucket('japri-dev-bucket');
+
+
+const path = require('path');
+const url = require('url');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -54,6 +59,12 @@ const editUser = async (req, res) => {
 
     // Ambil data user dari Firestore
     const userSnapshot = await db.collection('users').doc(userId).get();
+
+    // cek user ada atau tidak
+    if (!userSnapshot.exists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
     const userData = userSnapshot.data();
 
     // Validasi untuk mengubah field yang diisi oleh user saja
@@ -114,42 +125,63 @@ const upload = multer({
 
 const uploadProfilePhoto = async (req, res) => {
   try {
-    const userId = req.params.id; // Mengambil ID pengguna dari token
+    const userId = req.params.id; // ambil id user
 
-    upload.single('photo')(req, res, (err) => {
+    const userDoc = await db.collection('users').doc(userId).get();
+    // cek user ada atau tidak
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const username = userDoc.data()?.username;
+    const oldPhotoUrl = userDoc.data()?.photo_url;
+
+    // Upload new profile photo
+    upload.single('photo')(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ message: 'File size exceeds the limit' });
       } else if (err) {
         return res.status(500).json({ message: 'Error uploading photo' });
       }
 
+      // cek apakah ada file yg terupload 
       if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
       }
 
       const file = req.file;
-      const fileName = `user_photos/${userId}_${Date.now()}_${file.originalname.replace(/\s+/g, '_')}`;
-      const fileBuffer = file.buffer;
+      const fileName = `user_photos/${username}_${Date.now()}_${file.originalname.replace(/\s+/g, '_')}`;
 
-      const stream = bucket.file(fileName).createWriteStream({
-        metadata: {
-          contentType: file.mimetype,
-        },
-      });
+      try {
+        // Resize and upload image
+        const resizedBuffer = await resizeImage(file.buffer);
+        const stream = await uploadImage(fileName, resizedBuffer, file.mimetype);
 
-      stream.on('error', (err) => {
-        console.error(err);
-        res.status(500).json({ message: 'Error uploading photo' });
-      });
+        // Handle upload errors
+        stream.on('error', (err) => {
+          console.error(err);
+          res.status(500).json({ message: 'Error uploading photo' });
+        });
 
-      stream.on('finish', () => {
-        const photoUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-        // Menyimpan URL foto di field photo_url pada koleksi users
-        savePhotoUrl(userId, photoUrl);
-        res.json({ message: 'Profile photo uploaded successfully', photoUrl });
-      });
+        // Handle upload completion
+        stream.on('finish', async () => {
+          const photoUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 
-      stream.end(fileBuffer);
+          // Delete old photo if it exists
+          if (oldPhotoUrl) {
+            await deleteOldPhoto(oldPhotoUrl);
+          }
+
+          // Update user document with new photo URL
+          await savePhotoUrl(userId, photoUrl);
+          res.json({ message: 'Profile photo uploaded successfully', photoUrl });
+        });
+        
+        stream.end(resizedBuffer);
+
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
     });
   } catch (error) {
     console.error(error);
@@ -161,6 +193,34 @@ const savePhotoUrl = async (userId, photoUrl) => {
   const userRef = db.collection('users').doc(userId);
   await userRef.update({ photo_url: photoUrl });
 };
+
+// mengubah ukuran gambar
+const resizeImage = async (buffer) => {
+  try {
+    return await sharp(buffer).resize(500, 500).toBuffer();
+  } catch (error) {
+    console.error('Error resizing image:', error);
+    throw error;
+  }
+}
+
+// mengupload gambar ke storage
+const uploadImage = async (fileName, buffer, mimeType) => {
+  const file = bucket.file(fileName);
+  const stream = file.createWriteStream({ metadata: { contentType: mimeType } });
+  stream.write(buffer);
+  return stream;
+}
+
+// menghapus gambar lama
+const deleteOldPhoto = async (oldPhotoUrl) => {
+  try {
+    const fileName = path.basename(url.parse(oldPhotoUrl).pathname);
+    await bucket.file("user_photos/"+fileName).delete();
+  } catch (error) {
+    console.error('Error deleting old photo:', error);
+  }
+}
 
 module.exports = {
   getAllUsers,
