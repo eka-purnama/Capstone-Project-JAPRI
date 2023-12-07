@@ -7,7 +7,6 @@ const sharp = require('sharp');
 
 const bucket = storage.bucket('japri-dev-bucket');
 
-
 const path = require('path');
 const url = require('url');
 
@@ -60,12 +59,23 @@ const editUser = async (req, res) => {
     // Ambil data user dari Firestore
     const userSnapshot = await db.collection('users').doc(userId).get();
 
+    const userData = userSnapshot.data();
+
     // cek user ada atau tidak
     if (!userSnapshot.exists) {
       return res.status(404).json({ error: 'User not found' });
     }
-    
-    const userData = userSnapshot.data();
+
+    // Validasi email
+    if (email && email !== userData.email) {
+      // Jika email diisi dan berbeda dengan email lama, lakukan validasi
+      const existingUser = await db.collection('users').where('email', '==', email).get();
+
+      if (!existingUser.empty) {
+        // Jika email sudah ada di database, kirim response error
+        return res.status(400).json({ error: 'Email already exists' });
+      }
+    }
 
     // Validasi untuk mengubah field yang diisi oleh user saja
     const updatedData = {
@@ -143,7 +153,7 @@ const uploadProfilePhoto = async (req, res) => {
         return res.status(500).json({ message: 'Error uploading photo' });
       }
 
-      // cek apakah ada file yg terupload 
+      // cek apakah ada file yg terupload
       if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
       }
@@ -175,9 +185,8 @@ const uploadProfilePhoto = async (req, res) => {
           await savePhotoUrl(userId, photoUrl);
           res.json({ message: 'Profile photo uploaded successfully', photoUrl });
         });
-        
-        stream.end(resizedBuffer);
 
+        stream.end(resizedBuffer);
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -202,7 +211,7 @@ const resizeImage = async (buffer) => {
     console.error('Error resizing image:', error);
     throw error;
   }
-}
+};
 
 // mengupload gambar ke storage
 const uploadImage = async (fileName, buffer, mimeType) => {
@@ -210,17 +219,17 @@ const uploadImage = async (fileName, buffer, mimeType) => {
   const stream = file.createWriteStream({ metadata: { contentType: mimeType } });
   stream.write(buffer);
   return stream;
-}
+};
 
 // menghapus gambar lama
 const deleteOldPhoto = async (oldPhotoUrl) => {
   try {
     const fileName = path.basename(url.parse(oldPhotoUrl).pathname);
-    await bucket.file("user_photos/"+fileName).delete();
+    await bucket.file('user_photos/' + fileName).delete();
   } catch (error) {
     console.error('Error deleting old photo:', error);
   }
-}
+};
 
 module.exports = {
   getAllUsers,

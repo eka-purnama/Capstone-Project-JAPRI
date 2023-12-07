@@ -17,6 +17,7 @@ const addFormJasa = async (req, res) => {
       pengguna_jasa,
       pemberi_jasa,
       feedback: feedback || [],
+      createdAt: new Date(),
     };
 
     const formJasaRef = await db.collection('formJasa').add(formJasaData);
