@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const formJasaRoutes = require('./routes/formJasaRoutes');
+const feedbackRoutes = require('./routes/feedbackRoute')
 const dbMiddleware = require('./middleware/db');
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(dbMiddleware);
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/jasa', formJasaRoutes);
+app.use('/feedbacks', feedbackRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

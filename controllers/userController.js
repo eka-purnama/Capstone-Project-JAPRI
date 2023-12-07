@@ -67,13 +67,18 @@ const editUser = async (req, res) => {
     }
 
     // Validasi email
-    if (email && email !== userData.email) {
-      // Jika email diisi dan berbeda dengan email lama, lakukan validasi
-      const existingUser = await db.collection('users').where('email', '==', email).get();
-
-      if (!existingUser.empty) {
-        // Jika email sudah ada di database, kirim response error
-        return res.status(400).json({ error: 'Email already exists' });
+    if (email){
+      if(email !== userData.email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          return res.status(400).json({ error: 'Penulisan Email tidak valid' });
+        }
+        // Jika email diisi dan berbeda dengan email lama, lakukan validasi
+        const existingUser = await db.collection('users').where('email', '==', email).get();
+        if (!existingUser.empty) {
+          // Jika email sudah ada di database, kirim response error
+          return res.status(400).json({ error: 'Email already exists' });
+        }
       }
     }
 
@@ -225,7 +230,11 @@ const uploadImage = async (fileName, buffer, mimeType) => {
 const deleteOldPhoto = async (oldPhotoUrl) => {
   try {
     const fileName = path.basename(url.parse(oldPhotoUrl).pathname);
-    await bucket.file('user_photos/' + fileName).delete();
+    const file = bucket.file('user_photos/' + fileName);
+    const [exists] = await file.exists();
+    if (exists) {
+      await bucket.file('user_photos/' + fileName).delete();
+    }
   } catch (error) {
     console.error('Error deleting old photo:', error);
   }

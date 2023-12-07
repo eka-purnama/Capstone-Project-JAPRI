@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const formJasaController = require('../controllers/formJasaController');
 
-router.post('/', formJasaController.addFormJasa);
+router.post('/:usernamepengguna/:usernamepenyedia', formJasaController.addFormJasa);
 
 router.get('/', formJasaController.getAllFormJasa);
 

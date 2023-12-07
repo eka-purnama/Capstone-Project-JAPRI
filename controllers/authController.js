@@ -6,13 +6,19 @@ const register = async (req, res) => {
   try {
     const { email, name, username, password, role } = req.body;
 
-    // Check if the email is already registered
-    const existingEmailUser = await db.collection('users').where('email', '==', email).limit(1).get();
-
-    if (!existingEmailUser.empty) {
-      return res.status(400).json({ error: true, message: 'Email is already registered' });
+    // Validasi penulisan email
+    if (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          return res.status(400).json({ error: 'Penulisan Email tidak valid' });
+      }
+      // Check if the email is already registered
+      const existingEmailUser = await db.collection('users').where('email', '==', email).limit(1).get();
+      if (!existingEmailUser.empty) {
+        return res.status(400).json({ error: true, message: 'Email is already registered' });
+      }
     }
-
+    
     // Check if the username is already registered
     const existingUsernameUser = await db.collection('users').where('username', '==', username).limit(1).get();
 
@@ -36,9 +42,7 @@ const register = async (req, res) => {
         skill: [],
         deskripsi: '',
       },
-      jasa_digunakan: [],
-      jasa_diberikan: [],
-      feedback: [{ id_form_jasa: '', rating: '', masukan: '' }],
+      feedbacks: [],
     };
 
     const userRef = await db.collection('users').add(userData);
