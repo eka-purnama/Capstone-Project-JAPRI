@@ -3,9 +3,7 @@ package com.android.japri.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.japri.R
 import com.android.japri.databinding.ActivityLoginBinding
-import com.android.japri.databinding.ActivityWelcomeScreenBinding
 import com.android.japri.ui.main.MainActivity
 import com.android.japri.ui.register.RegisterActivity
 

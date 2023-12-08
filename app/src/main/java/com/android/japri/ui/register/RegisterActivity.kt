@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import com.android.japri.R
-import com.android.japri.databinding.ActivityLoginBinding
 import com.android.japri.databinding.ActivityRegisterBinding
 import com.android.japri.ui.login.LoginActivity
-import com.android.japri.ui.main.MainActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -37,7 +35,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         val roles = resources.getStringArray(R.array.user_role)
-        val adapter = ArrayAdapter(this, R.layout.dropdown_item, roles)
+        val adapter = ArrayAdapter(this, R.layout.item_dropdown, roles)
         binding.dropdownRole.setAdapter(adapter)
 
     }

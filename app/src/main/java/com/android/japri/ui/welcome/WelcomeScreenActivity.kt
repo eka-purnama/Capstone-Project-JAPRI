@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.android.japri.R
 import com.android.japri.databinding.ActivityWelcomeScreenBinding
 import com.android.japri.ui.login.LoginActivity
 import com.android.japri.ui.register.RegisterActivity

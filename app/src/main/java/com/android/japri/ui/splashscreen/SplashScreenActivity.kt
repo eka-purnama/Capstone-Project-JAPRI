@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.android.japri.R
-import com.android.japri.ui.main.MainActivity
 import com.android.japri.ui.welcome.WelcomeScreenActivity
 
 class SplashScreenActivity : AppCompatActivity() {
-
-//    private val splashTimeOut: Long = 3000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

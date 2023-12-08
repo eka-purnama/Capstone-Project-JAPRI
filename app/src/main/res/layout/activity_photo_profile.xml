@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".ui.photoprofile.PhotoProfileActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_photo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/blue"
+        android:src="@drawable/user_photo"
+        android:contentDescription="@string/user_photo"/>
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:layout_marginTop="36dp"
+        android:text="@string/edit" />
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/button"
+        android:layout_marginTop="4dp"
+        android:text="@string/save" />
+
+</LinearLayout>

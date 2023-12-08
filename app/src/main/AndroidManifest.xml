@@ -13,17 +13,23 @@
         android:theme="@style/Theme.JAPRI"
         tools:targetApi="31">
         <activity
+            android:name=".ui.aboutapp.AboutAppActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.photoprofile.PhotoProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.accountsetting.AccountSettingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.detailjob.DetailJobActivity"
-            android:exported="false" />
+            android:parentActivityName=".ui.jobhistory.JobHistoryActivity" />
         <activity
             android:name=".ui.jobhistory.JobHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".ui.addjob.AddJobActivity"
-            android:exported="false" />
+            android:parentActivityName=".ui.detailjasa.DetailJasaActivity" />
         <activity
             android:name=".ui.detailjasa.DetailJasaActivity"
             android:exported="false" />

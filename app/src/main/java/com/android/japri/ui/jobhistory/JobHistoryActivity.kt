@@ -6,7 +6,6 @@ import androidx.annotation.StringRes
 import androidx.viewpager2.widget.ViewPager2
 import com.android.japri.R
 import com.android.japri.databinding.ActivityJobHistoryBinding
-import com.android.japri.ui.detailjasa.DetailJasaActivity
 import com.android.japri.ui.job.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

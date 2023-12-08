@@ -9,14 +9,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp">
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
         
         <TextView
             android:id="@+id/title_worker_name"
-            style="@style/text_title"
+            style="@style/sub_title"
             android:layout_marginTop="16dp"
-            android:text="@string/worker_name_title"
+            android:text="@string/worker_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -42,8 +42,8 @@
 
         <TextView
             android:id="@+id/title_job_name"
-            style="@style/text_title"
-            android:text="@string/job_name_title"
+            style="@style/sub_title"
+            android:text="@string/job_name"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/workerNameEditTextLayout"/>
@@ -63,14 +63,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/job_name_hint"
-                android:inputType="text"
-                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/title_start_date"
-            style="@style/text_title"
-            android:text="@string/start_date_title"
+            style="@style/sub_title"
+            android:text="@string/start_date"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/jobNameEditTextLayout"/>
@@ -81,29 +80,25 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
-            android:contentDescription="@string/btn_date_content"
+            android:contentDescription="@string/btn_start_date_content"
             android:onClick="showDatePicker"
             android:src="@drawable/ic_calendar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_start_date"
-            tools:ignore="DuplicateSpeakableTextCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/title_start_date" />
 
         <TextView
             android:id="@+id/tv_start_date"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/start_date_title"
+            style="@style/text_body"
+            android:text="@string/start_date"
             android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/start_date_picker"
             app:layout_constraintTop_toTopOf="@+id/start_date_picker"
             app:layout_constraintBottom_toBottomOf="@+id/start_date_picker"/>
 
         <TextView
             android:id="@+id/title_end_date"
-            style="@style/text_title"
-            android:text="@string/end_date_title"
+            style="@style/sub_title"
+            android:text="@string/end_date"
             android:layout_marginStart="90dp"
             app:layout_constraintStart_toEndOf="@id/title_start_date"
             app:layout_constraintTop_toTopOf="@+id/title_start_date"/>
@@ -113,7 +108,7 @@
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/btn_date_content"
+            android:contentDescription="@string/btn_end_date_content"
             android:onClick="showDatePicker"
             android:src="@drawable/ic_calendar"
             android:backgroundTint="@color/grey"
@@ -122,20 +117,17 @@
 
         <TextView
             android:id="@+id/tv_end_date"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/end_date_title"
+            style="@style/text_body"
+            android:text="@string/end_date"
             android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/end_date_picker"
             app:layout_constraintTop_toTopOf="@+id/end_date_picker"
             app:layout_constraintBottom_toBottomOf="@+id/end_date_picker"/>
 
         <TextView
             android:id="@+id/title_start_time"
-            style="@style/text_title"
-            android:text="@string/start_time_title"
+            style="@style/sub_title"
+            android:text="@string/start_time"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_date_picker"/>
@@ -145,7 +137,7 @@
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/btn_date_content"
+            android:contentDescription="@string/btn_start_time_content"
             android:onClick="showDatePicker"
             android:src="@drawable/ic_time_clock"
             android:backgroundTint="@color/grey"
@@ -154,20 +146,17 @@
 
         <TextView
             android:id="@+id/tv_start_time"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/start_time_title"
+            style="@style/text_body"
+            android:text="@string/start_time"
             android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/start_time_picker"
             app:layout_constraintTop_toTopOf="@+id/start_time_picker"
             app:layout_constraintBottom_toBottomOf="@+id/start_time_picker"/>
 
         <TextView
             android:id="@+id/title_end_time"
-            style="@style/text_title"
-            android:text="@string/end_time_title"
+            style="@style/sub_title"
+            android:text="@string/end_time"
             android:layout_marginStart="90dp"
             app:layout_constraintStart_toEndOf="@id/title_start_time"
             app:layout_constraintTop_toTopOf="@+id/title_start_time"/>
@@ -177,7 +166,7 @@
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/btn_date_content"
+            android:contentDescription="@string/btn_end_time_content"
             android:onClick="showDatePicker"
             android:src="@drawable/ic_time_clock"
             android:backgroundTint="@color/grey"
@@ -186,20 +175,17 @@
 
         <TextView
             android:id="@+id/tv_end_time"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/end_time_title"
+            style="@style/text_body"
+            android:text="@string/end_time"
             android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/end_time_picker"
             app:layout_constraintTop_toTopOf="@+id/end_time_picker"
             app:layout_constraintBottom_toBottomOf="@+id/end_time_picker"/>
 
         <TextView
             android:id="@+id/title_salary"
-            style="@style/text_title"
-            android:text="@string/salary_title"
+            style="@style/sub_title"
+            android:text="@string/salary"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_time_picker"/>
@@ -219,14 +205,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/salary_hint"
-                android:inputType="number"
-                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/title_job_address"
-            style="@style/text_title"
-            android:text="@string/address_job_title"
+            style="@style/sub_title"
+            android:text="@string/job_address"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/salaryEditTextLayout"/>
@@ -245,21 +230,20 @@
                 android:id="@+id/ed_job_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/address_job_hint"
-                android:inputType="text"
-                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+                android:hint="@string/job_address_hint"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/title_job_desc"
-            style="@style/text_title"
-            android:text="@string/detail_job_title"
+            style="@style/sub_title"
+            android:text="@string/detail_job"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addressEditTextLayout"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/jobDetailEditTextLayout"
+            android:id="@+id/detailJobEditTextLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -271,32 +255,26 @@
             app:layout_constraintTop_toBottomOf="@+id/title_job_desc">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_job_detail"
+                android:id="@+id/ed_detail_job"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:hint="@string/detail_job_hint"
                 android:inputType="textMultiLine"
-                android:lines="5"
-                android:maxLength="255"
-                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+                android:lines="6"
+                android:maxLength="255" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_add_job"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/button"
             android:layout_marginTop="16dp"
-            android:padding="12dp"
-            android:textSize="16sp"
             android:layout_marginBottom="24dp"
-            android:text="@string/text_add_job"
-            android:backgroundTint="@color/orange"
+            android:text="@string/add_job"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jobDetailEditTextLayout"
-            tools:ignore="TextContrastCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/detailJobEditTextLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

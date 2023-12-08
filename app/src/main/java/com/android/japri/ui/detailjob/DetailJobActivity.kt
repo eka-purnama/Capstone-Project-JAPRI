@@ -3,7 +3,6 @@ package com.android.japri.ui.detailjob
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.japri.R
-import com.android.japri.databinding.ActivityDetailJasaBinding
 import com.android.japri.databinding.ActivityDetailJobBinding
 
 class DetailJobActivity : AppCompatActivity() {

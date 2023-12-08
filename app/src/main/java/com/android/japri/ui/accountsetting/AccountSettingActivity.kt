@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import com.android.japri.R
 import com.android.japri.databinding.ActivityAccountSettingBinding
-import com.android.japri.databinding.ActivityDetailJasaBinding
 
 class AccountSettingActivity : AppCompatActivity() {
 
@@ -20,7 +19,8 @@ class AccountSettingActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.title_toolbar_account_setting_activity)
 
         val gender = resources.getStringArray(R.array.gender)
-        val adapter = ArrayAdapter(this, R.layout.dropdown_item, gender)
+        val adapter = ArrayAdapter(this, R.layout.item_dropdown, gender)
         binding.dropdownGender.setAdapter(adapter)
+
     }
 }

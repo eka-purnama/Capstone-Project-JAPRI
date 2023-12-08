@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.android.japri.databinding.FragmentAccountBinding
+import com.android.japri.ui.aboutapp.AboutAppActivity
 import com.android.japri.ui.accountsetting.AccountSettingActivity
 import com.android.japri.ui.jobhistory.JobHistoryActivity
-import com.android.japri.ui.main.MainActivity
+import com.android.japri.ui.photoprofile.PhotoProfileActivity
 
 class AccountFragment : Fragment() {
 
@@ -26,10 +27,11 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val accountViewModel =
-            ViewModelProvider(this)[AccountViewModel::class.java]
+        val accountViewModel = ViewModelProvider(this)[AccountViewModel::class.java]
 
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
         return binding.root
     }
@@ -37,12 +39,17 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.changePhoto.setOnClickListener {
+            startActivity(Intent(requireContext(), PhotoProfileActivity::class.java))
+        }
         binding.historyJobCardView.setOnClickListener{
             startActivity(Intent(requireContext(), JobHistoryActivity::class.java))
         }
-
         binding.accountSetting.setOnClickListener {
             startActivity(Intent(requireContext(), AccountSettingActivity::class.java))
+        }
+        binding.aboutApp.setOnClickListener {
+            startActivity(Intent(requireContext(), AboutAppActivity::class.java))
         }
     }
 

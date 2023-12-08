@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import com.android.japri.adapter.JobFieldsAdapter
 import com.android.japri.data.JobFields
 import com.android.japri.databinding.FragmentDashboardBinding
 import com.android.japri.ui.detailjasa.DetailJasaActivity
-import com.android.japri.ui.login.LoginActivity
 
 class DashboardFragment : Fragment() {
 
@@ -36,14 +34,8 @@ class DashboardFragment : Fragment() {
         val dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-
-//        val textView: TextView = binding.textDashboard
-//        dashboardViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
 
         adapter = JobFieldsAdapter()
 
@@ -51,23 +43,19 @@ class DashboardFragment : Fragment() {
         binding.rvJobField.layoutManager = layoutManager
         binding.rvJobField.adapter = adapter
 
-
-//        rvTouristDest.layoutManager = LinearLayoutManager(this)
-//        val listTouristDestAdapter = ListTouristDestAdapter(list)
-//        rvTouristDest.adapter = listTouristDestAdapter
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        list.clear()
+        list.addAll(getJobFieldList())
+        adapter.submitList(list)
+
         binding.tvUsername.setOnClickListener{
             startActivity(Intent(requireContext(), DetailJasaActivity::class.java))
         }
-
-        list.addAll(getJobFieldList())
-        adapter.submitList(list)
     }
 
     private fun getJobFieldList(): ArrayList<JobFields> {

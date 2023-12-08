@@ -17,12 +17,8 @@
 
         <TextView
             android:id="@+id/tv_job_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/job_name_title"
-            android:textColor="@color/orange"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            style="@style/sub_title_orange"
+            android:text="@string/job_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
@@ -30,12 +26,9 @@
         <TextView
             android:id="@+id/tv_job_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_body"
-            android:text="@string/address_job_title"
+            style="@style/text_with_icon"
+            android:text="@string/job_address"
             android:maxLines="1"
-            android:gravity="center_vertical"
-            android:drawablePadding="4dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_job_name"
@@ -44,37 +37,28 @@
         <TextView
             android:id="@+id/tv_job_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_body"
+            style="@style/text_with_icon"
             android:text="@string/job_date"
             android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_job_address"
             app:drawableStartCompat="@drawable/ic_outline_calendar"/>
 
         <TextView
-        android:id="@+id/tv_job_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_body"
-        android:text="@string/job_time"
-        android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
-        android:drawablePadding="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_job_date"
-        app:drawableStartCompat="@drawable/ic_outline_time"/>
+            android:id="@+id/tv_job_time"
+            android:layout_width="match_parent"
+            style="@style/text_with_icon"
+            android:text="@string/job_time"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_job_date"
+            app:drawableStartCompat="@drawable/ic_outline_time"/>
 
         <TextView
             android:id="@+id/tv_worker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             style="@style/text_body"
             android:text="@string/worker"
             android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_job_time" />
 

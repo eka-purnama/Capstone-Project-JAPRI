@@ -1,7 +1,6 @@
 package com.android.japri.ui.job
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.japri.R
 import com.android.japri.databinding.FragmentJobBinding
-import com.android.japri.ui.detailjasa.DetailJasaActivity
 import com.android.japri.ui.detailjob.DetailJobActivity
-import com.android.japri.ui.main.MainActivity
 
 class JobFragment : Fragment() {
 
@@ -30,12 +27,6 @@ class JobFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(JobViewModel::class.java)
-//        // TODO: Use the ViewModel
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,9 +36,9 @@ class JobFragment : Fragment() {
         }
 
         if (position == 1){
-            binding.status.text = "Pekerjaan diproses"
+            binding.status.text = (R.string.tab_text_1).toString()
         } else {
-            binding.status.text = "Pekerjaan selesai"
+            binding.status.text = (R.string.tab_text_2).toString()
         }
 
         binding.status.setOnClickListener {

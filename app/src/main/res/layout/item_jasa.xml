@@ -17,8 +17,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:civ_border_width="1dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,22 +28,16 @@
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/username_hint"
+            style="@style/sub_title_orange"
+            android:text="@string/username"
             android:layout_marginStart="12dp"
-            android:textColor="@color/orange"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:maxLength="30"
             app:layout_constraintStart_toEndOf="@+id/user_photo"
             app:layout_constraintTop_toTopOf="@+id/user_photo"/>
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             style="@style/text_body"
             android:text="@string/name"
             app:layout_constraintStart_toStartOf="@+id/tv_username"
@@ -56,36 +50,29 @@
             android:theme="@style/RatingBar"
             android:stepSize="1"
             android:numStars="5"
-            android:rating="5"
-            android:layout_marginStart="12dp"
+            android:rating="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_username"/>
 
         <TextView
-            android:id="@+id/user_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_user_description"
             style="@style/text_body"
             android:text="@string/user_description"
             android:layout_marginTop="4dp"
             android:maxLines="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_photo"
-            app:layout_constraintEnd_toEndOf="parent"
             android:justificationMode="inter_word"
             tools:targetApi="o" />
 
         <TextView
-            android:id="@+id/user_skill"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_user_skill"
             style="@style/text_body"
             android:text="@string/user_skill"
             android:layout_marginTop="4dp"
             android:maxLines="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_description"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_user_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

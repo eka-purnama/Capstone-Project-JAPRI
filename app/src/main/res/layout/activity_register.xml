@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
     tools:context=".ui.register.RegisterActivity">
 
     <TextView
@@ -11,29 +13,26 @@
         style="@style/title"
         android:text="@string/register_title"
         android:layout_marginTop="80dp"
-        android:layout_marginStart="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameEditTextLayout"
+        android:id="@+id/usernameEditTextLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/username_hint"
+        android:hint="@string/username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:startIconDrawable="@drawable/ic_person">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_register_name"
+            android:id="@+id/ed_register_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            tools:ignore="TextContrastCheck" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -41,20 +40,18 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
         android:hint="@string/email"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
+        app:layout_constraintTop_toBottomOf="@+id/usernameEditTextLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            tools:ignore="TextContrastCheck" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -62,12 +59,11 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
         android:hint="@string/password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:startIconDrawable="@drawable/ic_lock"
         app:endIconMode="password_toggle">
 
@@ -75,8 +71,7 @@
             android:id="@+id/ed_register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            tools:ignore="TextContrastCheck" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -84,21 +79,19 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
         app:startIconDrawable="@drawable/ic_people"
-        android:hint="@string/role_hint"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout">
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <AutoCompleteTextView
             android:id="@+id/dropdown_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/role_hint"
             android:inputType="none"
-            tools:ignore="LabelFor" />
-
+            tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -115,11 +108,10 @@
         android:id="@+id/btn_register"
         style="@style/button"
         android:layout_marginTop="24dp"
-        android:text="@string/text_register"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_information"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_information" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -138,7 +130,7 @@
             android:id="@+id/tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_login"
+            android:text="@string/login"
             android:layout_marginStart="4dp"
             android:textColor="@color/blue"/>
     </LinearLayout>

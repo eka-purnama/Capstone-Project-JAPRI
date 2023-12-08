@@ -12,7 +12,6 @@ class AddJobActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.title_toolbar_add_job_activity)
-
     }
 
     fun showDatePicker(view: View) {}

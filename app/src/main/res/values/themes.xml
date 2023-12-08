@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.JAPRI" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
@@ -8,7 +8,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -27,17 +27,15 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="button">
-        <item name="android:layout_width">match_parent</item>
+    <style name="sub_title_orange">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">32dp</item>
-        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:padding">12dp</item>
-        <item name="backgroundTint">@color/orange</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange</item>
     </style>
 
-    <style name="text_title">
+    <style name="sub_title">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">14sp</item>
@@ -46,8 +44,33 @@
     </style>
 
     <style name="text_body">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="text_with_icon">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">12dp</item>
+        <item name="backgroundTint">@color/orange</item>
+    </style>
+
+    <style name="line">
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/grey</item>
     </style>
 
     <style name="RatingBar" parent="Widget.AppCompat.RatingBar">

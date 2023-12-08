@@ -26,13 +26,12 @@ class JasaFragment : Fragment() {
             ViewModelProvider(this)[JasaViewModel::class.java]
 
         _binding = FragmentJasaBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
         val textView: TextView = binding.textJasa
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
