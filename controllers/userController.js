@@ -3,7 +3,6 @@ const storage = require('../config/bucket');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { json } = require('express');
-const sharp = require('sharp');
 
 const bucket = storage.bucket('japri-dev-bucket');
 
@@ -167,9 +166,9 @@ const uploadProfilePhoto = async (req, res) => {
       const fileName = `user_photos/${username}_${Date.now()}_${file.originalname.replace(/\s+/g, '_')}`;
 
       try {
-        // Resize and upload image
-        const resizedBuffer = await resizeImage(file.buffer);
-        const stream = await uploadImage(fileName, resizedBuffer, file.mimetype);
+        const fileBuffer = file.buffer
+        // Upload image directly
+        const stream = await uploadImage(fileName, fileBuffer, file.mimetype);
 
         // Handle upload errors
         stream.on('error', (err) => {
@@ -191,7 +190,7 @@ const uploadProfilePhoto = async (req, res) => {
           res.json({ message: 'Profile photo uploaded successfully', photoUrl });
         });
 
-        stream.end(resizedBuffer);
+        stream.end(fileBuffer);
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -208,15 +207,6 @@ const savePhotoUrl = async (userId, photoUrl) => {
   await userRef.update({ photo_url: photoUrl });
 };
 
-// mengubah ukuran gambar
-const resizeImage = async (buffer) => {
-  try {
-    return await sharp(buffer).resize(500, 500).toBuffer();
-  } catch (error) {
-    console.error('Error resizing image:', error);
-    throw error;
-  }
-};
 
 // mengupload gambar ke storage
 const uploadImage = async (fileName, buffer, mimeType) => {
