@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 const addFormJasa = async (req, res) => {
   try {
-    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, pengguna_jasa, penyedia_jasa, status } = req.body;
+    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, feedbacks, status } = req.body;
     const usernamePenggunaJasa = req.params.usernamepengguna;
     const usernamePenyediaJasa = req.params.usernamepenyedia;
 
@@ -18,6 +18,7 @@ const addFormJasa = async (req, res) => {
       status,
       pengguna_jasa:usernamePenggunaJasa,
       penyedia_jasa:usernamePenyediaJasa,
+      feedbacks:[],
       createdAt: new Date(),
     };
 
@@ -30,38 +31,59 @@ const addFormJasa = async (req, res) => {
   }
 };
 
+const updateFormJasaDone = async (req, res) => {
+  try {
+    const formJasaId = req.params.id; // ambil id
+    const feedbacks = req.body;
 
-const getFormJasaByUser = async (req, res) => {
+    
+    const formJasaData = (await db.collection('formJasa').doc(formJasaId).get()).data();
+
+    const updatedFeedbacks = formJasaData.feedbacks || [];
+      updatedFeedbacks.push(feedbacks);
+
+      // Menulis kembali data pengguna dengan array feedback yang diperbarui
+      const formJasaRef = await db.collection('formJasa').doc(formJasaId);
+      await formJasaRef.update({
+        status: "selesai", 
+        feedbacks: updatedFeedbacks
+      });
+
+      res.status(200).json({ message: 'Form Jasa berhasil diupdate' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+const getRatingUser = async (req, res) => {
   try {
     const username = req.params.username;
 
     // Mengambil referensi dokumen pengguna berdasarkan username
-    const userRef = await db.collection('users').where('username', '==', username).get();
+    const userRef = await db.collection('formJasa').where('penyedia_jasa', '==', username).get();
 
-    // Memastikan bahwa dokumen pengguna ditemukan
-    if (userRef.empty) {
-      return res.status(404).json({ message: 'Pengguna tidak ditemukan' });
-    }
-
-    // Mendapatkan array feedback dari dokumen pengguna
-    const userFeedback = userRef.docs[0].data().feedbacks || [];
-
-    // Mengambil data feedback berdasarkan ID-feedback dari array userFeedback
-    const feedbackDocs = await Promise.all(userFeedback.map(async (feedbackId) => {
-      const feedbackDoc = await db.collection('feedbacks').doc(feedbackId).get();
-      return feedbackDoc.data();
-    }));
-
-    // Menghitung total nilai rating dan jumlah feedback
     let totalRating = 0;
-    let totalFeedback = feedbackDocs.length;
+    let totalFeedback = 0;
 
-    feedbackDocs.forEach((feedback) => {
-      totalRating += feedback.rating;
+    // Menghitung nilai total rating dan jumlah feedback
+    userRef.forEach((doc) => {
+      const feedbackData = doc.data();
+
+      // Periksa apakah ada feedback di dalam array feedbacks
+      if (feedbackData.feedbacks && feedbackData.feedbacks.length > 0) {
+        // Ambil hanya feedback pada array pertama
+        const firstFeedback = feedbackData.feedbacks[0];
+        
+        totalRating += firstFeedback.rating;
+        totalFeedback++;
+      }
     });
 
-    // Menghitung nilai rata-rata rating (jika ada feedback)
-    const averageRating = totalFeedback > 0 ? totalRating / totalFeedback : 0;
+    // Menghitung nilai rata-rata rating (jika ada feedback) dan membatasi ke 1 angka dibelakang koma
+    const averageRating = totalFeedback > 0 ? parseFloat((totalRating / totalFeedback).toFixed(1)) : false;
 
     res.json({ message: 'Feedback ditampilkan', totalFeedback: totalFeedback, averageRating: averageRating });
 
@@ -71,17 +93,11 @@ const getFormJasaByUser = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-const getAllFormJasa = async (req, res) => {
+const getFormJasaByUser = async (req, res) => {
   try {
-    const formJasaSnapshot = await db.collection('formJasa').get();
+    const username = req.params.username;
+    // Mengambil referensi dokumen berdasarkan username
+    const formJasaSnapshot = await db.collection('formJasa').where('penyedia_jasa', '==', username).get();
     const formJasaList = formJasaSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
     res.json({ formJasaList });
@@ -111,6 +127,8 @@ const getFormJasaById = async (req, res) => {
 
 module.exports = {
   addFormJasa,
-  getAllFormJasa,
+  updateFormJasaDone,
+  getRatingUser,
+  getFormJasaByUser,
   getFormJasaById,
 };

@@ -3,9 +3,9 @@ const router = express.Router();
 const formJasaController = require('../controllers/formJasaController');
 
 router.post('/:usernamepengguna/:usernamepenyedia', formJasaController.addFormJasa);
-
-router.get('/', formJasaController.getAllFormJasa);
-
+router.put('/:id', formJasaController.updateFormJasaDone);
+router.get('/rating/:username', formJasaController.getRatingUser);
+router.get('/lists/:username', formJasaController.getFormJasaByUser);
 router.get('/:id', formJasaController.getFormJasaById);
 
 module.exports = router;
