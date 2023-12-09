@@ -289,6 +289,14 @@
 
 ## Edit Form Jasa
 
-**Endpoint**: `PUT /jasa`
+**Endpoint**: `PUT /jasa/:id`
 
 **Request Body**:
+```json
+{
+  "feedbacks": {
+    "comment": "bagus",
+    "rating": 5
+  }
+}
+```
