@@ -1,8 +1,11 @@
+const path = require('path');
 const { Storage } = require('@google-cloud/storage');
+
+const keyFilename = path.join(__dirname, 'bucket.json');
 
 const storage = new Storage({
   projectId: 'japri-dev',
-  keyFilename: 'C:\\Users\\LENOVO\\Downloads\\RPL\\Code Test\\Simple-App\\japri-dev-a69ba14728d2.json',
+  keyFilename: keyFilename,
 });
 
 module.exports = storage;

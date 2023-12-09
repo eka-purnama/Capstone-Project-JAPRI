@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const register = async (req, res) => {
   try {
@@ -10,15 +10,16 @@ const register = async (req, res) => {
     if (email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-          return res.status(400).json({ error: 'Penulisan Email tidak valid' });
+        return res.status(400).json({ error: 'Penulisan Email tidak valid' });
       }
+
       // Check if the email is already registered
       const existingEmailUser = await db.collection('users').where('email', '==', email).limit(1).get();
       if (!existingEmailUser.empty) {
         return res.status(400).json({ error: true, message: 'Email is already registered' });
       }
     }
-    
+
     // Check if the username is already registered
     const existingUsernameUser = await db.collection('users').where('username', '==', username).limit(1).get();
 
@@ -26,7 +27,7 @@ const register = async (req, res) => {
       return res.status(400).json({ error: true, message: 'Username is already registered' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = hashPassword(password);
 
     const userData = {
       email,
@@ -66,7 +67,7 @@ const login = async (req, res) => {
 
     const user = userQuery.docs[0].data();
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid email or password' });
@@ -80,9 +81,21 @@ const login = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 const logout = async (req, res) => {
   res.json({ message: 'Logout successful' });
 };
+
+function hashPassword(password) {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  return hash.digest('hex');
+}
+
+function comparePasswords(enteredPassword, hashedPassword) {
+  const hashedEnteredPassword = hashPassword(enteredPassword);
+  return hashedEnteredPassword === hashedPassword;
+}
 
 module.exports = {
   register,

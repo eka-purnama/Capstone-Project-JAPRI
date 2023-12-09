@@ -1,8 +1,11 @@
+const path = require('path');
 const Firestore = require('@google-cloud/firestore');
+
+const keyFilename = path.join(__dirname, 'db.json');
 
 const db = new Firestore({
   projectId: 'japri-dev',
-  keyFilename: 'C:\\Users\\LENOVO\\Downloads\\RPL\\Code Test\\Simple-App\\japri-dev-abd8589ded6d.json',
+  keyFilename: keyFilename,
 });
 
 module.exports = db;

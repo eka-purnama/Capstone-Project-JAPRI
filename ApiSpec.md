@@ -286,3 +286,9 @@
   "message": "berhasil"
 }
 ```
+
+## Edit Form Jasa
+
+**Endpoint**: `PUT /jasa`
+
+**Request Body**:

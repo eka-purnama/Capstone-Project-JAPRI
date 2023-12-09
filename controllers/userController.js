@@ -1,7 +1,6 @@
 const db = require('../config/db');
 const storage = require('../config/bucket');
 const multer = require('multer');
-const bcrypt = require('bcrypt');
 const { json } = require('express');
 
 const bucket = storage.bucket('japri-dev-bucket');
@@ -66,8 +65,8 @@ const editUser = async (req, res) => {
     }
 
     // Validasi email
-    if (email){
-      if(email !== userData.email) {
+    if (email) {
+      if (email !== userData.email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
           return res.status(400).json({ error: 'Penulisan Email tidak valid' });
@@ -166,7 +165,7 @@ const uploadProfilePhoto = async (req, res) => {
       const fileName = `user_photos/${username}_${Date.now()}_${file.originalname.replace(/\s+/g, '_')}`;
 
       try {
-        const fileBuffer = file.buffer
+        const fileBuffer = file.buffer;
         // Upload image directly
         const stream = await uploadImage(fileName, fileBuffer, file.mimetype);
 
@@ -206,7 +205,6 @@ const savePhotoUrl = async (userId, photoUrl) => {
   const userRef = db.collection('users').doc(userId);
   await userRef.update({ photo_url: photoUrl });
 };
-
 
 // mengupload gambar ke storage
 const uploadImage = async (fileName, buffer, mimeType) => {

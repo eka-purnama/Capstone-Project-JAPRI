@@ -2,9 +2,7 @@ const db = require('../config/db');
 
 const addFormJasa = async (req, res) => {
   try {
-    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, feedbacks, status } = req.body;
-    const usernamePenggunaJasa = req.params.usernamepengguna;
-    const usernamePenyediaJasa = req.params.usernamepenyedia;
+    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, feedbacks, status, pengguna_jasa, penyedia_jasa } = req.body;
 
     const formJasaData = {
       job_name,
@@ -16,9 +14,9 @@ const addFormJasa = async (req, res) => {
       address,
       description,
       status,
-      pengguna_jasa:usernamePenggunaJasa,
-      penyedia_jasa:usernamePenyediaJasa,
-      feedbacks:[],
+      pengguna_jasa,
+      penyedia_jasa,
+      feedbacks: [],
       createdAt: new Date(),
     };
 
@@ -36,27 +34,26 @@ const updateFormJasaDone = async (req, res) => {
     const formJasaId = req.params.id; // ambil id
     const feedbacks = req.body;
 
-    
     const formJasaData = (await db.collection('formJasa').doc(formJasaId).get()).data();
 
     const updatedFeedbacks = formJasaData.feedbacks || [];
-      updatedFeedbacks.push(feedbacks);
+    updatedFeedbacks.push(feedbacks);
 
-      // Menulis kembali data pengguna dengan array feedback yang diperbarui
-      const formJasaRef = await db.collection('formJasa').doc(formJasaId);
-      await formJasaRef.update({
-        status: "selesai", 
-        feedbacks: updatedFeedbacks
-      });
+    // Menulis kembali data pengguna dengan array feedback yang diperbarui
+    const formJasaRef = await db.collection('formJasa').doc(formJasaId);
+    await formJasaRef.update({
+      status: 'selesai',
+      feedbacks: updatedFeedbacks,
+    });
 
-      res.status(200).json({ message: 'Form Jasa berhasil diupdate' });
-
+    res.status(200).json({ message: 'Form Jasa berhasil diupdate' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
+// belum membuat api untuk mengupload feedback ke field feedbacks di users
 
 const getRatingUser = async (req, res) => {
   try {
@@ -76,7 +73,7 @@ const getRatingUser = async (req, res) => {
       if (feedbackData.feedbacks && feedbackData.feedbacks.length > 0) {
         // Ambil hanya feedback pada array pertama
         const firstFeedback = feedbackData.feedbacks[0];
-        
+
         totalRating += firstFeedback.rating;
         totalFeedback++;
       }
@@ -86,7 +83,6 @@ const getRatingUser = async (req, res) => {
     const averageRating = totalFeedback > 0 ? parseFloat((totalRating / totalFeedback).toFixed(1)) : false;
 
     res.json({ message: 'Feedback ditampilkan', totalFeedback: totalFeedback, averageRating: averageRating });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
