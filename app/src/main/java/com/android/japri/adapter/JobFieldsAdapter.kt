@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android.japri.data.JobFields
+import com.android.japri.data.JobField
 import com.android.japri.databinding.ItemJobFieldBinding
 
-class JobFieldsAdapter : ListAdapter<JobFields, JobFieldsAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class JobFieldsAdapter : ListAdapter<JobField, JobFieldsAdapter.MyViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemJobFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -20,7 +20,7 @@ class JobFieldsAdapter : ListAdapter<JobFields, JobFieldsAdapter.MyViewHolder>(D
     }
 
     class MyViewHolder(val binding: ItemJobFieldBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(jobField: JobFields){
+        fun bind(jobField: JobField){
             binding.tvJobField.text = jobField.jobFieldName
 
             itemView.setOnClickListener {
@@ -34,11 +34,11 @@ class JobFieldsAdapter : ListAdapter<JobFields, JobFieldsAdapter.MyViewHolder>(D
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<JobFields>() {
-            override fun areItemsTheSame(oldItem: JobFields, newItem: JobFields): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<JobField>() {
+            override fun areItemsTheSame(oldItem: JobField, newItem: JobField): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: JobFields, newItem: JobFields): Boolean {
+            override fun areContentsTheSame(oldItem: JobField, newItem: JobField): Boolean {
                 return oldItem == newItem
             }
         }

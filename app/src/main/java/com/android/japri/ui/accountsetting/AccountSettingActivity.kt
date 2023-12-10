@@ -1,10 +1,15 @@
 package com.android.japri.ui.accountsetting
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ArrayAdapter
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import com.android.japri.R
 import com.android.japri.databinding.ActivityAccountSettingBinding
+import com.android.japri.ui.account.AccountFragment
 
 class AccountSettingActivity : AppCompatActivity() {
 
@@ -22,5 +27,15 @@ class AccountSettingActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.item_dropdown, gender)
         binding.dropdownGender.setAdapter(adapter)
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

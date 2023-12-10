@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.android.japri.R
+import com.android.japri.ui.main.MainActivity
 import com.android.japri.ui.welcome.WelcomeScreenActivity
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class SplashScreenActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@SplashScreenActivity, WelcomeScreenActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }, SPLASH_TIME_OUT)

@@ -16,5 +16,9 @@ class DetailJobActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.title_toolbar_detail_job_activity)
+
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
+
+        }
     }
 }

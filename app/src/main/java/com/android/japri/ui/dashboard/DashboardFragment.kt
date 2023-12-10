@@ -5,15 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.japri.R
 import com.android.japri.adapter.JobFieldsAdapter
-import com.android.japri.data.JobFields
+import com.android.japri.data.JobField
 import com.android.japri.databinding.FragmentDashboardBinding
+import com.android.japri.preferences.UserSessionData
+import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.detailjasa.DetailJasaActivity
+import com.android.japri.ui.login.LoginViewModel
+import com.android.japri.ui.welcome.WelcomeScreenActivity
 
 class DashboardFragment : Fragment() {
 
@@ -23,19 +29,30 @@ class DashboardFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val dashboardViewModel by viewModels<DashboardViewModel> {
+        ViewModelFactory.getInstance(requireActivity())
+    }
+
     private lateinit var adapter: JobFieldsAdapter
-    private val list = ArrayList<JobFields>()
+    private val list = ArrayList<JobField>()
+    private var userSessionData: UserSessionData? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+
+        dashboardViewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.token.isEmpty()) {
+                startActivity(Intent(requireContext(), WelcomeScreenActivity::class.java))
+            } else {
+                userSessionData = user
+            }
+        }
 
         adapter = JobFieldsAdapter()
 
@@ -58,12 +75,12 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun getJobFieldList(): ArrayList<JobFields> {
+    private fun getJobFieldList(): ArrayList<JobField> {
         val jobFieldName = resources.getStringArray(R.array.job_fields)
 
-        val jobFieldList = ArrayList<JobFields>()
+        val jobFieldList = ArrayList<JobField>()
         for (i in jobFieldName.indices) {
-            val touristDest = JobFields(jobFieldName[i])
+            val touristDest = JobField(jobFieldName[i])
             jobFieldList.add(touristDest)
         }
         return jobFieldList

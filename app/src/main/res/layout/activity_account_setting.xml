@@ -16,7 +16,7 @@
         <TextView
             style="@style/sub_title"
             android:text="@string/username"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="16dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameEditTextLayout"
@@ -53,7 +53,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_job_name">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:layout_marginTop="12dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/jobNameEditTextLayout"
+            android:id="@+id/emailEditTextLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,8 +77,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_job_name">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_job_name"
+            <com.android.japri.ui.customview.EditTextEmail
+                android:id="@+id/ed_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_hint"
@@ -98,10 +98,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:hintEnabled="false"
+            app:helperText="@string/phone_no_example"
+            app:helperTextTextColor="@color/orange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_job_name">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_phone_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +152,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_job_name">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,7 +177,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_job_name">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.android.japri.R
 
-class EditTextPassword : AppCompatEditText {
+class EditTextUsername : AppCompatEditText {
 
     constructor(context: Context) : super(context) {
         init()
@@ -29,10 +29,16 @@ class EditTextPassword : AppCompatEditText {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                error = if (s.toString().length < 8) {
-                    context.getString(R.string.password_invalid)
-                } else {
-                    null
+                error = when {
+                    s.toString().isEmpty() -> {
+                        context.getString(R.string.empty_input)
+                    }
+                    s.toString().contains(" ") -> {
+                        context.getString(R.string.no_spaces_allowed)
+                    }
+                    else -> {
+                        null
+                    }
                 }
             }
 

@@ -27,11 +27,11 @@ class WelcomeScreenActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener{
-            startActivity(Intent(this@WelcomeScreenActivity, LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         binding.btnRegister.setOnClickListener{
-            startActivity(Intent(this@WelcomeScreenActivity, RegisterActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 

@@ -1,5 +1,5 @@
 package com.android.japri.data
 
-data class JobFields(
+data class JobField(
     val jobFieldName: String
 )

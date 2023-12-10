@@ -1,8 +1,10 @@
 package com.android.japri.ui.detailjasa
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.android.japri.R
 import com.android.japri.databinding.ActivityDetailJasaBinding
 import com.android.japri.ui.addjob.AddJobActivity
@@ -23,5 +25,20 @@ class DetailJasaActivity : AppCompatActivity() {
             startActivity(Intent(this, AddJobActivity::class.java))
         }
 
+        binding.btnContact.setOnClickListener {
+            openWhatsAppChat("81234567890")
+        }
+    }
+
+    private fun openWhatsAppChat(phoneNumber: String) {
+        val contact = "+62$phoneNumber" // Tambahkan tanda "+" sebelum nomor
+
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://api.whatsapp.com/send?phone=$contact")
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "WhatsApp tidak terpasang.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

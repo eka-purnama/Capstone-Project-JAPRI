@@ -126,6 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:isIndicator="false"
             android:theme="@style/RatingBar"
             android:stepSize="1"
             android:numStars="5"

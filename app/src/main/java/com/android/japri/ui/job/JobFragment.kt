@@ -36,9 +36,9 @@ class JobFragment : Fragment() {
         }
 
         if (position == 1){
-            binding.status.text = (R.string.tab_text_1).toString()
+            binding.status.text = "Proses"
         } else {
-            binding.status.text = (R.string.tab_text_2).toString()
+            binding.status.text = "Selesai"
         }
 
         binding.status.setOnClickListener {
