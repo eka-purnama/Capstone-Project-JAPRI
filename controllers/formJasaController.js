@@ -74,13 +74,15 @@ const getRatingUser = async (req, res) => {
     userRef.forEach((doc) => {
       const feedbackData = doc.data();
 
-      // Periksa apakah ada feedback di dalam array feedbacks
-      if (feedbackData.feedbacks && feedbackData.feedbacks.length > 0) {
-        // Ambil hanya feedback pada array pertama
-        const firstFeedback = feedbackData.feedbacks[0];
+      // Periksa apakah ada feedback di dalam objek feedbacks
+      if (feedbackData.feedbacks) {
+        // Ambil nilai rating dari feedback
+        const rating = feedbackData.feedbacks.rating;
 
-        totalRating += firstFeedback.rating;
-        totalFeedback++;
+        if (rating) {
+          totalRating += rating;
+          totalFeedback++;
+        }
       }
     });
 

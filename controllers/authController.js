@@ -43,7 +43,6 @@ const register = async (req, res) => {
         skill: [],
         deskripsi: '',
       },
-      feedbacks: [],
     };
 
     const userRef = await db.collection('users').add(userData);
