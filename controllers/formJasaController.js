@@ -16,7 +16,7 @@ const addFormJasa = async (req, res) => {
       status,
       pengguna_jasa,
       penyedia_jasa,
-      feedbacks: [],
+      feedbacks: {},
       createdAt: new Date(),
     };
 
@@ -31,15 +31,22 @@ const addFormJasa = async (req, res) => {
 
 const updateFormJasaDone = async (req, res) => {
   try {
-    const formJasaId = req.params.id; // ambil id
-    const feedbacks = req.body;
+    const formJasaId = req.params.id;
+    const newFeedback = req.body.feedbacks;
 
+    // Mengambil data formJasa dari database
     const formJasaData = (await db.collection('formJasa').doc(formJasaId).get()).data();
 
-    const updatedFeedbacks = formJasaData.feedbacks || [];
-    updatedFeedbacks.push(feedbacks);
+    if (!formJasaData) {
+      return res.status(404).json({ message: 'Form Jasa not found' });
+    }
 
-    // Menulis kembali data pengguna dengan array feedback yang diperbarui
+    // Menyiapkan objek feedbacks yang diperbarui
+    const updatedFeedbacks = {
+      ...newFeedback,
+    };
+
+    // Memperbarui data formJasa dengan feedback yang diperbarui
     const formJasaRef = await db.collection('formJasa').doc(formJasaId);
     await formJasaRef.update({
       status: 'selesai',
@@ -52,8 +59,6 @@ const updateFormJasaDone = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-// belum membuat api untuk mengupload feedback ke field feedbacks di users
 
 const getRatingUser = async (req, res) => {
   try {

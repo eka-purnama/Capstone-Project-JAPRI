@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 const register = async (req, res) => {
   try {
-    const { email, name, username, password, role } = req.body;
+    const { email, username, password, role } = req.body;
 
     // Validasi penulisan email
     if (email) {
@@ -31,10 +31,10 @@ const register = async (req, res) => {
 
     const userData = {
       email,
-      name,
       username,
       password: hashedPassword,
       role,
+      name: '',
       phone_number: '',
       photo_url: '',
       gender: '',
@@ -66,6 +66,7 @@ const login = async (req, res) => {
     }
 
     const user = userQuery.docs[0].data();
+    const userId = userQuery.docs[0].id; // Mendapatkan ID dokumen
 
     const isPasswordValid = comparePasswords(password, user.password);
 
@@ -73,9 +74,9 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: userQuery.docs[0].id, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '30d' });
+    const token = jwt.sign({ id: userId, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '30d' });
 
-    res.json({ message: 'Login successful', token });
+    res.json({ message: 'Login successful', token, username: user.username, id: userId, role: user.role });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

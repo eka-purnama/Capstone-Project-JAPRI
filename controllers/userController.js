@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const storage = require('../config/bucket');
 const multer = require('multer');
-const { json } = require('express');
+const crypto = require('crypto');
 
 const bucket = storage.bucket('japri-dev-bucket');
 
@@ -84,7 +84,7 @@ const editUser = async (req, res) => {
     const updatedData = {
       email: email ? email : userData.email, // Gunakan email baru jika diisi, jika tidak, gunakan email lama
       name: name ? name : userData.name,
-      password: password ? await bcrypt.hash(password, 10) : userData.password, // Hash password baru jika diisi, jika tidak, gunakan password lama
+      password: password ? await hashPassword(password) : userData.password, // Hash password baru jika diisi, jika tidak, gunakan password lama
       phone_number: phone_number ? phone_number : userData.phone_number,
       gender: gender ? gender : userData.gender,
       address: address ? address : userData.address,
@@ -227,6 +227,12 @@ const deleteOldPhoto = async (oldPhotoUrl) => {
     console.error('Error deleting old photo:', error);
   }
 };
+
+function hashPassword(password) {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  return hash.digest('hex');
+}
 
 module.exports = {
   getAllUsers,
