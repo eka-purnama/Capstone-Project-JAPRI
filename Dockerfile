@@ -11,10 +11,12 @@ COPY package*.json ./
 COPY *.json ./
 
 # Menginstal dependensi
-RUN npm install --force @img/sharp-win32-x64
+RUN npm install
 
 # Menyalin seluruh kode sumber proyek ke dalam container
 COPY . .
+
+EXPOSE 8080
 
 # Menjalankan aplikasi saat container dimulai
 CMD ["node", "index.js"]
