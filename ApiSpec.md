@@ -1,8 +1,9 @@
+# https://cc-api-predep-h7njedgj5q-as.a.run.app
 # User API Spec
 
 ## Registrasi User
 
-**Endpoint**: `POST /register`
+**Endpoint**: `POST /auth/register`
 
 **Request Body**:
 
@@ -31,7 +32,7 @@
 
 ## Login User
 
-**Endpoint**: `POST /login`
+**Endpoint**: `POST /auth/login`
 
 **Request Body**:
 
@@ -289,6 +290,14 @@
 
 ## Edit Form Jasa
 
-**Endpoint**: `PUT /jasa`
+**Endpoint**: `PUT /jasa/:id`
 
 **Request Body**:
+```json
+{
+  "feedbacks": {
+    "comment": "bagus",
+    "rating": 5
+  }
+}
+```
