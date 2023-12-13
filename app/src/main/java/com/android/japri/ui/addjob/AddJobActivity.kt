@@ -2,11 +2,9 @@ package com.android.japri.ui.addjob
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import com.android.japri.R
 import com.android.japri.databinding.ActivityAddJobBinding
-import com.android.japri.ui.customview.DateTimeTextView
 
 class AddJobActivity : AppCompatActivity() {
 

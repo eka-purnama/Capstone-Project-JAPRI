@@ -47,9 +47,13 @@
     <string name="no_spaces_allowed">Tidak boleh menggunakan spasi</string>
     <string name="connection_failed">Terjadi kesalahan pada koneksi</string>
 
+    <!--Gender-->
+    <string name="gallery">Pilih dari Galeri</string>
+    <string name="camera">Ambil dari Kamera</string>
+
     <!--User role-->
-    <string name="penyedia_jasa">Penyedia Jasa</string>
-    <string name="pengguna_jasa">Pengguna Jasa</string>
+    <string name="service_provider">Penyedia Jasa</string>
+    <string name="client">Pengguna Jasa</string>
 
     <!--Gender-->
     <string name="female">Perempuan</string>
@@ -86,8 +90,8 @@
     <!--account fragment-->
     <string name="account">Akun</string>
     <string name="change_photo">UBAH FOTO PROFIL</string>
-    <string name="history_service">Pekerjaan Saya</string>
-    <string name="history_job">Lowongan Saya</string>
+    <string name="history_job">Pekerjaan Saya</string>
+    <string name="history_service">Lowongan Saya</string>
     <string name="account_setting">Pengaturan Akun</string>
     <string name="about_application">Tentang Aplikasi Ini</string>
 
@@ -123,12 +127,19 @@
     <string name="worker">Pekerja: %1d</string>
 
     <!--Job history activity-->
-    <string name="title_toolbar_job_history_activity">Lowongan Saya</string>
+    <string name="title_toolbar_service_history_activity">Lowongan Saya</string>
+    <string name="title_toolbar_job_history_activity">Pekerjaan Saya</string>
     <string name="tab_text_1">Proses</string>
     <string name="tab_text_2">Selesai</string>
+    <string name="no_data">Tidak ada data</string>
 
     <!--Photo profile activity-->
     <string name="title_toolbar_photo_profile_activity">Foto Profil</string>
+    <string name="select_photo">Pilih foto</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="switch_camera">Switch Camera</string>
+    <string name="camera_failed">Failed to activate the camera</string>
+    <string name="image_failed">Failed to take a picture</string>
 
     <!--Detail job activity-->
     <string name="title_toolbar_detail_job_activity">Detail Pekerjaan</string>
@@ -145,6 +156,8 @@
     <string name="phone_no_example">*Contoh: 81234567890</string>
     <string name="gender_hint">Pilih jenis kelamin</string>
     <string name="address_hint">Masukkan alamat anda</string>
+    <string name="skill_hint">Pilih keterampilan anda</string>
+    <string name="desc_hint">Masukkan deskripsi tentang diri anda</string>
     <string name="password_hint">Masukkan password anda</string>
 
     <!--About application activity-->

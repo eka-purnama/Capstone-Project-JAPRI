@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.android.japri.databinding.FragmentJasaBinding
@@ -23,8 +22,7 @@ class JasaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this)[JasaViewModel::class.java]
+        val homeViewModel = ViewModelProvider(this)[JasaViewModel::class.java]
 
         _binding = FragmentJasaBinding.inflate(inflater, container, false)
 

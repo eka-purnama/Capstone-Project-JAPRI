@@ -5,21 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.japri.R
 import com.android.japri.adapter.JobFieldsAdapter
 import com.android.japri.data.JobField
 import com.android.japri.databinding.FragmentDashboardBinding
-import com.android.japri.preferences.UserSessionData
+import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.detailjasa.DetailJasaActivity
-import com.android.japri.ui.login.LoginViewModel
 import com.android.japri.ui.welcome.WelcomeScreenActivity
+import com.android.japri.utils.SERVICE_PROVIDER
 
 class DashboardFragment : Fragment() {
 
@@ -29,13 +27,14 @@ class DashboardFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val dashboardViewModel by viewModels<DashboardViewModel> {
+    private val preferenceViewModel by viewModels<PreferenceViewModel> {
         ViewModelFactory.getInstance(requireActivity())
     }
 
     private lateinit var adapter: JobFieldsAdapter
     private val list = ArrayList<JobField>()
-    private var userSessionData: UserSessionData? = null
+
+    private lateinit var role: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +42,13 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-
-        dashboardViewModel.getSession().observe(viewLifecycleOwner) { user ->
-            if (user.token.isEmpty()) {
-                startActivity(Intent(requireContext(), WelcomeScreenActivity::class.java))
-            } else {
-                userSessionData = user
-            }
-        }
 
         adapter = JobFieldsAdapter()
 
@@ -60,19 +56,30 @@ class DashboardFragment : Fragment() {
         binding.rvJobField.layoutManager = layoutManager
         binding.rvJobField.adapter = adapter
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         list.clear()
         list.addAll(getJobFieldList())
         adapter.submitList(list)
 
+        preferenceViewModel.getSession().observe(viewLifecycleOwner) { user ->
+            if (user.token.isEmpty()) {
+                startActivity(Intent(requireContext(), WelcomeScreenActivity::class.java))
+            } else {
+                role = user.role
+                binding.tvUsername.text = getString(R.string.dashboard_username, user.username)
+                showUI()
+            }
+        }
+
         binding.tvUsername.setOnClickListener{
             startActivity(Intent(requireContext(), DetailJasaActivity::class.java))
         }
+    }
+
+    private fun showUI() {
+        binding.dashboardPicture.setImageResource(
+            if (role == SERVICE_PROVIDER) R.drawable.dashboard_picture_service_provider
+            else R.drawable.dashboard_picture_client
+        )
     }
 
     private fun getJobFieldList(): ArrayList<JobField> {

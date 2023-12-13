@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import com.android.japri.R
 import com.android.japri.ui.main.MainActivity
-import com.android.japri.ui.welcome.WelcomeScreenActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 

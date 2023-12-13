@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.japri.R
 import com.android.japri.databinding.FragmentJobBinding
 import com.android.japri.ui.detailjob.DetailJobActivity
 
@@ -35,15 +34,15 @@ class JobFragment : Fragment() {
             username = it.getString(ARG_STATUS)
         }
 
-        if (position == 1){
-            binding.status.text = "Proses"
-        } else {
-            binding.status.text = "Selesai"
-        }
+//        if (position == 1){
+//            binding.status.text = "Proses"
+//        } else {
+//            binding.status.text = "Selesai"
+//        }
 
-        binding.status.setOnClickListener {
-            startActivity(Intent(requireContext(), DetailJobActivity::class.java))
-        }
+//        binding.status.setOnClickListener {
+//            startActivity(Intent(requireContext(), DetailJobActivity::class.java))
+//        }
     }
 
     companion object {

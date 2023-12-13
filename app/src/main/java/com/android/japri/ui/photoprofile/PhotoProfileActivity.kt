@@ -1,13 +1,68 @@
 package com.android.japri.ui.photoprofile
 
+import android.Manifest
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import androidx.lifecycle.ViewModelProvider
 import com.android.japri.R
+import com.android.japri.data.ResultState
 import com.android.japri.databinding.ActivityPhotoProfileBinding
+import com.android.japri.ui.ViewModelFactory
+import com.android.japri.ui.ViewModelFactoryWithId
+import com.android.japri.ui.camera.CameraActivity
+import com.android.japri.ui.camera.CameraActivity.Companion.CAMERAX_RESULT
+import com.android.japri.ui.login.LoginViewModel
+import com.android.japri.utils.EXTRA_ID
+import com.android.japri.utils.EXTRA_PHOTO_URL
+import com.android.japri.utils.loadImage
+import com.android.japri.utils.reduceFileImage
+import com.android.japri.utils.uriToFile
+import java.io.File
+
 class PhotoProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPhotoProfileBinding
+
+    private lateinit var id: String
+    private var currentImageUri: Uri? = null
+    private var imageUri: Uri? = null
+    private lateinit var imageFile: File
+
+    private val photoProfileViewModel by viewModels<PhotoProfileViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                Toast.makeText(this, "Permission request granted", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
+            }
+        }
+
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(
+            this,
+            CAMERA_PERMISSION
+        ) == PackageManager.PERMISSION_GRANTED
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPhotoProfileBinding.inflate(layoutInflater)
@@ -15,6 +70,123 @@ class PhotoProfileActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.title_toolbar_photo_profile_activity)
+
+        id = intent.getStringExtra(EXTRA_ID).toString()
+        imageUri = Uri.parse(intent.getStringExtra(EXTRA_PHOTO_URL))
+
+        binding.userPhoto.loadImage(imageUri.toString())
+
+        if (!allPermissionsGranted()) {
+            requestPermissionLauncher.launch(CAMERA_PERMISSION)
+        }
+
+        binding.btnEdit.setOnClickListener{
+            showImageSourceDialog()
+        }
+
+        binding.btnSave.setOnClickListener {
+            Log.d("PhotoProfileActivity", "Image Current File: $currentImageUri")
+            Log.d("PhotoProfileActivity", "showImage: $imageUri")
+
+            if (currentImageUri == null){
+                showToast("No changes made to the image.")
+            } else {
+                currentImageUri?.let { uri ->
+                    imageFile = uriToFile(uri, this).reduceFileImage()
+                    Log.d("Image File", "showImage: ${imageFile.path}")
+                }
+                editPhotoProfile(id, imageFile)
+            }
+        }
+    }
+
+    private fun editPhotoProfile(id: String, imageFile: File){
+        photoProfileViewModel.editPhotoProfile(id, imageFile).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        result.data.message?.let { showToast(it) }
+                        showLoading(false)
+                        finish()
+                    }
+
+                    is ResultState.Error -> {
+                        showToast(result.error)
+                        showLoading(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showImageSourceDialog() {
+        val options = resources.getStringArray(R.array.select_photo)
+
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.select_photo))
+            setItems(options) { dialogInterface: DialogInterface, which: Int ->
+                when (which) {
+                    0 -> openGallery()
+                    1 -> openCameraX()
+                }
+                dialogInterface.dismiss()
+            }
+            setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
+            show()
+        }
+    }
+
+    private fun openGallery() {
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            currentImageUri = uri
+            imageUri = null
+            showImage()
+        } else {
+            Log.d("Photo Picker", "No media selected")
+        }
+    }
+
+    private fun openCameraX() {
+        val intent = Intent(this, CameraActivity::class.java)
+        launcherIntentCameraX.launch(intent)
+    }
+
+    private val launcherIntentCameraX = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == CAMERAX_RESULT) {
+            currentImageUri = it.data?.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
+            imageUri = null
+            showImage()
+        }
+    }
+
+    private fun showImage() {
+        currentImageUri?.let {
+            Log.d("Image URI", "showImage: $it")
+            binding.userPhoto.setImageURI(it)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -25,5 +197,9 @@ class PhotoProfileActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
     }
 }

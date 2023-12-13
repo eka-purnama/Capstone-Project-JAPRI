@@ -5,13 +5,22 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.android.japri.R
 import com.android.japri.databinding.ActivityDetailJasaBinding
+import com.android.japri.ui.PreferenceViewModel
+import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.addjob.AddJobActivity
+import com.android.japri.utils.SERVICE_PROVIDER
 
 class DetailJasaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailJasaBinding
+
+    private val preferenceViewModel by viewModels<PreferenceViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+    private lateinit var role: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +30,26 @@ class DetailJasaActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.title_toolbar_detail_jasa_activity)
 
+        preferenceViewModel.getSession().observe(this) { user ->
+            role = user.role
+            showUI()
+        }
+
         binding.btnUseService.setOnClickListener{
             startActivity(Intent(this, AddJobActivity::class.java))
         }
 
         binding.btnContact.setOnClickListener {
             openWhatsAppChat("81234567890")
+        }
+    }
+
+    private fun showUI() {
+        when (role) {
+            SERVICE_PROVIDER -> {
+                binding.btnContact.isEnabled = false
+                binding.btnUseService.isEnabled = false
+            }
         }
     }
 

@@ -15,6 +15,8 @@ import com.android.japri.data.request.RequestBody
 import com.android.japri.databinding.ActivityRegisterBinding
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.login.LoginActivity
+import com.android.japri.utils.CLIENT
+import com.android.japri.utils.SERVICE_PROVIDER
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -48,7 +50,11 @@ class RegisterActivity : AppCompatActivity() {
                 TextUtils.isEmpty(role) -> binding.roleEditTextLayout.error = getString(R.string.empty_input)
                 else -> {
                     binding.roleEditTextLayout.error = null
-                    val requestBody = RequestBody.RegisterRequest(email, password, "", username, role)
+
+                    val selectedRoleIndex = roles.indexOf(role)
+                    val selectedRole = if (selectedRoleIndex == 0) SERVICE_PROVIDER else CLIENT
+
+                    val requestBody = RequestBody.RegisterRequest(email, password, username, selectedRole)
                     registerAccount(requestBody)
                 }
             }
@@ -116,4 +122,5 @@ class RegisterActivity : AppCompatActivity() {
             show()
         }
     }
+
 }

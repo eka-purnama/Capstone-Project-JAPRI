@@ -1,7 +1,7 @@
 <TextView
     android:id="@+id/dropdown_text_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:text="@string/pengguna_jasa"
+    android:text="@string/client"
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:layout_width="match_parent"/>

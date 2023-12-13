@@ -28,7 +28,7 @@ class ApiConfig {
 
                 val req = chain.request()
                 val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .addHeader("Authorization", token)
                     .build()
                 chain.proceed(requestHeaders)
             }
@@ -39,7 +39,7 @@ class ApiConfig {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://cc-api-predep-h7njedgj5q-as.a.run.app/")
+                .baseUrl("https://final-api-h7njedgj5q-as.a.run.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

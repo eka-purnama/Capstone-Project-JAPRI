@@ -24,9 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_worker_name">
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ed_username"
@@ -49,9 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+            app:hintEnabled="false">
 
             <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_name"
@@ -73,9 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+            app:hintEnabled="false">
 
             <com.android.japri.ui.customview.EditTextEmail
                 android:id="@+id/ed_email"
@@ -99,9 +93,7 @@
             android:layout_marginTop="4dp"
             app:hintEnabled="false"
             app:helperText="@string/phone_no_example"
-            app:helperTextTextColor="@color/orange"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+            app:helperTextTextColor="@color/orange">
 
             <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_phone_no"
@@ -123,9 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout">
+            app:hintEnabled="false" >
 
             <AutoCompleteTextView
                 android:id="@+id/dropdown_gender"
@@ -148,9 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+            app:hintEnabled="false">
 
             <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_address"
@@ -159,6 +147,56 @@
                 android:hint="@string/address_hint"
                 android:inputType="text"
                 tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_skill"
+            style="@style/sub_title"
+            android:text="@string/skill"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/skillEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false">
+
+            <com.android.japri.ui.customview.CommonEditText
+                android:id="@+id/ed_skill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/skill_hint"
+                android:inputType="text"
+                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/title_desc"
+            style="@style/sub_title"
+            android:text="@string/user_description"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false"
+            app:counterEnabled="true"
+            app:counterMaxLength="255">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/desc_hint"
+                android:inputType="textMultiLine"
+                android:lines="6"
+                android:maxLength="255" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -173,9 +211,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:hintEnabled="false"
-            app:endIconMode="password_toggle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_job_name">
+            app:endIconMode="password_toggle">
 
             <com.android.japri.ui.customview.CommonEditText
                 android:id="@+id/ed_password"
@@ -188,13 +224,10 @@
 
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/button"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="12dp"
-            android:text="@string/save"
-            android:backgroundTint="@color/orange"
-            android:padding="12dp"/>
+            android:text="@string/save" />
 
     </LinearLayout>
 

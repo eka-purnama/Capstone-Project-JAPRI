@@ -1,4 +1,4 @@
-package com.android.japri.ui.dashboard
+package com.android.japri.ui.detailjasa
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,14 +7,9 @@ import androidx.lifecycle.asLiveData
 import com.android.japri.data.repository.AppRepository
 import com.android.japri.preferences.UserSessionData
 
-class DashboardViewModel(private val repository: AppRepository)  : ViewModel() {
+class DetailJasaViewModel(private val repository: AppRepository)  : ViewModel() {
 
 //    fun getSession(): LiveData<UserSessionData> {
 //        return repository.getSession().asLiveData()
 //    }
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "Beranda Fragment"
-    }
-    val text: LiveData<String> = _text
 }

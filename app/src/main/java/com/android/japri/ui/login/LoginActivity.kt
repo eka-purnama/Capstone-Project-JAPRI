@@ -11,6 +11,7 @@ import com.android.japri.data.ResultState
 import com.android.japri.data.request.RequestBody
 import com.android.japri.databinding.ActivityLoginBinding
 import com.android.japri.preferences.UserSessionData
+import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.main.MainActivity
 import com.android.japri.ui.register.RegisterActivity
@@ -60,10 +61,15 @@ class LoginActivity : AppCompatActivity() {
 
                     is ResultState.Success -> {
                         showLoading(false)
-                        val token = result.data.token
+                        val id = result.data.id.toString()
+                        val token = result.data.token.toString()
+                        val username = result.data.username.toString()
+                        val role = result.data.role.toString()
 
-                        val userSessionData = UserSessionData(123, token.toString(), "Penyedia Jasa")
+                        val userSessionData = UserSessionData(id, username, token, role)
                         loginViewModel.saveSession(userSessionData)
+
+                        showToast(result.data.message.toString())
 
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
