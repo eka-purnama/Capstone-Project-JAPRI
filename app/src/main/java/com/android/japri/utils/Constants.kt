@@ -6,3 +6,6 @@ const val EXTRA_ID = "extra_id"
 const val EXTRA_USERNAME = "extra_username"
 const val EXTRA_ROLE = "extra_role"
 const val EXTRA_PHOTO_URL = "extra_photo_url"
+
+const val MALE = "Laki-laki"
+const val FEMALE = "Perempuan"

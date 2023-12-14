@@ -18,6 +18,12 @@
         <item>@string/media</item>
         <item>@string/technician</item>
         <item>@string/carpentry</item>
+        <item>@string/management</item>
+        <item>@string/production</item>
+        <item>@string/administrative</item>
+        <item>@string/agriculture</item>
+        <item>@string/farming</item>
+        <item>@string/creative</item>
         <item>@string/fishery</item>
     </string-array>
 

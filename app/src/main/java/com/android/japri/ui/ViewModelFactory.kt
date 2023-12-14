@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.japri.data.repository.AppRepository
 import com.android.japri.di.Injection
 import com.android.japri.ui.account.AccountViewModel
+import com.android.japri.ui.accountsetting.AccountSettingViewModel
 import com.android.japri.ui.dashboard.DashboardViewModel
 import com.android.japri.ui.detailjasa.DetailJasaViewModel
 import com.android.japri.ui.login.LoginViewModel
@@ -35,6 +36,12 @@ class ViewModelFactory(private val repository: AppRepository) :
             }
             modelClass.isAssignableFrom(PhotoProfileViewModel::class.java) -> {
                 PhotoProfileViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AccountSettingViewModel::class.java) -> {
+                AccountSettingViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AccountViewModel::class.java) -> {
+                AccountViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -3,9 +3,7 @@ package com.android.japri.ui.dashboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.android.japri.data.repository.AppRepository
-import com.android.japri.preferences.UserSessionData
 
 class DashboardViewModel(private val repository: AppRepository)  : ViewModel() {
 

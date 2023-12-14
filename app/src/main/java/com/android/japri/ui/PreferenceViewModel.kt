@@ -12,7 +12,4 @@ class PreferenceViewModel(private val repository: AppRepository) : ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    companion object {
-        private const val TAG = "LoginViewModel"
-    }
 }

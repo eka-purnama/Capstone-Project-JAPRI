@@ -1,6 +1,7 @@
 package com.android.japri.data.retrofit
 
 import com.android.japri.data.request.RequestBody
+import com.android.japri.data.response.EditAccountResponse
 import com.android.japri.data.response.EditPhotoResponse
 import com.android.japri.data.response.LoginResponse
 import com.android.japri.data.response.RegisterResponse
@@ -13,7 +14,6 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
 
@@ -38,5 +38,16 @@ interface ApiService {
     suspend fun getUserById(
         @Path("id") id: String
     ): UserResponse
+
+    @GET("users/{id}")
+    suspend fun getUserById2(
+        @Path("id") id: String
+    ): UserResponse
+
+    @PUT("users/edit-profile/{id}")
+    suspend fun editAccount(
+        @Path("id") id: String,
+        @Body requestBody: RequestBody.AccountRequest
+    ): EditAccountResponse
 
 }

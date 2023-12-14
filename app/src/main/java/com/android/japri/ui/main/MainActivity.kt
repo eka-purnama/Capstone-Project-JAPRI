@@ -1,12 +1,9 @@
 package com.android.japri.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -15,13 +12,8 @@ import com.android.japri.R
 import com.android.japri.databinding.ActivityMainBinding
 import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
-import com.android.japri.ui.ViewModelFactoryWithId
-import com.android.japri.ui.account.AccountViewModel
-import com.android.japri.ui.login.LoginViewModel
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_ROLE
-import com.android.japri.utils.EXTRA_USERNAME
-import com.android.japri.utils.loadImage
 
 class MainActivity : AppCompatActivity() {
 

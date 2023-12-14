@@ -17,15 +17,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.ViewModelProvider
 import com.android.japri.R
 import com.android.japri.data.ResultState
 import com.android.japri.databinding.ActivityPhotoProfileBinding
 import com.android.japri.ui.ViewModelFactory
-import com.android.japri.ui.ViewModelFactoryWithId
 import com.android.japri.ui.camera.CameraActivity
 import com.android.japri.ui.camera.CameraActivity.Companion.CAMERAX_RESULT
-import com.android.japri.ui.login.LoginViewModel
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_PHOTO_URL
 import com.android.japri.utils.loadImage
@@ -51,9 +48,9 @@ class PhotoProfileActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                Toast.makeText(this, "Permission request granted", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.permission_granted), Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -76,6 +73,12 @@ class PhotoProfileActivity : AppCompatActivity() {
 
         binding.userPhoto.loadImage(imageUri.toString())
 
+//        if (imageUri.toString().isEmpty()) {
+//            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.user_photo))
+//        } else {
+//            binding.userPhoto.loadImage(imageUri.toString())
+//        }
+
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(CAMERA_PERMISSION)
         }
@@ -85,11 +88,8 @@ class PhotoProfileActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            Log.d("PhotoProfileActivity", "Image Current File: $currentImageUri")
-            Log.d("PhotoProfileActivity", "showImage: $imageUri")
-
             if (currentImageUri == null){
-                showToast("No changes made to the image.")
+                showToast(getString(R.string.no_change_image))
             } else {
                 currentImageUri?.let { uri ->
                     imageFile = uriToFile(uri, this).reduceFileImage()

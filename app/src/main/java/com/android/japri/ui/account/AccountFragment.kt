@@ -2,16 +2,19 @@ package com.android.japri.ui.account
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.android.japri.R
+import com.android.japri.data.ResultState
 import com.android.japri.databinding.FragmentAccountBinding
-import com.android.japri.ui.ViewModelFactoryWithId
+import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.aboutapp.AboutAppActivity
 import com.android.japri.ui.accountsetting.AccountSettingActivity
 import com.android.japri.ui.jobhistory.JobHistoryActivity
@@ -29,7 +32,9 @@ class AccountFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var accountViewModel: AccountViewModel
+    private val accountViewModel by viewModels<AccountViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var userId: String? = null
     private var role: String? = null
@@ -52,22 +57,29 @@ class AccountFragment : Fragment() {
         userId = arguments?.getString(EXTRA_ID)
         role = arguments?.getString(EXTRA_ROLE)
 
-        val factory = ViewModelFactoryWithId.getInstance(requireContext(), userId.toString())
-        accountViewModel = ViewModelProvider(this, factory)[AccountViewModel::class.java]
+        getUserById(userId.toString())
 
-        accountViewModel.user.observe(viewLifecycleOwner) { userData ->
-            binding.userPhoto.loadImage(userData.photo_url)
-            binding.tvAccountUsername.text = userData.username
-            photoUrl = userData.photo_url.toString()
-        }
+//        accountViewModel.user.observe(viewLifecycleOwner) { userData ->
+//            binding.userPhoto.loadImage(userData.photo_url)
+//            photoUrl = userData.photo_url.toString()
+//            binding.tvAccountUsername.text = userData.username
+//
+////            if(userData.photo_url.toString().isEmpty()){
+////                binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
+////                photoUrl = null.toString()
+////            } else {
+////                binding.userPhoto.loadImage(userData.photo_url)
+////                photoUrl = userData.photo_url.toString()
+////            }
+//        }
 
         showUI()
-        getLoading()
 
         binding.editPhoto.setOnClickListener {
             val intentPhotoProfile= Intent(requireContext(), PhotoProfileActivity::class.java)
             intentPhotoProfile.putExtra(EXTRA_ID, userId)
             intentPhotoProfile.putExtra(EXTRA_PHOTO_URL, photoUrl)
+            Log.d("AccountFragment", "PHOTO URL INTENT : $photoUrl")
             startActivity(intentPhotoProfile)
         }
         binding.historyJobCardView.setOnClickListener{
@@ -77,6 +89,7 @@ class AccountFragment : Fragment() {
         }
         binding.accountSetting.setOnClickListener {
             val intentAccountSetting = Intent(requireContext(), AccountSettingActivity::class.java)
+            intentAccountSetting.putExtra(EXTRA_ID, userId)
             intentAccountSetting.putExtra(EXTRA_ROLE, role)
             startActivity(intentAccountSetting)
         }
@@ -88,11 +101,35 @@ class AccountFragment : Fragment() {
         }
     }
 
+    private fun getUserById(id: String){
+        accountViewModel.getUserById(id).observe(requireActivity()) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        showLoading(false)
+                        binding.userPhoto.loadImage(result.data.photo_url)
+                        photoUrl = result.data.photo_url.toString()
+                        binding.tvAccountUsername.text = result.data.username
+                    }
+
+                    is ResultState.Error -> {
+                        showToast(result.error)
+                        showLoading(false)
+                    }
+                }
+            }
+        }
+    }
+
     private fun showUI() {
-        binding.historyType.text = (
-            if (role == SERVICE_PROVIDER) resources.getString(R.string.history_job)
-            else resources.getString(R.string.history_service)
-        )
+        if (role == SERVICE_PROVIDER) {
+            binding.historyType.text = resources.getString(R.string.history_job)
+            binding.title.text = resources.getString(R.string.account_service_provider)
+        }
     }
 
     private fun showAlertDialog() {
@@ -112,10 +149,12 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun getLoading(){
-        accountViewModel.isLoading.observe(viewLifecycleOwner) {
-            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

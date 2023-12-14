@@ -1,7 +1,6 @@
 package com.android.japri.data.repository
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.android.japri.R
 import com.android.japri.data.ResultState
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
@@ -28,7 +26,8 @@ class AppRepository private constructor(
     context: Context
 ) {
 
-    private val error = context.getString(R.string.connection_failed)
+    private val errorMessage = context.getString(R.string.error_message)
+    private val connectionError = context.getString(R.string.connection_failed)
 
     fun registerAccount(registerRequestBody: RequestBody.RegisterRequest) = liveData {
         emit(ResultState.Loading)
@@ -40,7 +39,7 @@ class AppRepository private constructor(
             val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
-            emit(ResultState.Error(error))
+            emit(ResultState.Error(connectionError))
         }
     }
 
@@ -54,7 +53,7 @@ class AppRepository private constructor(
             val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
-            emit(ResultState.Error(error))
+            emit(ResultState.Error(connectionError))
         }
     }
 
@@ -86,12 +85,34 @@ class AppRepository private constructor(
             val errorResponse = Gson().fromJson(errorBody, EditPhotoResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
-            emit(ResultState.Error(error))
+            emit(ResultState.Error(connectionError))
         }
     }
 
-    suspend fun getUserById(id: String): UserResponse {
-        return apiService.getUserById(id)
+    fun getUserById(id: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val userResponse = apiService.getUserById2(id)
+            emit(ResultState.Success(userResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun editAccount(id: String, editAccountRequestBody: RequestBody.AccountRequest) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.editAccount(id, editAccountRequestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+            emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
     }
 
     companion object {
@@ -107,3 +128,5 @@ class AppRepository private constructor(
             }.also { instance = it }
     }
 }
+
+

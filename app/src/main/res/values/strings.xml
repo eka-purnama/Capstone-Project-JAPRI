@@ -45,6 +45,7 @@
     <string name="empty_input">Isi terlebih dahulu</string>
     <string name="empty_text_view">Mohon diisi</string>
     <string name="no_spaces_allowed">Tidak boleh menggunakan spasi</string>
+    <string name="error_message">Ada yang salah. Silahkan coba lagi</string>
     <string name="connection_failed">Terjadi kesalahan pada koneksi</string>
 
     <!--Gender-->
@@ -88,7 +89,8 @@
     <string name="searchBar_hint">Cari jasa yang kamu butuhkan</string>
 
     <!--account fragment-->
-    <string name="account">Akun</string>
+    <string name="account_service_provider">Akun penyedia jasa</string>
+    <string name="account_client">Akun pengguna jasa</string>
     <string name="change_photo">UBAH FOTO PROFIL</string>
     <string name="history_job">Pekerjaan Saya</string>
     <string name="history_service">Lowongan Saya</string>
@@ -136,10 +138,13 @@
     <!--Photo profile activity-->
     <string name="title_toolbar_photo_profile_activity">Foto Profil</string>
     <string name="select_photo">Pilih foto</string>
-    <string name="capture_image">Capture Image</string>
-    <string name="switch_camera">Switch Camera</string>
-    <string name="camera_failed">Failed to activate the camera</string>
-    <string name="image_failed">Failed to take a picture</string>
+    <string name="capture_image">Ambil gambar</string>
+    <string name="switch_camera">Ganti kamera</string>
+    <string name="camera_failed">Gagal mengaktfikan kamera</string>
+    <string name="image_failed">Gagal mengambil gambar</string>
+    <string name="no_change_image">Tidak ada perubahan pada foto</string>
+    <string name="permission_granted">Izin diberikan</string>
+    <string name="permission_denied">Izin ditolak</string>
 
     <!--Detail job activity-->
     <string name="title_toolbar_detail_job_activity">Detail Pekerjaan</string>
