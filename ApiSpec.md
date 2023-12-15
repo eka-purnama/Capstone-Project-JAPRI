@@ -196,14 +196,14 @@
 
 ## lowongan saya (proses dan selesai, pengguna jasa dan pemeberi jasa)
 
-**Endpoint**: `GET /users/get-status-data`
+**Endpoint**: `POST /users/get-status-data`
 
 **Request Body (Form Data)**:
 
 ```json
 {
   "status": "proses",
-  "pengguna_jasa": "zaid (username)"
+  "username": "zaid"
 }
 ```
 
