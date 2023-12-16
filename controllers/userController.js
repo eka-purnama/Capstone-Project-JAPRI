@@ -40,14 +40,14 @@ const getAllUsers = async (req, res) => {
 const getRatingUser = async (username) => {
   try {
     const userRef = await db.collection('formJasa').where('penyedia_jasa', '==', username).get();
-    
+
     let totalRating = 0;
     let totalFeedback = 0;
 
     // ambil semua data yang sesuai, olah ratingnya
     userRef.forEach((doc) => {
       const feedbackData = doc.data();
-    
+
       if (feedbackData.feedback) {
         const rating = feedbackData.feedback.rating;
 
@@ -57,7 +57,7 @@ const getRatingUser = async (username) => {
         }
       }
     });
-    
+
     const averageRating = totalFeedback > 0 ? parseFloat((totalRating / totalFeedback).toFixed(1)) : false;
 
     return { totalFeedback: totalFeedback, averageRating: averageRating };
@@ -74,7 +74,7 @@ const getUserById = async (req, res) => {
     const userDoc = await db.collection('users').doc(userId).get();
 
     if (!userDoc.exists) {
-      res.status(404).json({error: true,  message: 'Pengguna tidak ditemukan!' });
+      res.status(404).json({ error: true, message: 'Pengguna tidak ditemukan!' });
       return;
     }
 
@@ -129,7 +129,6 @@ const editUser = async (req, res) => {
       gender: gender ? gender : userData.gender,
       address: address ? address : userData.address,
       personal_data: personal_data ? personal_data : userData.personal_data,
-      
     };
 
     // Update data user di Firestore
@@ -161,13 +160,13 @@ const editPassword = async (req, res) => {
     const passwordValid = validatePassword(password, confirm_password);
     if (passwordValid.error) {
       switch (passwordValid.type) {
-        case "length":
+        case 'length':
           return res.status(400).json({ error: true, message: 'Panjang Password minimal 8 karakter!' });
-        case "combination":
+        case 'combination':
           return res.status(400).json({ error: true, message: 'Password harus menggunakan kombinasi huruf besar, huruf kecil, angka, dan simbol!' });
-        case "general":
+        case 'general':
           return res.status(400).json({ error: true, message: 'Password terlalu umum!' });
-        case "confirm":
+        case 'confirm':
           return res.status(400).json({ error: true, message: 'Password dan Konfirmasi Password harus sama!' });
 
         default:
@@ -177,12 +176,10 @@ const editPassword = async (req, res) => {
 
     const updatedData = {
       password: password ? await hashPassword(password) : userData.password, // Hash password baru jika diisi, jika tidak, gunakan password lama
-      
     };
     // Update data user di Firestore
     await db.collection('users').doc(userId).update(updatedData);
     res.json({ error: false, message: 'Password pengguna berhasil dirubah!' });
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: true, message: 'Internal Server Error' });
@@ -193,7 +190,7 @@ const editPassword = async (req, res) => {
 const validatePassword = (password, confirm_password) => {
   // Validasi panjang password
   if (password.length < 8) {
-    return { error: true,type: 'length'};
+    return { error: true, type: 'length' };
   }
 
   // Validasi kombinasi karakter
@@ -202,21 +199,21 @@ const validatePassword = (password, confirm_password) => {
   const hasNumber = /[0-9]/.test(password);
   const hasSymbol = /[!@#$%^&*()_+-={}[\]|\;:'",.<>?/]/.test(password);
   if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSymbol) {
-    return { error: true,type: 'combination'};
+    return { error: true, type: 'combination' };
   }
 
   // Validasi pola umum
   const commonPasswords = ['Ab12345678', 'Password1', 'Qwerty123', '1234567890', 'Abcd1234'];
   if (commonPasswords.includes(password)) {
-    return { error: true,type: 'general'};
+    return { error: true, type: 'general' };
   }
 
   // Validasi bahwa password dan confirm_password sama
   if (password !== confirm_password) {
-    return {error: true,type: 'confirm'};
+    return { error: true, type: 'confirm' };
   }
 
-  return true
+  return true;
 };
 
 // fungsi dapatkan status pekerjaan
@@ -225,7 +222,7 @@ const getStatusData = async (req, res) => {
     const { status, username } = req.body;
 
     // Mendapatkan data form jasa dengan status 'proses' dan username cocok dengan 'pemberi_jasa'
-    const querySnapshotPemberi = await db.collection('formJasa').where('status', '==', status).where('pemberi_jasa', '==', username).get();
+    const querySnapshotPemberi = await db.collection('formJasa').where('status', '==', status).where('penyedia_jasa', '==', username).get();
 
     // Mendapatkan data form jasa dengan status 'proses' dan username cocok dengan 'pengguna_jasa'
     const querySnapshotPengguna = await db.collection('formJasa').where('status', '==', status).where('pengguna_jasa', '==', username).get();
@@ -326,8 +323,8 @@ const uploadProfilePhoto = async (req, res) => {
 // fungsi update photo url
 const savePhotoUrl = async (userId, photoUrl) => {
   const userRef = db.collection('users').doc(userId);
-  await userRef.update({ 
-    photo_url: photoUrl
+  await userRef.update({
+    photo_url: photoUrl,
   });
 };
 
@@ -366,5 +363,5 @@ module.exports = {
   editUser,
   getStatusData,
   uploadProfilePhoto,
-  editPassword
+  editPassword,
 };
