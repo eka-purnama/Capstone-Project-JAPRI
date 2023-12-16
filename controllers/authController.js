@@ -2,29 +2,41 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const crypto = require('crypto');
 
+// fungsi daftar
 const register = async (req, res) => {
   try {
-    const { email, username, password, role } = req.body;
+    const { email, username, password, confirm_password, role } = req.body;
 
-    // Validasi penulisan email
+    // Validasi email apakah penah digunakan
     if (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ error: 'Penulisan Email tidak valid' });
-      }
-
-      // Check if the email is already registered
       const existingEmailUser = await db.collection('users').where('email', '==', email).limit(1).get();
       if (!existingEmailUser.empty) {
-        return res.status(400).json({ error: true, message: 'Email is already registered' });
+        return res.status(400).json({ error: true, message: 'Email sudah terdaftar!' });
       }
     }
 
-    // Check if the username is already registered
+    // cek apakah username sudah pernah digunakan
     const existingUsernameUser = await db.collection('users').where('username', '==', username).limit(1).get();
-
     if (!existingUsernameUser.empty) {
-      return res.status(400).json({ error: true, message: 'Username is already registered' });
+      return res.status(400).json({ error: true, message: 'Username sudah pernah digunakan!' });
+    }
+
+    // validasi password
+    const passwordValid = validatePassword(password, confirm_password);
+    if (passwordValid.error) {
+      switch (passwordValid.type) {
+        case "length":
+          return res.status(400).json({ error: true, message: 'Panjang Password minimal 8 karakter!' });
+        case "combination":
+          return res.status(400).json({ error: true, message: 'Password harus menggunakan kombinasi huruf besar, huruf kecil, angka, dan simbol!' });
+        case "general":
+          return res.status(400).json({ error: true, message: 'Password terlalu umum!' });
+        case "confirm":
+          return res.status(400).json({ error: true, message: 'Password dan Konfirmasi Password harus sama!' });
+
+        default:
+          return res.status(400).json({ error: true, message: 'Password dan Konfirmasi Password harus sama!' });
+      }
     }
 
     const hashedPassword = hashPassword(password);
@@ -42,56 +54,90 @@ const register = async (req, res) => {
       personal_data: {
         skill: [],
         deskripsi: '',
-      },
+      }
     };
 
     const userRef = await db.collection('users').add(userData);
 
-    res.json({ error: false, message: 'Registration successful', userId: userRef.id });
+    res.json({ error: false, message: 'Registrasi berhasil!', userId: userRef.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: true, message: 'Internal Server Error' });
   }
 };
 
+// fungsi validasi password
+const validatePassword = (password, confirm_password) => {
+  // Validasi panjang password
+  if (password.length < 8) {
+    return { error: true,type: 'length'};
+  }
+
+  // Validasi kombinasi karakter
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSymbol = /[!@#$%^&*()_+-={}[\]|\;:'",.<>?/]/.test(password);
+  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSymbol) {
+    return { error: true,type: 'combination'};
+  }
+
+  // Validasi pola umum
+  const commonPasswords = ['Ab12345678', 'Password1', 'Qwerty123', '1234567890', 'Abcd1234'];
+  if (commonPasswords.includes(password)) {
+    return { error: true,type: 'general'};
+  }
+
+  // Validasi bahwa password dan confirm_password sama
+  if (password !== confirm_password) {
+    return {error: true,type: 'confirm'};
+  }
+
+  return true
+};
+
+// fungsi login
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // validasi apakah email terdaftar
     const userQuery = await db.collection('users').where('email', '==', email).limit(1).get();
-
     if (userQuery.empty) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ error: true, message: 'Email atau Password salah!' });
     }
 
     const user = userQuery.docs[0].data();
     const userId = userQuery.docs[0].id; // Mendapatkan ID dokumen
 
+    // validasi apakah password benar
     const isPasswordValid = comparePasswords(password, user.password);
-
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ error: true, message: 'Email atau Password salah!' });
     }
 
     const token = jwt.sign({ id: userId, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '30d' });
 
-    res.json({ message: 'Login successful', token, username: user.username, id: userId, role: user.role });
+    res.json({ error: false, message: 'Login berhasil!', token, username: user.username, id: userId, role: user.role });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: true, message: 'Internal Server Error' });
   }
 };
 
+// fungsi logout
 const logout = async (req, res) => {
-  res.json({ message: 'Logout successful' });
+  res.json({ error: true, message: 'Logout berhasil!' });
 };
 
+// fungsi enkripsi password
 function hashPassword(password) {
   const hash = crypto.createHash('sha256');
   hash.update(password);
   return hash.digest('hex');
 }
 
+// fungsi membandingkan password
 function comparePasswords(enteredPassword, hashedPassword) {
   const hashedEnteredPassword = hashPassword(enteredPassword);
   return hashedEnteredPassword === hashedPassword;

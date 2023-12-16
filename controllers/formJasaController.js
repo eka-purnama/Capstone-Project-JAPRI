@@ -1,8 +1,9 @@
 const db = require('../config/db');
 
+// fungsi menambahkan pekerjaan
 const addFormJasa = async (req, res) => {
   try {
-    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, feedbacks, status, pengguna_jasa, penyedia_jasa } = req.body;
+    const { job_name, start_day, end_day, start_time, end_time, salary, address, description, feedback, status, pengguna_jasa, penyedia_jasa } = req.body;
 
     const formJasaData = {
       job_name,
@@ -16,8 +17,9 @@ const addFormJasa = async (req, res) => {
       status,
       pengguna_jasa,
       penyedia_jasa,
-      feedbacks: {},
-      createdAt: new Date(),
+      feedback: {},
+      created_at: new Date(),
+      updated_at: new Date()
     };
 
     const formJasaRef = await db.collection('formJasa').add(formJasaData);
@@ -29,20 +31,20 @@ const addFormJasa = async (req, res) => {
   }
 };
 
+// fungsi merubah status pekerjaan menjadi selesai dan memberikan rating
 const updateFormJasaDone = async (req, res) => {
   try {
     const formJasaId = req.params.id;
-    const newFeedback = req.body.feedbacks;
-
-    // Mengambil data formJasa dari database
+    const newFeedback = req.body.feedback;
+    
     const formJasaData = (await db.collection('formJasa').doc(formJasaId).get()).data();
 
     if (!formJasaData) {
       return res.status(404).json({ message: 'Form Jasa not found' });
     }
 
-    // Menyiapkan objek feedbacks yang diperbarui
-    const updatedFeedbacks = {
+    // Menyiapkan objek feedback yang diperbarui
+    const updatedFeedback = {
       ...newFeedback,
     };
 
@@ -50,58 +52,32 @@ const updateFormJasaDone = async (req, res) => {
     const formJasaRef = await db.collection('formJasa').doc(formJasaId);
     await formJasaRef.update({
       status: 'selesai',
-      feedbacks: updatedFeedbacks,
+      feedback: updatedFeedback,
+      updated_at: new Date()
     });
 
-    res.status(200).json({ message: 'Form Jasa berhasil diupdate' });
+    res.status(200).json({ message: 'Form Jasa berhasil diupdate'});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-const getRatingUser = async (req, res) => {
-  try {
-    const username = req.params.username;
-
-    // Mengambil referensi dokumen pengguna berdasarkan username
-    const userRef = await db.collection('formJasa').where('penyedia_jasa', '==', username).get();
-
-    let totalRating = 0;
-    let totalFeedback = 0;
-
-    // Menghitung nilai total rating dan jumlah feedback
-    userRef.forEach((doc) => {
-      const feedbackData = doc.data();
-
-      // Periksa apakah ada feedback di dalam objek feedbacks
-      if (feedbackData.feedbacks) {
-        // Ambil nilai rating dari feedback
-        const rating = feedbackData.feedbacks.rating;
-
-        if (rating) {
-          totalRating += rating;
-          totalFeedback++;
-        }
-      }
-    });
-
-    // Menghitung nilai rata-rata rating (jika ada feedback) dan membatasi ke 1 angka dibelakang koma
-    const averageRating = totalFeedback > 0 ? parseFloat((totalRating / totalFeedback).toFixed(1)) : false;
-
-    res.json({ message: 'Feedback ditampilkan', totalFeedback: totalFeedback, averageRating: averageRating });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
-
+// fungsi dapatkan riwayat kerja user
 const getFormJasaByUser = async (req, res) => {
   try {
     const username = req.params.username;
-    // Mengambil referensi dokumen berdasarkan username
-    const formJasaSnapshot = await db.collection('formJasa').where('penyedia_jasa', '==', username).get();
-    const formJasaList = formJasaSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const formJasaSnapshot = await db.collection('formJasa')
+      .where('penyedia_jasa', '==', username)
+      .orderBy('created_at', 'desc')
+      .get();
+
+    const formJasaList = formJasaSnapshot.docs.map(
+      (doc) => ({ 
+        id: doc.id, 
+        ...doc.data() 
+      })
+    );
 
     res.json({ formJasaList });
   } catch (error) {
@@ -110,6 +86,7 @@ const getFormJasaByUser = async (req, res) => {
   }
 };
 
+// fungsi dapatkan riwayat kerja sesuai id
 const getFormJasaById = async (req, res) => {
   try {
     const formJasaId = req.params.id;
@@ -131,7 +108,6 @@ const getFormJasaById = async (req, res) => {
 module.exports = {
   addFormJasa,
   updateFormJasaDone,
-  getRatingUser,
   getFormJasaByUser,
   getFormJasaById,
 };
