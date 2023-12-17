@@ -2,13 +2,13 @@ package com.android.japri.ui.account
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.android.japri.R
@@ -23,8 +23,10 @@ import com.android.japri.ui.welcome.WelcomeScreenActivity
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_PHOTO_URL
 import com.android.japri.utils.EXTRA_ROLE
+import com.android.japri.utils.EXTRA_USERNAME
 import com.android.japri.utils.SERVICE_PROVIDER
 import com.android.japri.utils.loadImage
+import com.android.japri.utils.showLoading
 
 class AccountFragment : Fragment() {
 
@@ -38,6 +40,7 @@ class AccountFragment : Fragment() {
 
     private var userId: String? = null
     private var role: String? = null
+    private lateinit var username: String
     private lateinit var photoUrl: String
 
     override fun onCreateView(
@@ -54,24 +57,12 @@ class AccountFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
-        userId = arguments?.getString(EXTRA_ID)
-        role = arguments?.getString(EXTRA_ROLE)
+        arguments?.let {
+            userId = it.getString(EXTRA_ID)
+            role = it.getString(EXTRA_ROLE)
+        }
 
         getUserById(userId.toString())
-
-//        accountViewModel.user.observe(viewLifecycleOwner) { userData ->
-//            binding.userPhoto.loadImage(userData.photo_url)
-//            photoUrl = userData.photo_url.toString()
-//            binding.tvAccountUsername.text = userData.username
-//
-////            if(userData.photo_url.toString().isEmpty()){
-////                binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
-////                photoUrl = null.toString()
-////            } else {
-////                binding.userPhoto.loadImage(userData.photo_url)
-////                photoUrl = userData.photo_url.toString()
-////            }
-//        }
 
         showUI()
 
@@ -79,12 +70,12 @@ class AccountFragment : Fragment() {
             val intentPhotoProfile= Intent(requireContext(), PhotoProfileActivity::class.java)
             intentPhotoProfile.putExtra(EXTRA_ID, userId)
             intentPhotoProfile.putExtra(EXTRA_PHOTO_URL, photoUrl)
-            Log.d("AccountFragment", "PHOTO URL INTENT : $photoUrl")
             startActivity(intentPhotoProfile)
         }
         binding.historyJobCardView.setOnClickListener{
             val intentHistory = Intent(requireContext(), JobHistoryActivity::class.java)
             intentHistory.putExtra(EXTRA_ROLE, role)
+            intentHistory.putExtra(EXTRA_USERNAME, username)
             startActivity(intentHistory)
         }
         binding.accountSetting.setOnClickListener {
@@ -106,19 +97,24 @@ class AccountFragment : Fragment() {
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
-                        showLoading(true)
-                    }
+                        binding.progressBar.showLoading(true)                    }
 
                     is ResultState.Success -> {
-                        showLoading(false)
-                        binding.userPhoto.loadImage(result.data.photo_url)
-                        photoUrl = result.data.photo_url.toString()
+                        binding.progressBar.showLoading(false)
                         binding.tvAccountUsername.text = result.data.username
+                        username = result.data.username.toString()
+
+                        photoUrl = result.data.photoUrl.toString()
+                        if (photoUrl.isEmpty()){
+                            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
+                        } else {
+                            binding.userPhoto.loadImage(photoUrl)
+                        }
                     }
 
                     is ResultState.Error -> {
                         showToast(result.error)
-                        showLoading(false)
+                        binding.progressBar.showLoading(false)
                     }
                 }
             }
@@ -149,12 +145,8 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun showToast(message: String) {
+    fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

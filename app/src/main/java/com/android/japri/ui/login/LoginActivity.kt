@@ -11,16 +11,17 @@ import com.android.japri.data.ResultState
 import com.android.japri.data.request.RequestBody
 import com.android.japri.databinding.ActivityLoginBinding
 import com.android.japri.preferences.UserSessionData
-import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.main.MainActivity
 import com.android.japri.ui.register.RegisterActivity
+import com.android.japri.utils.showLoading
+import com.android.japri.utils.showToast
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
 
-    private val loginViewModel by viewModels<LoginViewModel> {
+    private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
@@ -52,22 +53,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginAccount(loginRequestBody: RequestBody.LoginRequest){
-        loginViewModel.login(loginRequestBody).observe(this) { result ->
+        viewModel.login(loginRequestBody).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
-                        showLoading(true)
+                        binding.progressBar.showLoading(true)
                     }
 
                     is ResultState.Success -> {
-                        showLoading(false)
+                        binding.progressBar.showLoading(false)
                         val id = result.data.id.toString()
                         val token = result.data.token.toString()
                         val username = result.data.username.toString()
                         val role = result.data.role.toString()
 
                         val userSessionData = UserSessionData(id, username, token, role)
-                        loginViewModel.saveSession(userSessionData)
+                        viewModel.saveSession(userSessionData)
 
                         showToast(result.data.message.toString())
 
@@ -79,18 +80,10 @@ class LoginActivity : AppCompatActivity() {
 
                     is ResultState.Error -> {
                         showToast(result.error)
-                        showLoading(false)
+                        binding.progressBar.showLoading(false)
                     }
                 }
             }
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

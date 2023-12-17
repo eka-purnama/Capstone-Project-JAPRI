@@ -3,6 +3,8 @@ package com.android.japri.data.retrofit
 import com.android.japri.data.request.RequestBody
 import com.android.japri.data.response.EditAccountResponse
 import com.android.japri.data.response.EditPhotoResponse
+import com.android.japri.data.response.JobHistoryDetailResponse
+import com.android.japri.data.response.JobHistoryResponseItem
 import com.android.japri.data.response.LoginResponse
 import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.response.UserResponse
@@ -39,15 +41,19 @@ interface ApiService {
         @Path("id") id: String
     ): UserResponse
 
-    @GET("users/{id}")
-    suspend fun getUserById2(
-        @Path("id") id: String
-    ): UserResponse
-
     @PUT("users/edit-profile/{id}")
     suspend fun editAccount(
         @Path("id") id: String,
         @Body requestBody: RequestBody.AccountRequest
     ): EditAccountResponse
 
+    @POST("users/get-status-data")
+    suspend fun getJobHistory(
+        @Body requestBody: RequestBody.JobHistoryRequest
+    ): List<JobHistoryResponseItem>
+
+    @GET("jasa/{id}")
+    suspend fun getJobHistoryDetail(
+        @Path("id") id: String
+    ): JobHistoryDetailResponse
 }

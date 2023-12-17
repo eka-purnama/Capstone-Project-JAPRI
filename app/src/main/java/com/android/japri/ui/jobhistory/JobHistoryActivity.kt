@@ -9,6 +9,7 @@ import com.android.japri.R
 import com.android.japri.databinding.ActivityJobHistoryBinding
 import com.android.japri.ui.job.SectionsPagerAdapter
 import com.android.japri.utils.EXTRA_ROLE
+import com.android.japri.utils.EXTRA_USERNAME
 import com.android.japri.utils.SERVICE_PROVIDER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,6 +18,7 @@ class JobHistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityJobHistoryBinding
     private lateinit var role: String
+    private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,7 @@ class JobHistoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         role = intent.getStringExtra(EXTRA_ROLE).toString()
+        username = intent.getStringExtra(EXTRA_USERNAME)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -33,14 +36,14 @@ class JobHistoryActivity : AppCompatActivity() {
         }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        sectionsPagerAdapter.status = "selesai"
+        sectionsPagerAdapter.username = username.toString()
 
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
 
         val tabs: TabLayout = findViewById(R.id.tabs)
         TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
+            tab.text = getString(TAB_TITLES[position])
         }.attach()
 
         supportActionBar?.elevation = 0f
@@ -57,8 +60,6 @@ class JobHistoryActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val STATUS = "status"
-
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,

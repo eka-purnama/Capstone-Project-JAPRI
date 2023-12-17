@@ -30,10 +30,9 @@
                 android:id="@+id/ed_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/blue"
+                android:textColor="@color/orange"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +49,7 @@
             android:layout_marginTop="4dp"
             app:hintEnabled="false">
 
-            <com.android.japri.ui.customview.CommonEditText
+            <com.android.japri.ui.customview.EditTextName
                 android:id="@+id/ed_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,12 +95,13 @@
             app:helperText="@string/phone_no_example"
             app:helperTextTextColor="@color/orange">
 
-            <com.android.japri.ui.customview.CommonEditText
+            <com.android.japri.ui.customview.EditTextPhoneNumber
                 android:id="@+id/ed_phone_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone_no_hint"
                 android:inputType="number"
+                android:maxLength="13"
                 tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,12 +164,13 @@
             android:layout_marginTop="4dp"
             app:hintEnabled="false">
 
-            <com.android.japri.ui.customview.CommonEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/ed_skill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/skill_hint"
-                android:inputType="text"
+                android:focusable="false"
+                android:inputType="none"
                 tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -202,7 +203,7 @@
 
         <TextView
             style="@style/sub_title"
-            android:text="@string/password"
+            android:text="@string/change_password"
             android:layout_marginTop="12dp"/>
 
         <com.google.android.material.textfield.TextInputLayout

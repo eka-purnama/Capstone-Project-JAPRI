@@ -9,6 +9,9 @@ import com.android.japri.ui.account.AccountViewModel
 import com.android.japri.ui.accountsetting.AccountSettingViewModel
 import com.android.japri.ui.dashboard.DashboardViewModel
 import com.android.japri.ui.detailjasa.DetailJasaViewModel
+import com.android.japri.ui.detailjob.DetailJobViewModel
+import com.android.japri.ui.jasa.JasaViewModel
+import com.android.japri.ui.job.JobViewModel
 import com.android.japri.ui.login.LoginViewModel
 import com.android.japri.ui.photoprofile.PhotoProfileViewModel
 import com.android.japri.ui.register.RegisterViewModel
@@ -42,6 +45,15 @@ class ViewModelFactory(private val repository: AppRepository) :
             }
             modelClass.isAssignableFrom(AccountViewModel::class.java) -> {
                 AccountViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(JobViewModel::class.java) -> {
+                JobViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(JasaViewModel::class.java) -> {
+                JasaViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DetailJobViewModel::class.java) -> {
+                DetailJobViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

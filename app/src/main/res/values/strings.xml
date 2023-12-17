@@ -32,7 +32,7 @@
     <string name="name">Nama</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="phone_no">Nomor Telepon (+62)</string>
+    <string name="phone_no">Nomor Telepon</string>
     <string name="user_photo">Foto User</string>
     <string name="skill">Keterampilan</string>
     <string name="user_skill">Keterampilan : %1$s</string>
@@ -45,6 +45,11 @@
     <string name="empty_input">Isi terlebih dahulu</string>
     <string name="empty_text_view">Mohon diisi</string>
     <string name="no_spaces_allowed">Tidak boleh menggunakan spasi</string>
+    <string name="not_enough_name_digit">Karakter minimal 2</string>
+    <string name="contain_number">Tidak boleh memasukkan angka</string>
+    <string name="wrong_phone_number_format">Perhatikan contoh format yang benar</string>
+    <string name="not_enough_digit">Minimal 10 digit angka</string>
+
     <string name="error_message">Ada yang salah. Silahkan coba lagi</string>
     <string name="connection_failed">Terjadi kesalahan pada koneksi</string>
 
@@ -91,7 +96,7 @@
     <!--account fragment-->
     <string name="account_service_provider">Akun penyedia jasa</string>
     <string name="account_client">Akun pengguna jasa</string>
-    <string name="change_photo">UBAH FOTO PROFIL</string>
+    <string name="change_photo">Ubah Foto Profil</string>
     <string name="history_job">Pekerjaan Saya</string>
     <string name="history_service">Lowongan Saya</string>
     <string name="account_setting">Pengaturan Akun</string>
@@ -101,7 +106,8 @@
 
     <!--detail jasa activity-->
     <string name="title_toolbar_detail_jasa_activity">Detail Jasa</string>
-    <string name="information_for_user">*Hubungi terlebih dahulu sebelum menggunakan jasa</string>
+    <string name="information_for_user">Hubungi terlebih dahulu sebelum menggunakan jasa</string>
+    <string name="has_been_contacted_alert">Apakah anda telah menghubungi pengguna dan sepakat terkait pekerjaan yang akan diselesaikan?</string>
 
     <!--Add job activity-->
     <string name="title_toolbar_add_job_activity">Tambah Pekerjaan</string>
@@ -124,9 +130,8 @@
     <string name="detail_job_hint">Masukkan detail pekerjaan</string>
 
     <!--Job item-->
-    <string name="job_date">%1d - %2d</string>
-    <string name="job_time">%1d - %2d</string>
-    <string name="worker">Pekerja: %1d</string>
+    <string name="job_date_time">%1$s - %2$s</string>
+    <string name="upload_date">Diunggah pada %1$s</string>
 
     <!--Job history activity-->
     <string name="title_toolbar_service_history_activity">Lowongan Saya</string>
@@ -158,12 +163,13 @@
     <string name="name_hint">Masukkan nama anda</string>
     <string name="email_hint">Masukkan email anda</string>
     <string name="phone_no_hint">Masukkan nomor WhatsApp aktif</string>
-    <string name="phone_no_example">*Contoh: 81234567890</string>
+    <string name="phone_no_example">*Contoh: 081234567890</string>
     <string name="gender_hint">Pilih jenis kelamin</string>
     <string name="address_hint">Masukkan alamat anda</string>
     <string name="skill_hint">Pilih keterampilan anda</string>
     <string name="desc_hint">Masukkan deskripsi tentang diri anda</string>
-    <string name="password_hint">Masukkan password anda</string>
+    <string name="change_password">Ubah Password</string>
+    <string name="password_hint">Masukkan password baru anda</string>
 
     <!--About application activity-->
     <string name="about_app_content">Melalui <b>JAPRI (JASA PERHARI)</b> kamu bisa:\n
@@ -171,8 +177,9 @@
         2. Mendapatkan pekerjaan harian tambahan dengan memanfaatkan keterampilan/skill yang kamu miliki.</string>
 
     <!--Job Fields-->
+    <string name="question_skill">Apa bidang keahlian kamu?</string>
     <string name="service">Pelayanan</string>
-    <string name="logistics">Logistik</string>
+    <string name="logistic">Logistik</string>
     <string name="selling">Penjualan</string>
     <string name="education">Pendidikan</string>
     <string name="media">Media</string>

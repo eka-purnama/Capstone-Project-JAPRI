@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.android.japri.R
@@ -17,12 +15,14 @@ import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.login.LoginActivity
 import com.android.japri.utils.CLIENT
 import com.android.japri.utils.SERVICE_PROVIDER
+import com.android.japri.utils.showLoading
+import com.android.japri.utils.showToast
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityRegisterBinding
 
-    private val registerViewModel by viewModels<RegisterViewModel> {
+    private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
@@ -71,15 +71,15 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerAccount(registerRequestBody: RequestBody.RegisterRequest){
-        registerViewModel.registerAccount(registerRequestBody).observe(this) { result ->
+        viewModel.registerAccount(registerRequestBody).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
-                        showLoading(true)
+                        binding.progressBar.showLoading(true)
                     }
 
                     is ResultState.Success -> {
-                        showLoading(false)
+                        binding.progressBar.showLoading(false)
 
                         AlertDialog.Builder(this).apply {
                             setTitle(resources.getString(R.string.register_alert_title))
@@ -96,19 +96,11 @@ class RegisterActivity : AppCompatActivity() {
 
                     is ResultState.Error -> {
                         showToast(result.error)
-                        showLoading(false)
+                        binding.progressBar.showLoading(false)
                     }
                 }
             }
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showInformation(){
@@ -122,5 +114,4 @@ class RegisterActivity : AppCompatActivity() {
             show()
         }
     }
-
 }

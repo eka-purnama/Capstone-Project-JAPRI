@@ -24,8 +24,14 @@ class RequestBody {
         val personal_data: PersonalDataRequest? = null,
     )
 
-    data class PersonalDataRequest(
+    data class PersonalDataRequest (
         val skill: Array<String>? = null,
         val description: String? = null
     )
+
+    data class JobHistoryRequest (
+        val status: String,
+        val username: String
+    )
+
 }

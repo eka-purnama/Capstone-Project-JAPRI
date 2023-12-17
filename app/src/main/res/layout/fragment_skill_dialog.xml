@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.android.japri.utils.SkillDialogFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/sub_title_orange"
+        android:text="@string/question_skill" />
+
+    <CheckBox
+        android:id="@+id/cb_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/service" />
+
+    <CheckBox
+        android:id="@+id/cb_logistic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logistic" />
+
+    <CheckBox
+        android:id="@+id/cb_selling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/selling" />
+
+    <CheckBox
+        android:id="@+id/cb_education"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/education" />
+
+    <CheckBox
+        android:id="@+id/cb_media"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/media" />
+
+    <CheckBox
+        android:id="@+id/cb_creative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/creative" />
+
+    <CheckBox
+        android:id="@+id/cb_technician"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/technician" />
+
+    <CheckBox
+        android:id="@+id/cb_carpentry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/carpentry" />
+
+    <CheckBox
+        android:id="@+id/cb_fishery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fishery" />
+
+    <CheckBox
+        android:id="@+id/cb_agriculture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/agriculture" />
+
+    <CheckBox
+        android:id="@+id/cb_farming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/farming" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/btn_save"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="0.5"
+            android:text="@string/save" />
+    </LinearLayout>
+</LinearLayout>

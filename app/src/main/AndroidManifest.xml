@@ -35,7 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.detailjob.DetailJobActivity"
-            android:parentActivityName=".ui.jobhistory.JobHistoryActivity" />
+            android:exported="false" />
         <activity
             android:name=".ui.jobhistory.JobHistoryActivity"
             android:exported="false" />
@@ -76,7 +76,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

@@ -7,9 +7,9 @@ import com.android.japri.data.ResultState
 import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.retrofit.ApiService
 import com.android.japri.data.request.RequestBody
+import com.android.japri.data.response.EditAccountResponse
 import com.android.japri.data.response.EditPhotoResponse
 import com.android.japri.data.response.LoginResponse
-import com.android.japri.data.response.UserResponse
 import com.android.japri.preferences.UserPreference
 import com.android.japri.preferences.UserSessionData
 import com.google.gson.Gson
@@ -25,7 +25,6 @@ class AppRepository private constructor(
     private val userPreference: UserPreference,
     context: Context
 ) {
-
     private val errorMessage = context.getString(R.string.error_message)
     private val connectionError = context.getString(R.string.connection_failed)
 
@@ -92,8 +91,8 @@ class AppRepository private constructor(
     fun getUserById(id: String) = liveData {
         emit(ResultState.Loading)
         try {
-            val userResponse = apiService.getUserById2(id)
-            emit(ResultState.Success(userResponse))
+            val successResponse = apiService.getUserById(id)
+            emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             emit(ResultState.Error(errorMessage))
         } catch (e: Exception) {
@@ -108,8 +107,32 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun getJobHistory(requestBody: RequestBody.JobHistoryRequest) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getJobHistory(requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun getJobHistoryDetail(id: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getJobHistoryDetail(id)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
         }

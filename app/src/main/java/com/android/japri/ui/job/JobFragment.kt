@@ -1,28 +1,44 @@
 package com.android.japri.ui.job
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.japri.adapter.JobHistoryAdapter
+import com.android.japri.data.ResultState
+import com.android.japri.data.request.RequestBody
 import com.android.japri.databinding.FragmentJobBinding
-import com.android.japri.ui.detailjob.DetailJobActivity
+import com.android.japri.ui.ViewModelFactory
+import com.android.japri.utils.ARG_POSITION
+import com.android.japri.utils.EXTRA_USERNAME
+import com.android.japri.utils.FINISH
+import com.android.japri.utils.PROCESS
+import com.android.japri.utils.showLoading
 
 class JobFragment : Fragment() {
 
-    private lateinit var binding: FragmentJobBinding
-    private lateinit var viewModel: JobViewModel
+    private var _binding: FragmentJobBinding? = null
+
+    private val binding get() = _binding!!
+
+    private val viewModel by viewModels<JobViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     private var position: Int? = null
     private var username: String? = null
 
+    private lateinit var adapter: JobHistoryAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentJobBinding.inflate(inflater, container, false)
-
+    ): View {
+        _binding = FragmentJobBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,24 +47,54 @@ class JobFragment : Fragment() {
 
         arguments?.let {
             position = it.getInt(ARG_POSITION)
-            username = it.getString(ARG_STATUS)
+            username = it.getString(EXTRA_USERNAME)
         }
 
-//        if (position == 1){
-//            binding.status.text = "Proses"
-//        } else {
-//            binding.status.text = "Selesai"
-//        }
+        adapter = JobHistoryAdapter()
 
-//        binding.status.setOnClickListener {
-//            startActivity(Intent(requireContext(), DetailJobActivity::class.java))
-//        }
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvJobHistory.layoutManager = layoutManager
+        binding.rvJobHistory.adapter = adapter
+
+        if (position == 1){
+            getJobHistory(RequestBody.JobHistoryRequest(PROCESS, username.toString()))
+        } else {
+            getJobHistory(RequestBody.JobHistoryRequest(FINISH, username.toString()))
+        }
     }
 
-    companion object {
-        fun newInstance() = JobFragment()
-        const val ARG_POSITION = "section_number"
-        const val ARG_STATUS = "status"
+    private fun getJobHistory(requestBody: RequestBody.JobHistoryRequest){
+        viewModel.getJobHistory(requestBody).observe(requireActivity()) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        binding.progressBar.showLoading(false)
+                        if(result.data.isEmpty()){
+                            binding.noDataFound.visibility = View.VISIBLE
+                        } else {
+                            adapter.submitList(result.data)
+                        }
+                    }
+
+                    is ResultState.Error -> {
+                        showToast(result.error)
+                        binding.progressBar.showLoading(false)
+                    }
+                }
+            }
+        }
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

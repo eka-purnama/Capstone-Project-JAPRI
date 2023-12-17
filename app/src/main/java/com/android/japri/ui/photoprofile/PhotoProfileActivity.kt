@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +26,8 @@ import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_PHOTO_URL
 import com.android.japri.utils.loadImage
 import com.android.japri.utils.reduceFileImage
+import com.android.japri.utils.showLoading
+import com.android.japri.utils.showToast
 import com.android.japri.utils.uriToFile
 import java.io.File
 
@@ -39,7 +40,7 @@ class PhotoProfileActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     private lateinit var imageFile: File
 
-    private val photoProfileViewModel by viewModels<PhotoProfileViewModel> {
+    private val viewModel by viewModels<PhotoProfileViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
@@ -69,15 +70,15 @@ class PhotoProfileActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.title_toolbar_photo_profile_activity)
 
         id = intent.getStringExtra(EXTRA_ID).toString()
-        imageUri = Uri.parse(intent.getStringExtra(EXTRA_PHOTO_URL))
 
-        binding.userPhoto.loadImage(imageUri.toString())
+        val imageUrl = intent.getStringExtra(EXTRA_PHOTO_URL)
+        imageUri = Uri.parse(imageUrl)
 
-//        if (imageUri.toString().isEmpty()) {
-//            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.user_photo))
-//        } else {
-//            binding.userPhoto.loadImage(imageUri.toString())
-//        }
+        if (imageUrl.toString().isEmpty()){
+            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.user_photo))
+        } else {
+            binding.userPhoto.loadImage(imageUrl)
+        }
 
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(CAMERA_PERMISSION)
@@ -101,22 +102,22 @@ class PhotoProfileActivity : AppCompatActivity() {
     }
 
     private fun editPhotoProfile(id: String, imageFile: File){
-        photoProfileViewModel.editPhotoProfile(id, imageFile).observe(this) { result ->
+        viewModel.editPhotoProfile(id, imageFile).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
-                        showLoading(true)
+                        binding.progressIndicator.showLoading(true)
                     }
 
                     is ResultState.Success -> {
                         result.data.message?.let { showToast(it) }
-                        showLoading(false)
+                        binding.progressIndicator.showLoading(false)
                         finish()
                     }
 
                     is ResultState.Error -> {
                         showToast(result.error)
-                        showLoading(false)
+                        binding.progressIndicator.showLoading(false)
                     }
                 }
             }
@@ -176,17 +177,8 @@ class PhotoProfileActivity : AppCompatActivity() {
 
     private fun showImage() {
         currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
             binding.userPhoto.setImageURI(it)
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

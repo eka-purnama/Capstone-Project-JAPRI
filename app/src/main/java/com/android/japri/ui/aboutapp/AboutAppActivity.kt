@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.android.japri.R
-import com.android.japri.databinding.ActivityAboutAppBinding
 
 class AboutAppActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAboutAppBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAboutAppBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_about_app)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.about_application)

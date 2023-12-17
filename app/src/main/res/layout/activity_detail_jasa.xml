@@ -10,11 +10,11 @@
 
     <TextView
         android:id="@+id/information"
-        style="@style/sub_title_orange"
+        style="@style/text_body"
         android:layout_marginTop="12dp"
-        android:background="@color/grey"
+        android:background="@color/orange"
         android:gravity="center"
-        android:padding="6dp"
+        android:padding="9dp"
         android:text="@string/information_for_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

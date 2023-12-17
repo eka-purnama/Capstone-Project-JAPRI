@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.android.japri.R
 import com.android.japri.databinding.ActivityDetailJasaBinding
 import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.addjob.AddJobActivity
 import com.android.japri.utils.SERVICE_PROVIDER
+import com.android.japri.utils.showToast
 
 class DetailJasaActivity : AppCompatActivity() {
 
@@ -36,7 +38,18 @@ class DetailJasaActivity : AppCompatActivity() {
         }
 
         binding.btnUseService.setOnClickListener{
-            startActivity(Intent(this, AddJobActivity::class.java))
+            AlertDialog.Builder(this).apply {
+                setMessage(resources.getString(R.string.has_been_contacted_alert))
+                setPositiveButton(R.string.text_ok) { _, _ ->
+                    startActivity(Intent(context, AddJobActivity::class.java))
+                }
+                setNegativeButton(R.string.text_no) { dialog, _ ->
+                    dialog.dismiss()
+                    showToast(getString(R.string.information_for_user))
+                }
+                create()
+                show()
+            }
         }
 
         binding.btnContact.setOnClickListener {

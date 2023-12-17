@@ -1,21 +1,47 @@
 package com.android.japri.data.response
 
+import com.google.gson.annotations.SerializedName
+
 data class UserResponse(
+	@field:SerializedName("password")
 	val password: String? = null,
+
+	@field:SerializedName("role")
 	val role: String? = null,
+
+	@field:SerializedName("address")
 	val address: String? = null,
+
+	@field:SerializedName("gender")
 	val gender: String? = null,
-	val personal_data: PersonalData? = null,
+
+	@field:SerializedName("personal_data")
+	val personalData: PersonalData? = null,
+
+	@field:SerializedName("name")
 	val name: String? = null,
-	val phone_number: String? = null,
+
+	@field:SerializedName("phone_number")
+	val phoneNumber: String? = null,
+
+	@field:SerializedName("id")
 	val id: String? = null,
-	val photo_url: String? = null,
+
+	@field:SerializedName("photo_url")
+	val photoUrl: String? = null,
+
+	@field:SerializedName("email")
 	val email: String? = null,
+
+	@field:SerializedName("username")
 	val username: String? = null
 )
 
 data class PersonalData(
-	val skill: List<Any?>? = null,
-	val deskripsi: String? = null
+	@field:SerializedName("skill")
+	val skill: List<String?>? = null,
+
+	@field:SerializedName("description")
+	val description: String? = null
 )
 

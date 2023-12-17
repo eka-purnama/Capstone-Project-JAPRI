@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.android.japri.utils.ARG_POSITION
+import com.android.japri.utils.EXTRA_USERNAME
 
 class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
-    var status: String = ""
+    var username: String = ""
     override fun createFragment(position: Int): Fragment {
         val fragment = JobFragment()
         fragment.arguments = Bundle().apply {
-            putInt(JobFragment.ARG_POSITION, position + 1)
-            putString(JobFragment.ARG_STATUS, status)
+            putInt(ARG_POSITION, position + 1)
+            putString(EXTRA_USERNAME, username)
         }
         return fragment
     }

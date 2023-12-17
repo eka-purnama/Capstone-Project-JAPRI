@@ -2,9 +2,9 @@ package com.android.japri.ui.accountsetting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.android.japri.R
@@ -18,18 +18,20 @@ import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_ROLE
 import com.android.japri.utils.FEMALE
 import com.android.japri.utils.MALE
+import com.android.japri.utils.SkillDialogFragment
+import com.android.japri.utils.showToast
 
-class AccountSettingActivity : AppCompatActivity() {
+class AccountSettingActivity : AppCompatActivity(), SkillDialogFragment.OnOptionDialogListener {
 
     private lateinit var binding: ActivityAccountSettingBinding
 
-    private val accountSettingViewModel by viewModels<AccountSettingViewModel> {
+    private val viewModel by viewModels<AccountSettingViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
     private lateinit var id: String
     private lateinit var role: String
-    private lateinit var userData: UserResponse
+    private lateinit var userSkill: Array<String>
     private lateinit var genders: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,36 +52,76 @@ class AccountSettingActivity : AppCompatActivity() {
 
         getUserById(id)
 
-        binding.btnSave.setOnClickListener{
-            editAccount(id)
+        binding.edSkill.setOnClickListener{
+            val skillDialogFragment = SkillDialogFragment()
+            skillDialogFragment.show(supportFragmentManager, SkillDialogFragment::class.java.simpleName)
         }
-    }
 
-    private fun showUI() {
-        when (role) {
-            CLIENT -> {
-                binding.apply {
-                    titleSkill.isVisible = false
-                    skillEditTextLayout.isVisible = false
-                    titleDesc.isVisible = false
-                    descEditTextLayout.isVisible = false
+        binding.btnSave.setOnClickListener{
+            binding.apply {
+                val email = edEmail.text.toString()
+                val name = edName.text.toString()
+                val phoneNo = edPhoneNo.text.toString()
+                val address = edAddress.text.toString()
+                val password = edPassword.text.toString()
+                val gender = dropdownGender.text.toString()
+                val skills = edSkill.text.toString()
+                val description = edDescription.text.toString()
+
+                when {
+                    name.isEmpty() -> edName.error = getString(R.string.empty_input)
+                    email.isEmpty() -> edEmail.error = getString(R.string.empty_input)
+                    phoneNo.isEmpty() -> edPhoneNo.error = getString(R.string.empty_input)
+                    address.isEmpty() -> edAddress.error = getString(R.string.empty_input)
+                    TextUtils.isEmpty(gender) -> genderEditTextLayout.error = getString(R.string.empty_input)
+                    else -> {
+                        val selectedGenderIndex = genders.indexOf(gender)
+                        val selectedGender = if (selectedGenderIndex == 0) MALE else FEMALE
+
+                        if (role == CLIENT) {
+                            val requestBody = RequestBody.AccountRequest(
+                                email, name, password, phoneNo, selectedGender, address, null
+                            )
+                            editAccount(id, requestBody)
+                        } else {
+                            when {
+                                skills.isEmpty() -> skillEditTextLayout.error = getString(R.string.empty_input)
+                                description.isEmpty() -> edDescription.error = getString(R.string.empty_input)
+                                else -> {
+                                    val personalData = RequestBody.PersonalDataRequest(userSkill, description)
+                                    val requestBody = RequestBody.AccountRequest(
+                                        email, name, password, phoneNo, selectedGender, address, personalData
+                                    )
+                                    editAccount(id, requestBody)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
+    private fun showUI() {
+        if (role == CLIENT) {
+            binding.apply {
+                titleSkill.isVisible = false
+                skillEditTextLayout.isVisible = false
+                titleDesc.isVisible = false
+                descEditTextLayout.isVisible = false
+            }
+        }
+    }
+
     private fun getUserById(id: String){
-        accountSettingViewModel.getUserById(id).observe(this) { result ->
+        viewModel.getUserById(id).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
                     }
-
                     is ResultState.Success -> {
-                        userData = result.data
-                        showData(userData)
+                        showUserData(result.data)
                     }
-
                     is ResultState.Error -> {
                         showToast(result.error)
                     }
@@ -88,37 +130,31 @@ class AccountSettingActivity : AppCompatActivity() {
         }
     }
 
-    private fun showData(userData: UserResponse){
+    private fun showUserData(userData: UserResponse){
         binding.apply {
             edUsername.setText(userData.username)
             edName.setText(userData.name)
             edEmail.setText(userData.email)
-            edPhoneNo.setText(userData.phone_number)
+            edPhoneNo.setText(userData.phoneNumber)
             edAddress.setText(userData.address)
-            edDescription.setText(userData.personal_data?.deskripsi)
             dropdownGender.setText(userData.gender,false)
+            edDescription.setText(userData.personalData?.description)
+            userSkill = userData.personalData?.skill?.mapNotNull { it }?.toTypedArray() ?: emptyArray()
+
+            val combinedSkills: String? = userData.personalData?.skill?.joinToString(", ")
+            edSkill.setText(combinedSkills)
         }
     }
 
-    private fun editAccount(id: String){
-        val email = binding.edEmail.text.toString()
-        val name = binding.edName.text.toString()
-        val phoneNo = binding.edPhoneNo.text.toString()
-        val address = binding.edAddress.text.toString()
-        val password = binding.edPassword.text.toString()
-        val gender = binding.dropdownGender.text.toString()
-
-        val selectedGenderIndex = genders.indexOf(gender)
-        val selectedGender = if (selectedGenderIndex == 0) MALE else FEMALE
-
-        val requestBody = RequestBody.AccountRequest(email, name, password, phoneNo, selectedGender, address, null)
-        accountSettingViewModel.editAccount(id, requestBody).observe(this) { result ->
+    private fun editAccount(id: String, requestBody: RequestBody.AccountRequest){
+        viewModel.editAccount(id, requestBody).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
                     }
                     is ResultState.Success -> {
                         showToast(result.data.message.toString())
+                        finish()
                     }
                     is ResultState.Error -> {
                         showToast(result.error)
@@ -126,10 +162,6 @@ class AccountSettingActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -139,6 +171,14 @@ class AccountSettingActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onOptionChosen(skills: Array<String>?) {
+        if (skills != null) {
+            userSkill = skills
+            val combinedSkills: String = skills.joinToString(", ")
+            binding.edSkill.setText(combinedSkills)
         }
     }
 }

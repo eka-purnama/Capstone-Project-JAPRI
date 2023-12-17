@@ -12,7 +12,7 @@
 
     <string-array name="job_fields">
         <item>@string/service</item>
-        <item>@string/logistics</item>
+        <item>@string/logistic</item>
         <item>@string/selling</item>
         <item>@string/education</item>
         <item>@string/media</item>

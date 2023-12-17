@@ -4,24 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="10dp"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="5dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="12dp">
 
         <TextView
             android:id="@+id/tv_job_name"
             style="@style/sub_title_orange"
             android:text="@string/job_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/tv_upload_date"
+            style="@style/text_body"
+            android:text="@string/upload_date"
+            android:textStyle="italic"/>
 
         <TextView
             android:id="@+id/tv_job_address"
@@ -30,38 +36,22 @@
             android:text="@string/job_address"
             android:maxLines="1"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_job_name"
             app:drawableStartCompat="@drawable/ic_outline_location" />
 
         <TextView
             android:id="@+id/tv_job_date"
             android:layout_width="wrap_content"
             style="@style/text_with_icon"
-            android:text="@string/job_date"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_job_address"
+            android:text="@string/job_date_time"
             app:drawableStartCompat="@drawable/ic_outline_calendar"/>
 
         <TextView
             android:id="@+id/tv_job_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             style="@style/text_with_icon"
-            android:text="@string/job_time"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_job_date"
+            android:text="@string/job_date_time"
             app:drawableStartCompat="@drawable/ic_outline_time"/>
 
-        <TextView
-            android:id="@+id/tv_worker"
-            style="@style/text_body"
-            android:text="@string/worker"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_job_time" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

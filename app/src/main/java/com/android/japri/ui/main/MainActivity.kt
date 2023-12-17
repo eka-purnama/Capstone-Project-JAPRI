@@ -14,6 +14,7 @@ import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_ROLE
+import com.android.japri.utils.EXTRA_USERNAME
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,10 +23,6 @@ class MainActivity : AppCompatActivity() {
     private val preferenceViewModel by viewModels<PreferenceViewModel> {
         ViewModelFactory.getInstance(this)
     }
-
-//    private var role: String? = null
-//    private var userId: String? = null
-//    private var username: String? = null
 
     private lateinit var role: String
     private lateinit var userId: String
@@ -74,15 +71,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToDashboardFragment() {
-        val bundle = Bundle()
         findNavController(R.id.nav_host_fragment_activity_main)
-            .navigate(R.id.navigation_dashboard, bundle)
+            .navigate(R.id.navigation_dashboard)
     }
 
     private fun navigateToJasaFragment() {
         val bundle = Bundle()
-        bundle.putString("yourKey", "yourData")
-
+        bundle.putString(EXTRA_USERNAME, username)
         findNavController(R.id.nav_host_fragment_activity_main)
             .navigate(R.id.navigation_jasa, bundle)
     }
