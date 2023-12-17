@@ -8,5 +8,6 @@ router.put('/edit-photo/:id', userController.uploadProfilePhoto);
 router.post('/get-status-data', userController.getStatusData);
 router.put('/edit-profile/:id', userController.editUser);
 router.put('/edit-password/:id', userController.editPassword);
+router.post('/predict', userController.predict);
 
 module.exports = router;

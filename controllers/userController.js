@@ -2,6 +2,7 @@ const db = require('../config/db');
 const storage = require('../config/bucket');
 const multer = require('multer');
 const crypto = require('crypto');
+const axios = require('axios');
 
 const bucket = storage.bucket('japri-dev-bucket');
 
@@ -357,6 +358,45 @@ function hashPassword(password) {
   return hash.digest('hex');
 }
 
+const predict = async (req, res) => {
+  try {
+    // Ambil teks dari req.body
+    const inputText = req.body.text;
+
+    // Kirim permintaan ke API pihak ketiga (Flask API) untuk prediksi
+    const predictionResponse = await axios.post('http://127.0.0.1:5000/predict', { text: inputText });
+
+    // Ambil 1 kata awal dari respon prediksi
+    const predictedSkill = predictionResponse.data.prediction.split(' ')[0].toLowerCase();
+
+    const usersSnapshot = await db.collection('users').where('personal_data.skill', 'array-contains', predictedSkill).get();
+
+    const users = [];
+
+    // Proses setiap dokumen pengguna
+    for (const doc of usersSnapshot.docs) {
+      const userData = doc.data();
+
+      // Panggil fungsi untuk mendapatkan rating
+      const rating = await getRatingUser(userData.username);
+
+      users.push({
+        id: doc.id,
+        ...userData,
+        rating: rating,
+      });
+    }
+
+    // Urutkan data berdasarkan average rating tertinggi ke terendah
+    users.sort((a, b) => (b.rating.averageRating || 0) - (a.rating.averageRating || 0));
+
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: true, message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -364,4 +404,5 @@ module.exports = {
   getStatusData,
   uploadProfilePhoto,
   editPassword,
+  predict,
 };
