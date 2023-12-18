@@ -155,7 +155,6 @@
 {
   "email": "newemail@example.com",
   "name": "New Name",
-  "password": "newpassword",
   "phone_number": "1234567890",
   "gender": "male",
   "address": "New Address",
@@ -171,6 +170,27 @@
 ```json
 {
   "Message": "Berhasil edit"
+}
+```
+
+## Edit Password user
+
+**Endpoint**: `PUT /users/edit-password/:id`
+
+**Request Body**:
+
+```json
+{
+  "password": "Zaid1234",
+  "confirm_password": "Zaid1234"
+}
+```
+
+**Response**
+
+```json
+{
+  "Message": "Berhasil mengedit password"
 }
 ```
 
@@ -271,12 +291,7 @@
   "status": "selesai",
   "pengguna_jasa": "zaid",
   "pemberi_jasa": "john_doe",
-  "feedback": [
-    {
-      "rating": 5,
-      "masukan": "Sangat baik pelayanannya"
-    }
-  ]
+  "feedback": {}
 }
 ```
 
