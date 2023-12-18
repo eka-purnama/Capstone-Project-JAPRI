@@ -5,7 +5,7 @@ const crypto = require('crypto');
 // fungsi daftar
 const register = async (req, res) => {
   try {
-    const { email, username, password, confirm_password, role } = req.body;
+    const { email, username, password, role } = req.body;
 
     // Validasi email apakah penah digunakan
     if (email) {
@@ -19,24 +19,6 @@ const register = async (req, res) => {
     const existingUsernameUser = await db.collection('users').where('username', '==', username).limit(1).get();
     if (!existingUsernameUser.empty) {
       return res.status(400).json({ error: true, message: 'Username sudah pernah digunakan!' });
-    }
-
-    // validasi password
-    const passwordValid = validatePassword(password, confirm_password);
-    if (passwordValid.error) {
-      switch (passwordValid.type) {
-        case "length":
-          return res.status(400).json({ error: true, message: 'Panjang Password minimal 8 karakter!' });
-        case "combination":
-          return res.status(400).json({ error: true, message: 'Password harus menggunakan kombinasi huruf besar, huruf kecil, angka, dan simbol!' });
-        case "general":
-          return res.status(400).json({ error: true, message: 'Password terlalu umum!' });
-        case "confirm":
-          return res.status(400).json({ error: true, message: 'Password dan Konfirmasi Password harus sama!' });
-
-        default:
-          return res.status(400).json({ error: true, message: 'Password dan Konfirmasi Password harus sama!' });
-      }
     }
 
     const hashedPassword = hashPassword(password);
@@ -58,42 +40,11 @@ const register = async (req, res) => {
     };
 
     const userRef = await db.collection('users').add(userData);
-
     res.json({ error: false, message: 'Registrasi berhasil!', userId: userRef.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: true, message: 'Internal Server Error' });
   }
-};
-
-// fungsi validasi password
-const validatePassword = (password, confirm_password) => {
-  // Validasi panjang password
-  if (password.length < 8) {
-    return { error: true,type: 'length'};
-  }
-
-  // Validasi kombinasi karakter
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSymbol = /[!@#$%^&*()_+-={}[\]|\;:'",.<>?/]/.test(password);
-  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSymbol) {
-    return { error: true,type: 'combination'};
-  }
-
-  // Validasi pola umum
-  const commonPasswords = ['Ab12345678', 'Password1', 'Qwerty123', '1234567890', 'Abcd1234'];
-  if (commonPasswords.includes(password)) {
-    return { error: true,type: 'general'};
-  }
-
-  // Validasi bahwa password dan confirm_password sama
-  if (password !== confirm_password) {
-    return {error: true,type: 'confirm'};
-  }
-
-  return true
 };
 
 // fungsi login
