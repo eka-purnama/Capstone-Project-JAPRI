@@ -231,7 +231,10 @@ const getStatusData = async (req, res) => {
     // Menggabungkan hasil kedua query
     const combinedResults = [...querySnapshotPemberi.docs, ...querySnapshotPengguna.docs];
 
-    const formData = combinedResults.map((doc) => {
+    // Mengurutkan data berdasarkan createdAt yang paling terbaru
+    const sortedResults = combinedResults.sort((a, b) => b.data().created_at - a.data().created_at);
+
+    const formData = sortedResults.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
