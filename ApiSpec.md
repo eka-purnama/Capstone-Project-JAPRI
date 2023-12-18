@@ -271,12 +271,7 @@
   "status": "selesai",
   "pengguna_jasa": "zaid",
   "pemberi_jasa": "john_doe",
-  "feedback": [
-    {
-      "rating": 5,
-      "masukan": "Sangat baik pelayanannya"
-    }
-  ]
+  "feedback": {}
 }
 ```
 
