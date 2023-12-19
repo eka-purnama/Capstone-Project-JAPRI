@@ -3,12 +3,10 @@ package com.android.japri.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.android.japri.R
 import com.android.japri.data.ResultState
-import com.android.japri.data.request.RequestBody
+import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.databinding.ActivityLoginBinding
 import com.android.japri.preferences.UserSessionData
 import com.android.japri.ui.ViewModelFactory
@@ -38,9 +36,9 @@ class LoginActivity : AppCompatActivity() {
 
             when {
                 email.isEmpty() -> binding.edLoginEmail.error = getString(R.string.empty_input)
-                password.isEmpty() -> binding.edLoginPassword.error = getString(R.string.empty_input)
+                password.isEmpty() -> binding.passwordEditTextLayout.helperText = getString(R.string.empty_input)
                 else -> {
-                    val requestBody = RequestBody.LoginRequest(email, password)
+                    val requestBody = LoginRequestBody(email, password)
                     loginAccount(requestBody)
                 }
             }
@@ -52,8 +50,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginAccount(loginRequestBody: RequestBody.LoginRequest){
-        viewModel.login(loginRequestBody).observe(this) { result ->
+    private fun loginAccount(requestBody: LoginRequestBody){
+        viewModel.login(requestBody).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {

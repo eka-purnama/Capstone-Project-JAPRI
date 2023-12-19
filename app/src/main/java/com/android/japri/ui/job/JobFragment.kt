@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.japri.adapter.JobHistoryAdapter
 import com.android.japri.data.ResultState
-import com.android.japri.data.request.RequestBody
+import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.databinding.FragmentJobBinding
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.ARG_POSITION
@@ -57,13 +57,13 @@ class JobFragment : Fragment() {
         binding.rvJobHistory.adapter = adapter
 
         if (position == 1){
-            getJobHistory(RequestBody.JobHistoryRequest(PROCESS, username.toString()))
+            getJobHistory(JobHistoryRequestBody(PROCESS, username.toString()))
         } else {
-            getJobHistory(RequestBody.JobHistoryRequest(FINISH, username.toString()))
+            getJobHistory(JobHistoryRequestBody(FINISH, username.toString()))
         }
     }
 
-    private fun getJobHistory(requestBody: RequestBody.JobHistoryRequest){
+    private fun getJobHistory(requestBody: JobHistoryRequestBody){
         viewModel.getJobHistory(requestBody).observe(requireActivity()) { result ->
             if (result != null) {
                 when (result) {

@@ -61,13 +61,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/password"
+        app:helperTextTextColor="@color/orange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:startIconDrawable="@drawable/ic_lock"
         app:endIconMode="password_toggle">
 
-        <com.android.japri.ui.customview.CommonEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/ed_register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

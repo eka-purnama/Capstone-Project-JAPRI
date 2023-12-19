@@ -4,9 +4,14 @@ import android.content.Context
 import androidx.lifecycle.liveData
 import com.android.japri.R
 import com.android.japri.data.ResultState
+import com.android.japri.data.request.AccountRequestBody
+import com.android.japri.data.request.AddJobRequestBody
+import com.android.japri.data.request.FeedbackRequestBody
+import com.android.japri.data.request.JobHistoryRequestBody
+import com.android.japri.data.request.LoginRequestBody
+import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.retrofit.ApiService
-import com.android.japri.data.request.RequestBody
 import com.android.japri.data.response.EditAccountResponse
 import com.android.japri.data.response.EditPhotoResponse
 import com.android.japri.data.response.LoginResponse
@@ -28,10 +33,10 @@ class AppRepository private constructor(
     private val errorMessage = context.getString(R.string.error_message)
     private val connectionError = context.getString(R.string.connection_failed)
 
-    fun registerAccount(registerRequestBody: RequestBody.RegisterRequest) = liveData {
+    fun registerAccount(requestBody: RegisterRequestBody) = liveData {
         emit(ResultState.Loading)
         try {
-            val successResponse = apiService.register(registerRequestBody)
+            val successResponse = apiService.register(requestBody)
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -42,10 +47,10 @@ class AppRepository private constructor(
         }
     }
 
-    fun loginAccount(loginRequestBody: RequestBody.LoginRequest) = liveData {
+    fun loginAccount(requestBody: LoginRequestBody) = liveData {
         emit(ResultState.Loading)
         try {
-            val successResponse = apiService.login(loginRequestBody)
+            val successResponse = apiService.login(requestBody)
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -100,10 +105,10 @@ class AppRepository private constructor(
         }
     }
 
-    fun editAccount(id: String, editAccountRequestBody: RequestBody.AccountRequest) = liveData {
+    fun editAccount(id: String, requestBody: AccountRequestBody) = liveData {
         emit(ResultState.Loading)
         try {
-            val successResponse = apiService.editAccount(id, editAccountRequestBody)
+            val successResponse = apiService.editAccount(id, requestBody)
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -114,7 +119,7 @@ class AppRepository private constructor(
         }
     }
 
-    fun getJobHistory(requestBody: RequestBody.JobHistoryRequest) = liveData {
+    fun getJobHistory(requestBody: JobHistoryRequestBody) = liveData {
         emit(ResultState.Loading)
         try {
             val successResponse = apiService.getJobHistory(requestBody)
@@ -137,6 +142,35 @@ class AppRepository private constructor(
             emit(ResultState.Error(connectionError))
         }
     }
+
+    fun addJob(requestBody: AddJobRequestBody) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.addJob(requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
+            emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun finishTheJob(id: String, requestBody: FeedbackRequestBody) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.finishTheJob(id, requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
+            emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
 
     companion object {
         @Volatile

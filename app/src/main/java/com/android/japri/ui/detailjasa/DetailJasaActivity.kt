@@ -40,7 +40,7 @@ class DetailJasaActivity : AppCompatActivity() {
         binding.btnUseService.setOnClickListener{
             AlertDialog.Builder(this).apply {
                 setMessage(resources.getString(R.string.has_been_contacted_alert))
-                setPositiveButton(R.string.text_ok) { _, _ ->
+                setPositiveButton(R.string.text_yes) { _, _ ->
                     startActivity(Intent(context, AddJobActivity::class.java))
                 }
                 setNegativeButton(R.string.text_no) { dialog, _ ->

@@ -201,29 +201,6 @@
                 android:maxLength="255" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            style="@style/sub_title"
-            android:text="@string/change_password"
-            android:layout_marginTop="12dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordEditTextLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            app:endIconMode="password_toggle">
-
-            <com.android.japri.ui.customview.CommonEditText
-                android:id="@+id/ed_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
             android:id="@+id/btn_save"
             style="@style/button"

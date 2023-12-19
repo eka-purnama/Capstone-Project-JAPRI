@@ -7,14 +7,18 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.android.japri.R
 import com.android.japri.data.ResultState
+import com.android.japri.data.request.Feedback
+import com.android.japri.data.request.FeedbackRequestBody
 import com.android.japri.data.response.JobHistoryResponseItem
 import com.android.japri.databinding.ActivityDetailJobBinding
 import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.EXTRA_ID
+import com.android.japri.utils.FINISH
 import com.android.japri.utils.SERVICE_PROVIDER
 import com.android.japri.utils.convertTimestamp
 import com.android.japri.utils.formatToRupiah
+import com.android.japri.utils.showLoading
 import com.android.japri.utils.showToast
 
 class DetailJobActivity : AppCompatActivity() {
@@ -30,7 +34,9 @@ class DetailJobActivity : AppCompatActivity() {
     }
 
     private var id: String? = null
-    private lateinit var role: String
+    private var role: String? = null
+    private var jobStatus: String? = null
+    private var userRating: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +58,8 @@ class DetailJobActivity : AppCompatActivity() {
                     is ResultState.Loading -> {
                     }
                     is ResultState.Success -> {
-                        showDetail(result.data.formJasaData)
-                        showDetailDifferentUser(result.data.formJasaData)
+                        showDetail(result.data.detailJobHistory)
+                        showDetailDifferentUser()
                     }
                     is ResultState.Error -> {
                         showToast(result.error)
@@ -62,32 +68,66 @@ class DetailJobActivity : AppCompatActivity() {
             }
         }
 
-        binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
+        binding.btnFinish.setOnClickListener {
+            finishTheJob(id.toString())
+        }
 
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
+            userRating = rating.toInt()
         }
     }
 
     private fun showDetail(job: JobHistoryResponseItem?) {
-        val dateUpload = convertTimestamp(job?.createdAt?._seconds, job?.createdAt?._nanoseconds)
+        val dateUpload = convertTimestamp(job?.createdAt?.seconds, job?.createdAt?.nanoSeconds)
+        jobStatus = job?.status.toString()
 
         binding.apply {
-            tvJobName.text = job?.job_name
+            tvJobName.text = job?.jobName
             tvUploadDate.text = getString(R.string.upload_date, dateUpload)
             tvJobAddress.text = job?.address
-            tvJobDate.text = getString(R.string.job_date_time, job?.start_day, job?.end_day)
-            tvJobTime.text = getString(R.string.job_date_time, job?.start_time, job?.end_time)
+            tvJobDate.text = getString(R.string.job_date_time, job?.startDay, job?.endDay)
+            tvJobTime.text = getString(R.string.job_date_time, job?.startTime, job?.endTime)
             tvSalary.text = job?.salary?.formatToRupiah()
             tvDetailJob.text = job?.description
         }
     }
 
-    private fun showDetailDifferentUser(job: JobHistoryResponseItem?) {
-        when(role){
-            SERVICE_PROVIDER -> {
-                binding.ratingBar.setIsIndicator(true)
-                binding.edReview.isFocusable = false
-                binding.edReview.isClickable = false
-                binding.btnFinish.isVisible = false
+    private fun showDetailDifferentUser() {
+        if(role == SERVICE_PROVIDER || jobStatus == FINISH){
+            binding.ratingBar.setIsIndicator(true)
+            binding.edReview.isFocusable = false
+            binding.edReview.isClickable = false
+            binding.btnFinish.isVisible = false
+        }
+    }
+
+    private fun finishTheJob(id: String){
+        val review = binding.edReview.text.toString()
+
+        if (userRating == null) {
+            showToast(getString(R.string.empty_rating))
+        } else if (review.isEmpty()) {
+            binding.edReview.error = getString(R.string.empty_input)
+        } else {
+            val feedback = Feedback(review, userRating)
+            val feedbackRequestBody = FeedbackRequestBody(feedback)
+            viewModel.finishTheJob(id, feedbackRequestBody).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is ResultState.Loading -> {
+                            binding.progressBar.showLoading(true)
+                        }
+                        is ResultState.Success -> {
+                            binding.progressBar.showLoading(false)
+                            showToast(result.data.message.toString())
+                            finish()
+                        }
+                        is ResultState.Error -> {
+                            binding.progressBar.showLoading(false)
+                            showToast(result.error)
+                        }
+                    }
+                }
             }
         }
     }

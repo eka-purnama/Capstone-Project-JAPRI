@@ -2,10 +2,12 @@ package com.android.japri.ui.job
 
 import androidx.lifecycle.ViewModel
 import com.android.japri.data.repository.AppRepository
-import com.android.japri.data.request.RequestBody
+import com.android.japri.data.request.JobHistoryRequestBody
 
 class JobViewModel(private val repository: AppRepository) : ViewModel() {
 
-    fun getJobHistory(bodyRequest: RequestBody.JobHistoryRequest) = repository.getJobHistory(bodyRequest)
+    fun getJobHistory(
+        requestBody: JobHistoryRequestBody
+    ) = repository.getJobHistory(requestBody)
 
 }

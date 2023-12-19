@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.android.japri.R
 import com.android.japri.data.ResultState
-import com.android.japri.data.request.RequestBody
+import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.databinding.ActivityRegisterBinding
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.login.LoginActivity
@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
             when {
                 username.isEmpty() -> binding.edRegisterUsername.error = getString(R.string.empty_input)
                 email.isEmpty() -> binding.edRegisterEmail.error = getString(R.string.empty_input)
-                password.isEmpty() -> binding.edRegisterPassword.error = getString(R.string.empty_input)
+                password.isEmpty() -> binding.passwordEditTextLayout.helperText = getString(R.string.empty_input)
                 TextUtils.isEmpty(role) -> binding.roleEditTextLayout.error = getString(R.string.empty_input)
                 else -> {
                     binding.roleEditTextLayout.error = null
@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                     val selectedRoleIndex = roles.indexOf(role)
                     val selectedRole = if (selectedRoleIndex == 0) SERVICE_PROVIDER else CLIENT
 
-                    val requestBody = RequestBody.RegisterRequest(email, password, username, selectedRole)
+                    val requestBody = RegisterRequestBody(username, email, password, selectedRole)
                     registerAccount(requestBody)
                 }
             }
@@ -70,8 +70,8 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerAccount(registerRequestBody: RequestBody.RegisterRequest){
-        viewModel.registerAccount(registerRequestBody).observe(this) { result ->
+    private fun registerAccount(requestBody: RegisterRequestBody){
+        viewModel.registerAccount(requestBody).observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {

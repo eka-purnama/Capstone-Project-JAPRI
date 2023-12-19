@@ -1,6 +1,11 @@
 package com.android.japri.data.retrofit
 
-import com.android.japri.data.request.RequestBody
+import com.android.japri.data.request.AccountRequestBody
+import com.android.japri.data.request.AddJobRequestBody
+import com.android.japri.data.request.FeedbackRequestBody
+import com.android.japri.data.request.JobHistoryRequestBody
+import com.android.japri.data.request.LoginRequestBody
+import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.response.EditAccountResponse
 import com.android.japri.data.response.EditPhotoResponse
 import com.android.japri.data.response.JobHistoryDetailResponse
@@ -21,12 +26,12 @@ interface ApiService {
 
     @POST("auth/register")
     suspend fun register(
-        @Body requestBody: RequestBody.RegisterRequest
+        @Body requestBody: RegisterRequestBody
     ): RegisterResponse
 
     @POST("auth/login")
     suspend fun login(
-        @Body requestBody: RequestBody.LoginRequest
+        @Body requestBody: LoginRequestBody
     ): LoginResponse
 
     @Multipart
@@ -44,16 +49,27 @@ interface ApiService {
     @PUT("users/edit-profile/{id}")
     suspend fun editAccount(
         @Path("id") id: String,
-        @Body requestBody: RequestBody.AccountRequest
+        @Body requestBody: AccountRequestBody
     ): EditAccountResponse
 
     @POST("users/get-status-data")
     suspend fun getJobHistory(
-        @Body requestBody: RequestBody.JobHistoryRequest
+        @Body requestBody: JobHistoryRequestBody
     ): List<JobHistoryResponseItem>
 
     @GET("jasa/{id}")
     suspend fun getJobHistoryDetail(
         @Path("id") id: String
     ): JobHistoryDetailResponse
+
+    @POST("jasa")
+    suspend fun addJob(
+        @Body requestBody: AddJobRequestBody
+    ): EditAccountResponse
+
+    @PUT("jasa/{id}")
+    suspend fun finishTheJob(
+        @Path("id") id: String,
+        @Body requestBody: FeedbackRequestBody
+    ): EditAccountResponse
 }

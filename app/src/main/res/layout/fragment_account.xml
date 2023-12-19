@@ -114,6 +114,24 @@
         app:layout_constraintTop_toBottomOf="@id/account_setting"/>
 
     <TextView
+        android:id="@+id/edit_password"
+        style="@style/text_with_icon"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:text="@string/edit_password"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:drawableStartCompat="@drawable/ic_lock"
+        app:drawableEndCompat="@drawable/ic_arrow_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2"/>
+
+    <View
+        android:id="@+id/line3"
+        style="@style/line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_password"/>
+
+    <TextView
         android:id="@+id/about_app"
         style="@style/text_with_icon"
         android:layout_width="match_parent"
@@ -123,7 +141,7 @@
         app:drawableStartCompat="@drawable/ic_info"
         app:drawableEndCompat="@drawable/ic_arrow_right"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line2"/>
+        app:layout_constraintTop_toBottomOf="@id/line3"/>
 
     <View
         style="@style/line"

@@ -3,6 +3,7 @@ package com.android.japri.data.response
 import com.google.gson.annotations.SerializedName
 
 data class UserResponse(
+
 	@field:SerializedName("password")
 	val password: String? = null,
 
@@ -21,6 +22,9 @@ data class UserResponse(
 	@field:SerializedName("name")
 	val name: String? = null,
 
+	@field:SerializedName("rating")
+	val rating: Rating? = null,
+
 	@field:SerializedName("phone_number")
 	val phoneNumber: String? = null,
 
@@ -38,10 +42,19 @@ data class UserResponse(
 )
 
 data class PersonalData(
+
 	@field:SerializedName("skill")
 	val skill: List<String?>? = null,
 
-	@field:SerializedName("description")
-	val description: String? = null
+	@field:SerializedName("deskripsi")
+	val deskripsi: String? = null
 )
 
+data class Rating(
+
+	@field:SerializedName("totalFeedback")
+	val totalFeedback: Int? = null,
+
+	@field:SerializedName("averageRating")
+	val averageRating: Boolean? = null
+)

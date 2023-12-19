@@ -122,9 +122,9 @@
     <string name="end_time">Jam Selesai</string>
     <string name="btn_start_time_content">Pilih jam mulai kerja</string>
     <string name="btn_end_time_content">Pilih jam selesai kerja</string>
-    <string name="salary">Gaji (Rp)</string>
+    <string name="salary">Gaji</string>
     <string name="salary_hint">Masukkan nominal gaji</string>
-    <string name="job_address">Alamat Tempat Kerja (Opsional)</string>
+    <string name="job_address">Alamat Tempat Kerja</string>
     <string name="job_address_hint">Masukkan alamat tempat kerja</string>
     <string name="detail_job">Detail Pekerjaan</string>
     <string name="detail_job_hint">Masukkan detail pekerjaan</string>
@@ -157,6 +157,7 @@
     <string name="employer">Pemilik Kerja</string>
     <string name="review">Ulasan</string>
     <string name="review_hint">Masukkan ulasan anda</string>
+    <string name="empty_rating">Berikan rating anda</string>
 
     <!--Account setting activity-->
     <string name="title_toolbar_account_setting_activity">Pengaturan Akun</string>
@@ -168,7 +169,7 @@
     <string name="address_hint">Masukkan alamat anda</string>
     <string name="skill_hint">Pilih keterampilan anda</string>
     <string name="desc_hint">Masukkan deskripsi tentang diri anda</string>
-    <string name="change_password">Ubah Password</string>
+    <string name="edit_password">Ubah Password</string>
     <string name="password_hint">Masukkan password baru anda</string>
 
     <!--About application activity-->

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.android.japri.databinding.FragmentJasaBinding
@@ -40,24 +39,16 @@ class JasaFragment : Fragment() {
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.textJasa.text = query
+//                binding.textJasa.text = query
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                binding.textJasa.text = newText
+//                binding.textJasa.text = newText
                 return true
             }
         })
 
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

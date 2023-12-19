@@ -27,12 +27,12 @@ class JobHistoryAdapter : ListAdapter<JobHistoryResponseItem, JobHistoryAdapter.
     class MyViewHolder(val binding: ItemJobBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(history: JobHistoryResponseItem) {
             binding.apply {
-                val dateUpload = convertTimestamp(history.createdAt?._seconds, history.createdAt?._nanoseconds)
+                val dateUpload = convertTimestamp(history.createdAt?.seconds, history.createdAt?.nanoSeconds)
 
-                tvJobName.text = history.job_name
+                tvJobName.text = history.jobName
                 tvJobAddress.text = history.address
-                tvJobDate.text = root.context.getString(R.string.job_date_time, history.start_day, history.end_day)
-                tvJobTime.text = root.context.getString(R.string.job_date_time, history.start_time, history.end_time)
+                tvJobDate.text = root.context.getString(R.string.job_date_time, history.startDay, history.endDay)
+                tvJobTime.text = root.context.getString(R.string.job_date_time, history.startTime, history.endTime)
                 tvUploadDate.text = root.context.getString(R.string.upload_date, dateUpload)
 
                 itemView.setOnClickListener {
