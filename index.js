@@ -6,7 +6,7 @@ const dbMiddleware = require('./middleware/db');
 const authenticateToken = require('./middleware/authenticateToken');
 
 const app = express();
-const port = 8080;
+const port = 9000;
 
 app.use(express.json());
 app.use(dbMiddleware);

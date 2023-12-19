@@ -19,7 +19,7 @@ const addFormJasa = async (req, res) => {
       penyedia_jasa,
       feedback: {},
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
     };
 
     const formJasaRef = await db.collection('formJasa').add(formJasaData);
@@ -36,7 +36,7 @@ const updateFormJasaDone = async (req, res) => {
   try {
     const formJasaId = req.params.id;
     const newFeedback = req.body.feedback;
-    
+
     const formJasaData = (await db.collection('formJasa').doc(formJasaId).get()).data();
 
     if (!formJasaData) {
@@ -53,10 +53,10 @@ const updateFormJasaDone = async (req, res) => {
     await formJasaRef.update({
       status: 'selesai',
       feedback: updatedFeedback,
-      updated_at: new Date()
+      updated_at: new Date(),
     });
 
-    res.status(200).json({ message: 'Form Jasa berhasil diupdate'});
+    res.status(200).json({ message: 'Form Jasa berhasil diupdate' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -67,17 +67,12 @@ const updateFormJasaDone = async (req, res) => {
 const getFormJasaByUser = async (req, res) => {
   try {
     const username = req.params.username;
-    const formJasaSnapshot = await db.collection('formJasa')
-      .where('penyedia_jasa', '==', username)
-      .orderBy('created_at', 'desc')
-      .get();
+    const formJasaSnapshot = await db.collection('formJasa').where('penyedia_jasa', '==', username).orderBy('created_at', 'desc').get();
 
-    const formJasaList = formJasaSnapshot.docs.map(
-      (doc) => ({ 
-        id: doc.id, 
-        ...doc.data() 
-      })
-    );
+    const formJasaList = formJasaSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
     res.json({ formJasaList });
   } catch (error) {
@@ -98,7 +93,37 @@ const getFormJasaById = async (req, res) => {
 
     const formJasaData = formJasaDoc.data();
 
-    res.json({ formJasaData });
+    // Ambil data pengguna_jasa dari users
+    const penggunaJasaDoc = await db.collection('users').where('username', '==', formJasaData.pengguna_jasa).get();
+    const penggunaJasaData = penggunaJasaDoc.docs[0]?.data() || {};
+    const photoURLPenggunaJasa = penggunaJasaData.photo_url || '';
+
+    // Ambil data penyedia_jasa dari users
+    const penyediaJasaDoc = await db.collection('users').where('username', '==', formJasaData.penyedia_jasa).get();
+    const penyediaJasaData = penyediaJasaDoc.docs[0]?.data() || {};
+    const photoURLPenyediaJasa = penyediaJasaData.photo_url || '';
+
+    // Menambahkan photo_url_pengguna_jasa dan photo_url_penyedia_jasa ke dalam respons
+    const responseData = {
+      id: formJasaData.id,
+      job_name: formJasaData.job_name,
+      start_day: formJasaData.start_day,
+      end_day: formJasaData.end_day,
+      start_time: formJasaData.start_time,
+      end_time: formJasaData.end_time,
+      salary: formJasaData.salary,
+      address: formJasaData.address,
+      description: formJasaData.description,
+      status: formJasaData.status,
+      pengguna_jasa: formJasaData.pengguna_jasa,
+      photo_url_pengguna_jasa: photoURLPenggunaJasa,
+      penyedia_jasa: formJasaData.penyedia_jasa,
+      photo_url_penyedia_jasa: photoURLPenyediaJasa,
+      feedback: formJasaData.feedback,
+      created_at: formJasaData.created_at,
+    };
+
+    res.json({ pesan: 'Berhasil mendapatkan form jasa', data: [responseData] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

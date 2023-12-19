@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 
 router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUserById);
+router.get('/bidang/:bidang', userController.bidangJasa);
 router.put('/edit-photo/:id', userController.uploadProfilePhoto);
 router.post('/get-status-data', userController.getStatusData);
 router.put('/edit-profile/:id', userController.editUser);

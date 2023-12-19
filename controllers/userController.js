@@ -400,6 +400,74 @@ const predict = async (req, res) => {
   }
 };
 
+const bidangJasa = async (req, res) => {
+  try {
+    const bidangJasaParam = req.params.bidang.toLowerCase();
+
+    // Logika untuk menentukan skill berdasarkan bidang jasa
+    const bidangJasaData = {
+      teknisi: ['Teknisi'],
+      pelayanan: [
+        'Bellman',
+        'Waiter',
+        'Host',
+        'Perawat',
+        'Kasir',
+        'Pemuat',
+        'Penjaga',
+        'Pustakawan',
+        'Co-Host',
+        'Pelayan',
+        'Pengantar',
+        'Dishwasher',
+        'Helper',
+        'Pemaket',
+        'Asisten',
+        'Sopir',
+        'Pengasuh',
+        'Freelance',
+        'Cashier',
+        'Pembantu',
+        'Kenek',
+        'Pemetik',
+      ],
+      pertukangan: ['Pengrajin', 'Kuli', 'Tukang', 'Buruh', 'Penjahit'],
+      media: ['Host', 'Soundman', 'Co-Host', 'Navigator', 'Fotografer', 'Videographer', 'Content'],
+      logistik: ['Driver', 'Penanam', 'Sorter', 'Checker', 'Navigator', 'Kurir', 'Pengajar', 'Kurir', 'Pengajar'],
+      pendidikan: ['Pengajar', 'Penulis'],
+    };
+
+    const skills = bidangJasaData[bidangJasaParam] || [];
+
+    // Ambil pengguna berdasarkan skill dan bidang
+    const usersSnapshot = await db.collection('users').where('personal_data.skill', 'array-contains-any', skills).get();
+
+    const users = [];
+
+    // Proses setiap dokumen pengguna
+    for (const doc of usersSnapshot.docs) {
+      const userData = doc.data();
+
+      // Panggil fungsi untuk mendapatkan rating
+      const rating = await getRatingUser(userData.username);
+
+      users.push({
+        id: doc.id,
+        ...userData,
+        rating: rating,
+      });
+    }
+
+    // Urutkan data berdasarkan average rating tertinggi ke terendah
+    users.sort((a, b) => (b.rating.averageRating || 0) - (a.rating.averageRating || 0));
+
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: true, message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -408,4 +476,5 @@ module.exports = {
   uploadProfilePhoto,
   editPassword,
   predict,
+  bidangJasa,
 };
