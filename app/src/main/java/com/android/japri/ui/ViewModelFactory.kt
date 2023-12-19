@@ -11,6 +11,7 @@ import com.android.japri.ui.addjob.AddJobViewModel
 import com.android.japri.ui.dashboard.DashboardViewModel
 import com.android.japri.ui.detailjasa.DetailJasaViewModel
 import com.android.japri.ui.detailjob.DetailJobViewModel
+import com.android.japri.ui.editpassword.EditPasswordViewModel
 import com.android.japri.ui.jasa.JasaViewModel
 import com.android.japri.ui.job.JobViewModel
 import com.android.japri.ui.login.LoginViewModel
@@ -58,6 +59,9 @@ class ViewModelFactory(private val repository: AppRepository) :
             }
             modelClass.isAssignableFrom(AddJobViewModel::class.java) -> {
                 AddJobViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(EditPasswordViewModel::class.java) -> {
+                EditPasswordViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

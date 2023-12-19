@@ -6,14 +6,14 @@ import com.android.japri.R
 import com.android.japri.data.ResultState
 import com.android.japri.data.request.AccountRequestBody
 import com.android.japri.data.request.AddJobRequestBody
+import com.android.japri.data.request.EditPasswordRequestBody
 import com.android.japri.data.request.FeedbackRequestBody
 import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.retrofit.ApiService
-import com.android.japri.data.response.EditAccountResponse
-import com.android.japri.data.response.EditPhotoResponse
+import com.android.japri.data.response.CommonResponse
 import com.android.japri.data.response.LoginResponse
 import com.android.japri.preferences.UserPreference
 import com.android.japri.preferences.UserSessionData
@@ -86,7 +86,7 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, EditPhotoResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
@@ -112,7 +112,7 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
@@ -150,7 +150,7 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
@@ -164,13 +164,26 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, EditAccountResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
         }
     }
 
+    fun editPassword(id: String, requestBody: EditPasswordRequestBody) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.editPassword(id, requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
+            emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
 
     companion object {
         @Volatile

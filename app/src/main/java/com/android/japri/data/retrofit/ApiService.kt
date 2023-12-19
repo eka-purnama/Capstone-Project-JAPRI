@@ -2,12 +2,12 @@ package com.android.japri.data.retrofit
 
 import com.android.japri.data.request.AccountRequestBody
 import com.android.japri.data.request.AddJobRequestBody
+import com.android.japri.data.request.EditPasswordRequestBody
 import com.android.japri.data.request.FeedbackRequestBody
 import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
-import com.android.japri.data.response.EditAccountResponse
-import com.android.japri.data.response.EditPhotoResponse
+import com.android.japri.data.response.CommonResponse
 import com.android.japri.data.response.JobHistoryDetailResponse
 import com.android.japri.data.response.JobHistoryResponseItem
 import com.android.japri.data.response.LoginResponse
@@ -39,7 +39,7 @@ interface ApiService {
     suspend fun editPhotoProfile(
         @Path("id") id: String,
         @Part file: MultipartBody.Part,
-    ): EditPhotoResponse
+    ): CommonResponse
 
     @GET("users/{id}")
     suspend fun getUserById(
@@ -50,7 +50,7 @@ interface ApiService {
     suspend fun editAccount(
         @Path("id") id: String,
         @Body requestBody: AccountRequestBody
-    ): EditAccountResponse
+    ): CommonResponse
 
     @POST("users/get-status-data")
     suspend fun getJobHistory(
@@ -65,11 +65,17 @@ interface ApiService {
     @POST("jasa")
     suspend fun addJob(
         @Body requestBody: AddJobRequestBody
-    ): EditAccountResponse
+    ): CommonResponse
 
     @PUT("jasa/{id}")
     suspend fun finishTheJob(
         @Path("id") id: String,
         @Body requestBody: FeedbackRequestBody
-    ): EditAccountResponse
+    ): CommonResponse
+
+    @PUT("users/edit-password/{id}")
+    suspend fun editPassword(
+        @Path("id") id: String,
+        @Body requestBody: EditPasswordRequestBody
+    ): CommonResponse
 }

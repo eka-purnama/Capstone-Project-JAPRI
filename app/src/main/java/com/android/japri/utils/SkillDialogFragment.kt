@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.android.japri.R
+import com.android.japri.adapter.SkillAdapter
 import com.android.japri.databinding.FragmentSkillDialogBinding
 
 class SkillDialogFragment : DialogFragment() {
@@ -15,8 +18,6 @@ class SkillDialogFragment : DialogFragment() {
 
     private var optionDialogListener: OnOptionDialogListener? = null
 
-    private val selectedSkills = ArrayList<String>()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSkillDialogBinding.inflate(inflater, container, false)
         return binding.root
@@ -25,22 +26,15 @@ class SkillDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val skills = resources.getStringArray(R.array.list_skill)
+        val adapter = SkillAdapter(skills)
+
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerViewSkills.layoutManager = layoutManager
+        binding.recyclerViewSkills.adapter = adapter
+
         binding.btnSave.setOnClickListener {
-            binding.apply {
-                selectedSkills.clear()
-
-                val checkBoxes = listOf(
-                    cbService, cbLogistic, cbSelling, cbEducation, cbMedia, cbCreative,
-                    cbTechnician, cbCarpentry, cbFishery, cbAgriculture, cbFarming
-                )
-
-                for (checkBox in checkBoxes) {
-                    if (checkBox.isChecked) {
-                        selectedSkills.add(checkBox.text.toString())
-                    }
-                }
-            }
-            optionDialogListener?.onOptionChosen(selectedSkills.toTypedArray())
+            optionDialogListener?.onOptionChosen(adapter.getSelectedSkills())
             dialog?.dismiss()
         }
 
@@ -65,4 +59,3 @@ class SkillDialogFragment : DialogFragment() {
         fun onOptionChosen(skills: Array<String>?)
     }
 }
-

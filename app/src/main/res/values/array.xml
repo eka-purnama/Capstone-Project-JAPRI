@@ -27,6 +27,51 @@
         <item>@string/fishery</item>
     </string-array>
 
+    <string-array name="list_skill">
+        <item>@string/technician</item>
+        <item>@string/cashier</item>
+        <item>@string/coolie</item>
+        <item>@string/craftsmen</item>
+        <item>@string/servant</item>
+        <item>@string/nanny</item>
+        <item>@string/maid</item>
+        <item>@string/conductor</item>
+        <item>@string/tailor</item>
+        <item>@string/gardener</item>
+        <item>@string/Photographer</item>
+        <item>@string/assistant</item>
+        <item>@string/driver</item>
+        <item>@string/courier</item>
+        <item>@string/handyman</item>
+        <item>@string/laborer</item>
+        <item>@string/teacher</item>
+        <item>@string/writer</item>
+        <item>@string/bellman</item>
+        <item>@string/nurse</item>
+        <item>@string/guard</item>
+        <item>@string/librarian</item>
+        <item>@string/videographer</item>
+        <item>@string/host</item>
+        <item>@string/co_host</item>
+        <item>@string/pickers</item>
+
+        <item>@string/navigator</item>
+        <item>@string/dishwasher</item>
+        <item>@string/waiter</item>
+        <item>@string/soundMan</item>
+
+        <item>@string/receptionist</item>
+
+        <item>@string/helper</item>
+        <item>@string/packager</item>
+
+        <item>@string/freelance</item>
+        <item>@string/content</item>
+
+        <item>@string/sorter</item>
+        <item>@string/checker</item>
+    </string-array>
+
     <string-array name="select_photo">
         <item>@string/gallery</item>
         <item>@string/camera</item>

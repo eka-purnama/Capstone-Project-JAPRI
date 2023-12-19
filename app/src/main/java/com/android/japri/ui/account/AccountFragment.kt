@@ -17,6 +17,7 @@ import com.android.japri.databinding.FragmentAccountBinding
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.aboutapp.AboutAppActivity
 import com.android.japri.ui.accountsetting.AccountSettingActivity
+import com.android.japri.ui.editpassword.EditPasswordActivity
 import com.android.japri.ui.jobhistory.JobHistoryActivity
 import com.android.japri.ui.photoprofile.PhotoProfileActivity
 import com.android.japri.ui.welcome.WelcomeScreenActivity
@@ -84,6 +85,11 @@ class AccountFragment : Fragment() {
             intentAccountSetting.putExtra(EXTRA_ROLE, role)
             startActivity(intentAccountSetting)
         }
+        binding.editPassword.setOnClickListener {
+            val intentAccountSetting = Intent(requireContext(), EditPasswordActivity::class.java)
+            intentAccountSetting.putExtra(EXTRA_ID, userId)
+            startActivity(intentAccountSetting)
+        }
         binding.aboutApp.setOnClickListener {
             startActivity(Intent(requireContext(), AboutAppActivity::class.java))
         }
@@ -93,7 +99,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun getUserById(id: String){
-        accountViewModel.getUserById(id).observe(requireActivity()) { result ->
+        accountViewModel.getUserById(id).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
@@ -147,6 +153,13 @@ class AccountFragment : Fragment() {
 
     fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userId?.let {
+            getUserById(it)
+        }
     }
 
     override fun onDestroyView() {

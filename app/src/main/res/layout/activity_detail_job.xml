@@ -92,7 +92,7 @@
         <TextView
             android:id="@+id/user_role"
             style="@style/sub_title"
-            android:text="@string/employee"
+            android:text="@string/service_provider"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_detail_job" />

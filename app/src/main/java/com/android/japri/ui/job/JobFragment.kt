@@ -56,15 +56,19 @@ class JobFragment : Fragment() {
         binding.rvJobHistory.layoutManager = layoutManager
         binding.rvJobHistory.adapter = adapter
 
+        showHistoryData(username.toString())
+    }
+
+    private fun showHistoryData(username: String){
         if (position == 1){
-            getJobHistory(JobHistoryRequestBody(PROCESS, username.toString()))
+            getJobHistory(JobHistoryRequestBody(PROCESS, username))
         } else {
-            getJobHistory(JobHistoryRequestBody(FINISH, username.toString()))
+            getJobHistory(JobHistoryRequestBody(FINISH, username))
         }
     }
 
     private fun getJobHistory(requestBody: JobHistoryRequestBody){
-        viewModel.getJobHistory(requestBody).observe(requireActivity()) { result ->
+        viewModel.getJobHistory(requestBody).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
@@ -91,6 +95,13 @@ class JobFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        username?.let {
+            showHistoryData(it)
+        }
     }
 
     override fun onDestroyView() {

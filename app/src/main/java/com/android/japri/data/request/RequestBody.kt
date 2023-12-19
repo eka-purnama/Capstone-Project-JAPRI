@@ -110,3 +110,11 @@ data class Feedback (
     @field:SerializedName("rating")
     val rating: Int? = null
 )
+
+data class EditPasswordRequestBody(
+    @field:SerializedName("password")
+    val password: String,
+
+    @field:SerializedName("confirm_password")
+    val confirmPassword: String
+)

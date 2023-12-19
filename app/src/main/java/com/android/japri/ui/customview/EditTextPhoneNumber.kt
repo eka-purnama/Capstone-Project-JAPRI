@@ -33,7 +33,7 @@ class EditTextPhoneNumber : AppCompatEditText {
                     s.toString().isEmpty() -> {
                         context.getString(R.string.empty_input)
                     }
-                    !s.toString().startsWith("0") -> {
+                    s.toString().startsWith("0") -> {
                         context.getString(R.string.wrong_phone_number_format)
                     }
                     s.length < 10 -> {

@@ -32,10 +32,11 @@
     <string name="name">Nama</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Konfirmasi Password</string>
     <string name="phone_no">Nomor Telepon</string>
     <string name="user_photo">Foto User</string>
-    <string name="skill">Keterampilan</string>
-    <string name="user_skill">Keterampilan : %1$s</string>
+    <string name="skill">Keahlian</string>
+    <string name="user_skill">Keahlian : %1$s</string>
     <string name="address">Alamat</string>
     <string name="gender">Jenis Kelamin</string>
     <string name="user_description">Deskripsi Diri</string>
@@ -66,8 +67,8 @@
     <string name="male">Laki-laki</string>
 
     <!--Register & Login Activity-->
-    <string name="register_title">Daftar Akun Anda</string>
-    <string name="login_title">Masuk ke Akun Anda</string>
+    <string name="register_title">Daftar Akun Kamu</string>
+    <string name="login_title">Masuk ke Akun Kamu</string>
 
     <string name="role_hint">Daftar sebagai</string>
     <string name="more_information">Informasi selengkapnya</string>
@@ -83,7 +84,7 @@
     </string>
 
     <string name="register_alert_title">Berhasil</string>
-    <string name="register_alert">Akun anda telah berhasil terdaftar! Anda dapat masuk melalui akun anda.</string>
+    <string name="register_alert">Akun kamu telah berhasil terdaftar! Masuk melalui akun?</string>
 
     <!--dashboard fragment-->
     <string name="dashboard_username">Hai, %1$s!</string>
@@ -102,12 +103,12 @@
     <string name="account_setting">Pengaturan Akun</string>
     <string name="about_application">Tentang Aplikasi Ini</string>
 
-    <string name="logout_message">Apakah anda ingin keluar dari aplikasi?</string>
+    <string name="logout_message">Apakah kamu yakin ingin keluar dari aplikasi?</string>
 
     <!--detail jasa activity-->
     <string name="title_toolbar_detail_jasa_activity">Detail Jasa</string>
     <string name="information_for_user">Hubungi terlebih dahulu sebelum menggunakan jasa</string>
-    <string name="has_been_contacted_alert">Apakah anda telah menghubungi pengguna dan sepakat terkait pekerjaan yang akan diselesaikan?</string>
+    <string name="has_been_contacted_alert">Apakah kamu telah menghubungi pengguna dan sepakat terkait pekerjaan yang akan diselesaikan?</string>
 
     <!--Add job activity-->
     <string name="title_toolbar_add_job_activity">Tambah Pekerjaan</string>
@@ -153,32 +154,29 @@
 
     <!--Detail job activity-->
     <string name="title_toolbar_detail_job_activity">Detail Pekerjaan</string>
-    <string name="employee">Pekerja</string>
-    <string name="employer">Pemilik Kerja</string>
     <string name="review">Ulasan</string>
-    <string name="review_hint">Masukkan ulasan anda</string>
-    <string name="empty_rating">Berikan rating anda</string>
+    <string name="review_hint">Masukkan ulasan</string>
+    <string name="empty_rating">Berikan bintangmu</string>
 
     <!--Account setting activity-->
     <string name="title_toolbar_account_setting_activity">Pengaturan Akun</string>
-    <string name="name_hint">Masukkan nama anda</string>
-    <string name="email_hint">Masukkan email anda</string>
+    <string name="name_hint">Masukkan nama</string>
+    <string name="email_hint">Masukkan email</string>
     <string name="phone_no_hint">Masukkan nomor WhatsApp aktif</string>
-    <string name="phone_no_example">*Contoh: 081234567890</string>
+    <string name="phone_no_example">*Contoh: 81234567890</string>
     <string name="gender_hint">Pilih jenis kelamin</string>
-    <string name="address_hint">Masukkan alamat anda</string>
-    <string name="skill_hint">Pilih keterampilan anda</string>
-    <string name="desc_hint">Masukkan deskripsi tentang diri anda</string>
+    <string name="address_hint">Masukkan alamat</string>
+    <string name="skill_hint">Pilih keahlian pekerjaan</string>
+    <string name="desc_hint">Masukkan deskripsi diri</string>
     <string name="edit_password">Ubah Password</string>
     <string name="password_hint">Masukkan password baru anda</string>
 
     <!--About application activity-->
     <string name="about_app_content">Melalui <b>JAPRI (JASA PERHARI)</b> kamu bisa:\n
         1. Mencari jasa terbaik yang kamu butuhkan untuk menyelesaikan masalah yang kamu miliki.\n
-        2. Mendapatkan pekerjaan harian tambahan dengan memanfaatkan keterampilan/skill yang kamu miliki.</string>
+        2. Mendapatkan pekerjaan harian tambahan dengan memanfaatkan keahlian/skill yang kamu miliki.</string>
 
     <!--Job Fields-->
-    <string name="question_skill">Apa bidang keahlian kamu?</string>
     <string name="service">Pelayanan</string>
     <string name="logistic">Logistik</string>
     <string name="selling">Penjualan</string>
@@ -186,7 +184,7 @@
     <string name="media">Media</string>
     <string name="management">Manajemen</string>
     <string name="production">Produksi</string>
-    <string name="technician">Teknisi</string>
+    <!--    <string name="technician">Teknisi</string>-->
     <string name="carpentry">Pertukangan</string>
     <string name="administrative">Administratif</string>
     <string name="fishery">Perikanan</string>
@@ -194,4 +192,47 @@
     <string name="farming">Perkebunan</string>
     <string name="creative">Kreatif</string>
 
+    <!--Lists of Job-->
+    <string name="question_skill">Apa pekerjaan keahlian kamu?</string>
+    <string name="technician">teknisi</string>
+    <string name="bellman">bellman</string>
+    <string name="craftsmen">pengrajin</string>
+    <string name="waiter">waiter</string>
+    <string name="nurse">perawat</string>
+    <string name="cashier">kasir</string>
+    <string name="coolie">kuli</string>
+    <string name="soundMan">soundman</string>
+    <string name="gardener">penanam</string>
+    <string name="host">host</string>
+    <string name="sorter">sorter</string>
+    <string name="checker">checker</string>
+    <string name="guard">penjaga</string>
+    <string name="librarian">pustakawan</string>
+    <string name="co_host">co-Host</string>
+    <string name="navigator">navigator</string>
+    <string name="Photographer">fotografer</string>
+    <string name="servant">pelayan</string>
+    <string name="receptionist">pengantar</string>
+    <string name="dishwasher">dishwasher</string>
+    <string name="helper">helper</string>
+    <string name="packager">pemaket</string>
+    <string name="assistant">asisten</string>
+    <string name="driver">sopir</string>
+    <string name="videographer">videographer</string>
+    <string name="nanny">pengasuh</string>
+    <string name="freelance">freelance</string>
+    <string name="content">content</string>
+    <string name="pickers">pemetik</string>
+    <string name="courier">kurir</string>
+    <string name="handyman">tukang</string>
+    <string name="laborer">buruh</string>
+    <string name="teacher">pengajar</string>
+    <string name="writer">penulis</string>
+    <string name="maid">pembantu</string>
+    <string name="conductor">kenek</string>
+    <string name="tailor">penjahit</string>
+
 </resources>
+
+<!--<string name="pemuat">pemuat</string>-->
+

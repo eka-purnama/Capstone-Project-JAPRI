@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="gone"
-        app:indicatorColor="@color/blue" />
+        app:indicatorColor="@color/orange" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_photo"

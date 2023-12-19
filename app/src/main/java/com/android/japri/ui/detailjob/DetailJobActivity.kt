@@ -3,6 +3,7 @@ package com.android.japri.ui.detailjob
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.android.japri.R
@@ -60,6 +61,7 @@ class DetailJobActivity : AppCompatActivity() {
                     is ResultState.Success -> {
                         showDetail(result.data.detailJobHistory)
                         showDetailDifferentUser()
+//                        showUserInfo()
                     }
                     is ResultState.Error -> {
                         showToast(result.error)
@@ -89,8 +91,25 @@ class DetailJobActivity : AppCompatActivity() {
             tvJobTime.text = getString(R.string.job_date_time, job?.startTime, job?.endTime)
             tvSalary.text = job?.salary?.formatToRupiah()
             tvDetailJob.text = job?.description
+            edReview.setText(job?.feedback?.comment)
+            ratingBar.rating = job?.feedback?.rating?.toFloat() ?: 0f
+        }
+
+        if(role == SERVICE_PROVIDER){
+            binding.userRole.text = getString(R.string.client)
+            binding.tvUsername.text = job?.client
+        } else {
+            binding.userRole.text = getString(R.string.service_provider)
+            binding.tvUsername.text = job?.serviceProvider
         }
     }
+
+//    photoUrl = result.data.photoUrl.toString()
+//    if (photoUrl.isEmpty()){
+//        binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
+//    } else {
+//        binding.userPhoto.loadImage(photoUrl)
+//    }
 
     private fun showDetailDifferentUser() {
         if(role == SERVICE_PROVIDER || jobStatus == FINISH){

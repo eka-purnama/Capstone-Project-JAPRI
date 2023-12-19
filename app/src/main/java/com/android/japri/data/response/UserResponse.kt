@@ -56,5 +56,5 @@ data class Rating(
 	val totalFeedback: Int? = null,
 
 	@field:SerializedName("averageRating")
-	val averageRating: Boolean? = null
+	val averageRating: Any? = null
 )

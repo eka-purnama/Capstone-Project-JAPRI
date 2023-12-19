@@ -84,10 +84,13 @@ class RegisterActivity : AppCompatActivity() {
                         AlertDialog.Builder(this).apply {
                             setTitle(resources.getString(R.string.register_alert_title))
                             setMessage(resources.getString(R.string.register_alert))
-                            setPositiveButton(R.string.text_ok) { _, _ ->
+                            setPositiveButton(R.string.text_yes) { _, _ ->
                                 val intent = Intent(context, LoginActivity::class.java)
                                 startActivity(intent)
                                 finish()
+                            }
+                            setNegativeButton(R.string.text_no) { dialog, _ ->
+                                dialog.dismiss()
                             }
                             create()
                             show()

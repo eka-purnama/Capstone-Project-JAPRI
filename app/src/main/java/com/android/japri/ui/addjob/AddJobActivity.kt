@@ -65,7 +65,7 @@ class AddJobActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListene
                 else -> {
                     val requestBody = AddJobRequestBody(
                         jobName, startDate, endDate, startTime, endTime, salary.toInt(), jobAddress,
-                        detailJob, status, "hrnsya", "ayunanda", null
+                        detailJob, status, "hana", "serviceprovider", null
                     )
                     add(requestBody)
                 }

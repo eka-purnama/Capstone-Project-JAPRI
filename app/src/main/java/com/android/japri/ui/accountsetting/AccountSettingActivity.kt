@@ -18,8 +18,8 @@ import com.android.japri.utils.CLIENT
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_ROLE
 import com.android.japri.utils.FEMALE
-import com.android.japri.utils.MALE
 import com.android.japri.utils.SkillDialogFragment
+import com.android.japri.utils.MALE
 import com.android.japri.utils.showToast
 
 class AccountSettingActivity : AppCompatActivity(), SkillDialogFragment.OnOptionDialogListener {
