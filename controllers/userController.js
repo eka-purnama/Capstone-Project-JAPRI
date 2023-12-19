@@ -361,20 +361,19 @@ function hashPassword(password) {
   return hash.digest('hex');
 }
 
+// fungsi untuk melakukan seacrching dengan ml model dan tanpa ml model
 const predict = async (req, res) => {
   try {
     // Ambil teks dari req.body
     const inputText = req.body.text;
 
-    // Kirim permintaan ke API pihak ketiga (Flask API) untuk prediksi
-    const predictionResponse = await axios.post('http://127.0.0.1:5000/predict', { text: inputText });
+    // Ambil satu kata pertama dari teks
+    const firstWord = inputText.split(' ')[0].toLowerCase();
 
-    // Ambil 1 kata awal dari respon prediksi
-    const predictedSkill = predictionResponse.data.prediction.split(' ')[0].toLowerCase();
+    // Mencocokkan dengan skill yang dimiliki oleh pengguna
+    const usersSnapshot = await db.collection('users').where('personal_data.skill', 'array-contains', firstWord).get();
 
-    const usersSnapshot = await db.collection('users').where('personal_data.skill', 'array-contains', predictedSkill).get();
-
-    const users = [];
+    const usersFromText = [];
 
     // Proses setiap dokumen pengguna
     for (const doc of usersSnapshot.docs) {
@@ -383,58 +382,90 @@ const predict = async (req, res) => {
       // Panggil fungsi untuk mendapatkan rating
       const rating = await getRatingUser(userData.username);
 
-      users.push({
+      usersFromText.push({
         id: doc.id,
         ...userData,
         rating: rating,
       });
     }
 
-    // Urutkan data berdasarkan average rating tertinggi ke terendah
-    users.sort((a, b) => (b.rating.averageRating || 0) - (a.rating.averageRating || 0));
+    // Kirim permintaan ke API pihak ketiga (Flask API) untuk prediksi
+    const predictionPromise = axios.post('https://ml-model-h7njedgj5q-as.a.run.app/predict', { text: inputText });
 
-    res.json(users);
+    // Menetapkan batas waktu 1 menit untuk permintaan prediksi
+    const predictionResponse = await Promise.race([predictionPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Prediction timeout')), 60000))]);
+
+    // Ambil 1 kata awal dari respon prediksi
+    const predictedSkill = predictionResponse.data.prediction.split(' ')[0].toLowerCase();
+
+    // Mencocokkan dengan skill yang dimiliki oleh pengguna berdasarkan prediksi dari API ML
+    const usersSnapshotML = await db.collection('users').where('personal_data.skill', 'array-contains', predictedSkill).get();
+
+    const usersFromML = [];
+
+    // Proses setiap dokumen pengguna hasil prediksi dari API ML
+    for (const doc of usersSnapshotML.docs) {
+      const userData = doc.data();
+
+      // Panggil fungsi untuk mendapatkan rating
+      const rating = await getRatingUser(userData.username);
+
+      usersFromML.push({
+        id: doc.id,
+        ...userData,
+        rating: rating,
+      });
+    }
+
+    // Gabungkan hasil dari kedua pencarian
+    const combinedUsers = [...usersFromText, ...usersFromML];
+
+    // Urutkan data berdasarkan average rating tertinggi ke terendah
+    combinedUsers.sort((a, b) => (b.rating.averageRating || 0) - (a.rating.averageRating || 0));
+
+    res.json(combinedUsers);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: true, message: 'Internal Server Error' });
   }
 };
 
+// fungsi untuk mendapatkan users berdasarkan bidang jasa pada skill
 const bidangJasa = async (req, res) => {
   try {
     const bidangJasaParam = req.params.bidang.toLowerCase();
 
     // Logika untuk menentukan skill berdasarkan bidang jasa
     const bidangJasaData = {
-      teknisi: ['Teknisi'],
+      teknisi: ['teknisi'],
       pelayanan: [
-        'Bellman',
-        'Waiter',
-        'Host',
-        'Perawat',
-        'Kasir',
-        'Pemuat',
-        'Penjaga',
-        'Pustakawan',
-        'Co-Host',
-        'Pelayan',
-        'Pengantar',
-        'Dishwasher',
-        'Helper',
-        'Pemaket',
-        'Asisten',
-        'Sopir',
-        'Pengasuh',
-        'Freelance',
-        'Cashier',
-        'Pembantu',
-        'Kenek',
-        'Pemetik',
+        'bellman',
+        'waiter',
+        'host',
+        'perawat',
+        'kasir',
+        'pemuat',
+        'penjaga',
+        'pustakawan',
+        'co-host',
+        'pelayan',
+        'pengantar',
+        'dishwasher',
+        'helper',
+        'pemaket',
+        'asisten',
+        'sopir',
+        'pengasuh',
+        'freelance',
+        'cashier',
+        'pembantu',
+        'kenek',
+        'pemetik',
       ],
-      pertukangan: ['Pengrajin', 'Kuli', 'Tukang', 'Buruh', 'Penjahit'],
-      media: ['Host', 'Soundman', 'Co-Host', 'Navigator', 'Fotografer', 'Videographer', 'Content'],
-      logistik: ['Driver', 'Penanam', 'Sorter', 'Checker', 'Navigator', 'Kurir', 'Pengajar', 'Kurir', 'Pengajar'],
-      pendidikan: ['Pengajar', 'Penulis'],
+      pertukangan: ['pengrajin', 'kuli', 'tukang', 'buruh', 'penjahit'],
+      media: ['host', 'soundman', 'co-host', 'navigator', 'fotografer', 'videographer', 'content'],
+      logistik: ['driver', 'penanam', 'sorter', 'checker', 'navigator', 'kurir', 'pengajar', 'kurir', 'pengajar'],
+      pendidikan: ['pengajar', 'penulis'],
     };
 
     const skills = bidangJasaData[bidangJasaParam] || [];

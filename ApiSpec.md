@@ -1,4 +1,5 @@
 # https://cc-api-predep-h7njedgj5q-as.a.run.app
+
 # User API Spec
 
 ## Registrasi User
@@ -308,11 +309,61 @@
 **Endpoint**: `PUT /jasa/:id`
 
 **Request Body**:
+
 ```json
 {
   "feedbacks": {
     "comment": "bagus",
     "rating": 5
   }
+}
+```
+
+## Searching jasa
+
+**Endpoint**: `GET /users/search`
+
+**Request Body**:
+
+```json
+{
+  "text": "tukang cucui piring"
+}
+```
+
+## GET Bidang jasa
+
+**Endpoint**: `GET /users/bidang/:bidang`
+
+**Response**
+
+```json
+{
+  "pesan": "berhasil mendapatkan user",
+  "data": [
+    {
+      "id_user": "321",
+      "email": "dummy2@example.com",
+      "name": "Dummy User2",
+      "username": "dummy2",
+      "password": "HASH",
+      "phone_number": "081231232",
+      "photo_url": "https://example.com/dummy_user2.jpg",
+      "gender": "male",
+      "address": "123 Dummy Street2, Dummy City",
+      "role": "pengguna jasa",
+      "personal_data": {},
+      "jasa_digunakan": [
+        {
+          "id_form_jasa": "456"
+        },
+        {
+          "id_form_jasa": "789"
+        }
+      ],
+      "jasa_diberikan": [],
+      "feedback": []
+    }
+  ]
 }
 ```
