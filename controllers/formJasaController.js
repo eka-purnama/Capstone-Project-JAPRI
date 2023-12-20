@@ -63,24 +63,6 @@ const updateFormJasaDone = async (req, res) => {
   }
 };
 
-// fungsi dapatkan riwayat kerja user
-const getFormJasaByUser = async (req, res) => {
-  try {
-    const username = req.params.username;
-    const formJasaSnapshot = await db.collection('formJasa').where('penyedia_jasa', '==', username).orderBy('created_at', 'desc').get();
-
-    const formJasaList = formJasaSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    res.json({ formJasaList });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
-
 // fungsi dapatkan riwayat kerja sesuai id
 const getFormJasaById = async (req, res) => {
   try {
@@ -133,6 +115,5 @@ const getFormJasaById = async (req, res) => {
 module.exports = {
   addFormJasa,
   updateFormJasaDone,
-  getFormJasaByUser,
   getFormJasaById,
 };

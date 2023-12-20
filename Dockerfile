@@ -16,7 +16,7 @@ RUN npm install
 # Menyalin seluruh kode sumber proyek ke dalam container
 COPY . .
 
-EXPOSE 8080
+EXPOSE 5000
 
 # Menjalankan aplikasi saat container dimulai
 CMD ["node", "index.js"]

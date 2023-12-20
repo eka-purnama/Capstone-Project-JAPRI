@@ -4,7 +4,7 @@ const multer = require('multer');
 const crypto = require('crypto');
 const axios = require('axios');
 
-const bucket = storage.bucket('japri-dev-bucket');
+const bucket = storage.bucket('japri-dev');
 
 const path = require('path');
 const url = require('url');
@@ -393,7 +393,7 @@ const predict = async (req, res) => {
     const predictionPromise = axios.post('https://ml-model-h7njedgj5q-as.a.run.app/predict', { text: inputText });
 
     // Menetapkan batas waktu 1 menit untuk permintaan prediksi
-    const predictionResponse = await Promise.race([predictionPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Prediction timeout')), 60000))]);
+    const predictionResponse = await Promise.race([predictionPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Prediction timeout')), 30000))]);
 
     // Ambil 1 kata awal dari respon prediksi
     const predictedSkill = predictionResponse.data.prediction.split(' ')[0].toLowerCase();
