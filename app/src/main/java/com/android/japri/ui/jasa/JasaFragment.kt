@@ -5,11 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.japri.adapter.JasaAdapter
+import com.android.japri.data.ResultState
+import com.android.japri.data.request.JasaRequestBody
 import com.android.japri.databinding.FragmentJasaBinding
 import com.android.japri.ui.ViewModelFactory
-import com.android.japri.utils.EXTRA_USERNAME
+import com.android.japri.utils.showLoading
 
 class JasaFragment : Fragment() {
 
@@ -21,7 +26,7 @@ class JasaFragment : Fragment() {
         ViewModelFactory.getInstance(requireContext())
     }
 
-    private var username: String? = null
+    private lateinit var adapter: JasaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,20 +40,110 @@ class JasaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        username = arguments?.getString(EXTRA_USERNAME)
+        adapter = JasaAdapter()
+
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvJasa.layoutManager = layoutManager
+        binding.rvJasa.adapter = adapter
+
+        getJasa()
+
+//        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                adapter.submitList(null)
+//                searchJasa(JasaRequestBody(query.toString()))
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.submitList(null)
+//                searchJasa(JasaRequestBody(newText.toString()))
+//                return true
+//            }
+//        })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-//                binding.textJasa.text = query
+                search(query.toString())
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-//                binding.textJasa.text = newText
+                search(newText.toString())
                 return true
             }
         })
 
+    }
+
+    private fun search(query: String?){
+        if (query.toString().isBlank()){
+            getJasa()
+            binding.noDataFound.visibility = View.INVISIBLE
+        } else {
+//            adapter.submitList(null)
+            searchJasa(JasaRequestBody(query.toString()))
+        }
+    }
+
+    private fun getJasa(){
+        viewModel.getJasa().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        binding.progressBar.showLoading(false)
+                        if(result.data.isEmpty()){
+                            binding.noDataFound.visibility = View.VISIBLE
+                        } else {
+                            adapter.submitList(null)
+                            binding.noDataFound.visibility = View.INVISIBLE
+                            adapter.submitList(result.data)
+                        }
+                    }
+
+                    is ResultState.Error -> {
+                        showToast(result.error)
+                        binding.progressBar.showLoading(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun searchJasa(requestBody: JasaRequestBody){
+        viewModel.searchJasa(requestBody).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.showLoading(true)
+                    }
+
+                    is ResultState.Success -> {
+                        binding.progressBar.showLoading(false)
+                        if(result.data.isEmpty()){
+                            binding.noDataFound.visibility = View.VISIBLE
+                        } else {
+                            adapter.submitList(null)
+                            binding.noDataFound.visibility = View.INVISIBLE
+                            adapter.submitList(result.data)
+                        }
+                    }
+
+                    is ResultState.Error -> {
+                        showToast(result.error)
+                        binding.progressBar.showLoading(false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

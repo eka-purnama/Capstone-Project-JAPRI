@@ -22,20 +22,35 @@
         app:layout_constraintStart_toStartOf="@+id/card_view"
         app:layout_constraintTop_toTopOf="@+id/card_view"
         app:layout_constraintEnd_toEndOf="@+id/card_view"
+        app:layout_constraintBottom_toBottomOf="@+id/card_view"
         android:backgroundTint="@color/grey"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvJobHistory"
+        android:id="@+id/rvJasa"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_view"/>
+
+    <TextView
+        android:id="@+id/no_data_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:drawableTopCompat="@drawable/no_data_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

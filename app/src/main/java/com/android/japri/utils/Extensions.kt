@@ -28,3 +28,12 @@ fun TextView.setErrorTextAndColor(errorText: String) {
     val errorColorResId = R.color.orange
     setTextColor(ContextCompat.getColor(context, errorColorResId))
 }
+
+fun ImageView.loadImageOrPlaceholder(photoUrl: String) {
+    if (photoUrl.isEmpty()) {
+        val placeholderResId = R.drawable.user_photo
+        setImageDrawable(ContextCompat.getDrawable(context, placeholderResId))
+    } else {
+        loadImage(photoUrl)
+    }
+}

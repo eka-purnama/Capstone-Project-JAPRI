@@ -76,10 +76,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToJasaFragment() {
-        val bundle = Bundle()
-        bundle.putString(EXTRA_USERNAME, username)
         findNavController(R.id.nav_host_fragment_activity_main)
-            .navigate(R.id.navigation_jasa, bundle)
+            .navigate(R.id.navigation_jasa)
     }
 
     private fun navigateToAccountFragment() {

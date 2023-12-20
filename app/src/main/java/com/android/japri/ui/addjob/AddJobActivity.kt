@@ -2,6 +2,7 @@ package com.android.japri.ui.addjob
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -9,8 +10,10 @@ import com.android.japri.R
 import com.android.japri.data.ResultState
 import com.android.japri.data.request.AddJobRequestBody
 import com.android.japri.databinding.ActivityAddJobBinding
+import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.DatePickerFragment
+import com.android.japri.utils.EXTRA_USERNAME
 import com.android.japri.utils.PROCESS
 import com.android.japri.utils.TimePickerFragment
 import com.android.japri.utils.setErrorTextAndColor
@@ -24,7 +27,14 @@ class AddJobActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListene
 
     private lateinit var binding : ActivityAddJobBinding
 
+    private lateinit var client: String
+    private var serviceProvider: String? = null
+
     private val viewModel by viewModels<AddJobViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
+    private val preferenceViewModel by viewModels<PreferenceViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
@@ -35,6 +45,13 @@ class AddJobActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListene
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.title_toolbar_add_job_activity)
+
+        serviceProvider = intent.getStringExtra(EXTRA_USERNAME)
+        binding.edWorkerName.setText(serviceProvider)
+
+        preferenceViewModel.getSession().observe(this) { user ->
+            client = user.username
+        }
 
         binding.btnAddJob.setOnClickListener {
             addJob()
@@ -65,7 +82,7 @@ class AddJobActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListene
                 else -> {
                     val requestBody = AddJobRequestBody(
                         jobName, startDate, endDate, startTime, endTime, salary.toInt(), jobAddress,
-                        detailJob, status, "hana", "serviceprovider", null
+                        detailJob, status, client, serviceProvider.toString(), null
                     )
                     add(requestBody)
                 }
@@ -137,6 +154,16 @@ class AddJobActivity : AppCompatActivity(), TimePickerFragment.DialogTimeListene
                 "start_time" -> findViewById<TextView>(R.id.tv_start_time).text = timeFormat.format(calendar.time)
                 "end_time" -> findViewById<TextView>(R.id.tv_end_time).text = timeFormat.format(calendar.time)
             }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

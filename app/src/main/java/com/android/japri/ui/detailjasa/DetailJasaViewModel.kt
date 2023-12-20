@@ -5,7 +5,6 @@ import com.android.japri.data.repository.AppRepository
 
 class DetailJasaViewModel(private val repository: AppRepository)  : ViewModel() {
 
-//    fun getSession(): LiveData<UserSessionData> {
-//        return repository.getSession().asLiveData()
-//    }
+    fun getUserById(id: String) = repository.getUserById(id)
+
 }

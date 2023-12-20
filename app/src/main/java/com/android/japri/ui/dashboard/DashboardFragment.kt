@@ -15,7 +15,6 @@ import com.android.japri.data.JobField
 import com.android.japri.databinding.FragmentDashboardBinding
 import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
-import com.android.japri.ui.detailjasa.DetailJasaActivity
 import com.android.japri.ui.welcome.WelcomeScreenActivity
 import com.android.japri.utils.SERVICE_PROVIDER
 
@@ -65,10 +64,6 @@ class DashboardFragment : Fragment() {
                 binding.tvUsername.text = getString(R.string.dashboard_username, user.username)
                 showUI()
             }
-        }
-
-        binding.tvUsername.setOnClickListener{
-            startActivity(Intent(requireContext(), DetailJasaActivity::class.java))
         }
     }
 

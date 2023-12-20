@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.japri.adapter.JobHistoryAdapter
 import com.android.japri.data.ResultState
 import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.databinding.FragmentJobBinding
+import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.ARG_POSITION
 import com.android.japri.utils.EXTRA_USERNAME

@@ -4,14 +4,15 @@ import com.android.japri.data.request.AccountRequestBody
 import com.android.japri.data.request.AddJobRequestBody
 import com.android.japri.data.request.EditPasswordRequestBody
 import com.android.japri.data.request.FeedbackRequestBody
+import com.android.japri.data.request.JasaRequestBody
 import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.response.CommonResponse
-import com.android.japri.data.response.JobHistoryDetailResponse
+import com.android.japri.data.response.JasaResponseItem
+import com.android.japri.data.response.JobDetailResponse
 import com.android.japri.data.response.JobHistoryResponseItem
 import com.android.japri.data.response.LoginResponse
-import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.response.UserResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -27,7 +28,7 @@ interface ApiService {
     @POST("auth/register")
     suspend fun register(
         @Body requestBody: RegisterRequestBody
-    ): RegisterResponse
+    ): CommonResponse
 
     @POST("auth/login")
     suspend fun login(
@@ -60,7 +61,7 @@ interface ApiService {
     @GET("jasa/{id}")
     suspend fun getJobHistoryDetail(
         @Path("id") id: String
-    ): JobHistoryDetailResponse
+    ): JobDetailResponse
 
     @POST("jasa")
     suspend fun addJob(
@@ -78,4 +79,13 @@ interface ApiService {
         @Path("id") id: String,
         @Body requestBody: EditPasswordRequestBody
     ): CommonResponse
+
+    @GET("users")
+    suspend fun getJasa(
+    ): List<JasaResponseItem>
+
+    @POST("users/search")
+    suspend fun searchJasa(
+        @Body requestBody: JasaRequestBody
+    ): List<JasaResponseItem>
 }

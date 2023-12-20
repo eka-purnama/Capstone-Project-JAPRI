@@ -109,6 +109,7 @@
     <string name="title_toolbar_detail_jasa_activity">Detail Jasa</string>
     <string name="information_for_user">Hubungi terlebih dahulu sebelum menggunakan jasa</string>
     <string name="has_been_contacted_alert">Apakah kamu telah menghubungi pengguna dan sepakat terkait pekerjaan yang akan diselesaikan?</string>
+    <string name="whatsapp_not_installed">WhatsApp tidak terinstall</string>
 
     <!--Add job activity-->
     <string name="title_toolbar_add_job_activity">Tambah Pekerjaan</string>
@@ -178,19 +179,11 @@
 
     <!--Job Fields-->
     <string name="service">Pelayanan</string>
-    <string name="logistic">Logistik</string>
     <string name="selling">Penjualan</string>
     <string name="education">Pendidikan</string>
-    <string name="media">Media</string>
-    <string name="management">Manajemen</string>
-    <string name="production">Produksi</string>
-    <!--    <string name="technician">Teknisi</string>-->
+    <string name="technicians">Teknisi</string>
     <string name="carpentry">Pertukangan</string>
-    <string name="administrative">Administratif</string>
-    <string name="fishery">Perikanan</string>
     <string name="agriculture">Pertanian</string>
-    <string name="farming">Perkebunan</string>
-    <string name="creative">Kreatif</string>
 
     <!--Lists of Job-->
     <string name="question_skill">Apa pekerjaan keahlian kamu?</string>
@@ -201,15 +194,10 @@
     <string name="nurse">perawat</string>
     <string name="cashier">kasir</string>
     <string name="coolie">kuli</string>
-    <string name="soundMan">soundman</string>
     <string name="gardener">penanam</string>
     <string name="host">host</string>
-    <string name="sorter">sorter</string>
-    <string name="checker">checker</string>
     <string name="guard">penjaga</string>
     <string name="librarian">pustakawan</string>
-    <string name="co_host">co-Host</string>
-    <string name="navigator">navigator</string>
     <string name="Photographer">fotografer</string>
     <string name="servant">pelayan</string>
     <string name="receptionist">pengantar</string>
@@ -220,9 +208,6 @@
     <string name="driver">sopir</string>
     <string name="videographer">videographer</string>
     <string name="nanny">pengasuh</string>
-    <string name="freelance">freelance</string>
-    <string name="content">content</string>
-    <string name="pickers">pemetik</string>
     <string name="courier">kurir</string>
     <string name="handyman">tukang</string>
     <string name="laborer">buruh</string>
@@ -234,5 +219,4 @@
 
 </resources>
 
-<!--<string name="pemuat">pemuat</string>-->
 

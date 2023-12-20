@@ -27,6 +27,7 @@ import com.android.japri.utils.EXTRA_ROLE
 import com.android.japri.utils.EXTRA_USERNAME
 import com.android.japri.utils.SERVICE_PROVIDER
 import com.android.japri.utils.loadImage
+import com.android.japri.utils.loadImageOrPlaceholder
 import com.android.japri.utils.showLoading
 
 class AccountFragment : Fragment() {
@@ -111,11 +112,7 @@ class AccountFragment : Fragment() {
                         username = result.data.username.toString()
 
                         photoUrl = result.data.photoUrl.toString()
-                        if (photoUrl.isEmpty()){
-                            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
-                        } else {
-                            binding.userPhoto.loadImage(photoUrl)
-                        }
+                        binding.userPhoto.loadImageOrPlaceholder(photoUrl)
                     }
 
                     is ResultState.Error -> {

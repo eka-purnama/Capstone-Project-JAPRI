@@ -8,12 +8,13 @@ import com.android.japri.data.request.AccountRequestBody
 import com.android.japri.data.request.AddJobRequestBody
 import com.android.japri.data.request.EditPasswordRequestBody
 import com.android.japri.data.request.FeedbackRequestBody
+import com.android.japri.data.request.JasaRequestBody
 import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
-import com.android.japri.data.response.RegisterResponse
 import com.android.japri.data.retrofit.ApiService
 import com.android.japri.data.response.CommonResponse
+import com.android.japri.data.response.JasaResponseItem
 import com.android.japri.data.response.LoginResponse
 import com.android.japri.preferences.UserPreference
 import com.android.japri.preferences.UserSessionData
@@ -40,7 +41,7 @@ class AppRepository private constructor(
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
@@ -180,6 +181,30 @@ class AppRepository private constructor(
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, CommonResponse::class.java)
             emit(ResultState.Error(errorResponse.message.toString()))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun getJasa() = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getJasa()
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun searchJasa(requestBody: JasaRequestBody) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.searchJasa(requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
         } catch (e: Exception) {
             emit(ResultState.Error(connectionError))
         }

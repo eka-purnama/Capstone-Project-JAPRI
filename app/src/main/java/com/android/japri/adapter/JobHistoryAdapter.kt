@@ -27,7 +27,7 @@ class JobHistoryAdapter : ListAdapter<JobHistoryResponseItem, JobHistoryAdapter.
     class MyViewHolder(val binding: ItemJobBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(history: JobHistoryResponseItem) {
             binding.apply {
-                val dateUpload = convertTimestamp(history.createdAt?.seconds, history.createdAt?.nanoSeconds)
+                val dateUpload = convertTimestamp(history.createdAt?.seconds, history.createdAt?.nanoseconds)
 
                 tvJobName.text = history.jobName
                 tvJobAddress.text = history.address

@@ -5,8 +5,8 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun convertTimestamp(seconds: Long?, nanoseconds: Int?): String {
-    val timestamp = Timestamp(seconds ?: 0, nanoseconds ?: 0)
+fun convertTimestamp(seconds: Int?, nanoseconds: Int?): String {
+    val timestamp = Timestamp((seconds ?: 0).toLong(), nanoseconds ?: 0)
     val date: Date = timestamp.toDate()
     val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US)
     return outputFormat.format(date)

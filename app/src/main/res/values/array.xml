@@ -12,19 +12,11 @@
 
     <string-array name="job_fields">
         <item>@string/service</item>
-        <item>@string/logistic</item>
         <item>@string/selling</item>
         <item>@string/education</item>
-        <item>@string/media</item>
-        <item>@string/technician</item>
+        <item>@string/technicians</item>
         <item>@string/carpentry</item>
-        <item>@string/management</item>
-        <item>@string/production</item>
-        <item>@string/administrative</item>
         <item>@string/agriculture</item>
-        <item>@string/farming</item>
-        <item>@string/creative</item>
-        <item>@string/fishery</item>
     </string-array>
 
     <string-array name="list_skill">
@@ -52,24 +44,11 @@
         <item>@string/librarian</item>
         <item>@string/videographer</item>
         <item>@string/host</item>
-        <item>@string/co_host</item>
-        <item>@string/pickers</item>
-
-        <item>@string/navigator</item>
         <item>@string/dishwasher</item>
         <item>@string/waiter</item>
-        <item>@string/soundMan</item>
-
         <item>@string/receptionist</item>
-
         <item>@string/helper</item>
         <item>@string/packager</item>
-
-        <item>@string/freelance</item>
-        <item>@string/content</item>
-
-        <item>@string/sorter</item>
-        <item>@string/checker</item>
     </string-array>
 
     <string-array name="select_photo">

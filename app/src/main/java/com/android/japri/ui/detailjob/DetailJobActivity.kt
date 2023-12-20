@@ -3,7 +3,6 @@ package com.android.japri.ui.detailjob
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.android.japri.R
@@ -59,7 +58,7 @@ class DetailJobActivity : AppCompatActivity() {
                     is ResultState.Loading -> {
                     }
                     is ResultState.Success -> {
-                        showDetail(result.data.detailJobHistory)
+                        showDetail(result.data.data?.get(0))
                         showDetailDifferentUser()
 //                        showUserInfo()
                     }
@@ -80,7 +79,7 @@ class DetailJobActivity : AppCompatActivity() {
     }
 
     private fun showDetail(job: JobHistoryResponseItem?) {
-        val dateUpload = convertTimestamp(job?.createdAt?.seconds, job?.createdAt?.nanoSeconds)
+        val dateUpload = convertTimestamp(job?.createdAt?.seconds, job?.createdAt?.nanoseconds)
         jobStatus = job?.status.toString()
 
         binding.apply {
@@ -97,10 +96,10 @@ class DetailJobActivity : AppCompatActivity() {
 
         if(role == SERVICE_PROVIDER){
             binding.userRole.text = getString(R.string.client)
-            binding.tvUsername.text = job?.client
+            binding.tvUsername.text = job?.penggunaJasa
         } else {
             binding.userRole.text = getString(R.string.service_provider)
-            binding.tvUsername.text = job?.serviceProvider
+            binding.tvUsername.text = job?.penyediaJasa
         }
     }
 

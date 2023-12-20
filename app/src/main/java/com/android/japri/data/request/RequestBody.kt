@@ -118,3 +118,8 @@ data class EditPasswordRequestBody(
     @field:SerializedName("confirm_password")
     val confirmPassword: String
 )
+
+data class JasaRequestBody(
+    @field:SerializedName("text")
+    val text: String
+)

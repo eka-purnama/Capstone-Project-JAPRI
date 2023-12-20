@@ -44,7 +44,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.addjob.AddJobActivity"
-            android:parentActivityName=".ui.detailjasa.DetailJasaActivity" />
+            android:exported="false" />
         <activity
             android:name=".ui.detailjasa.DetailJasaActivity"
             android:exported="false" />
