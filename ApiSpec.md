@@ -321,7 +321,7 @@
 
 ## Searching jasa
 
-**Endpoint**: `GET /users/search`
+**Endpoint**: `POST /users/search`
 
 **Request Body**:
 
