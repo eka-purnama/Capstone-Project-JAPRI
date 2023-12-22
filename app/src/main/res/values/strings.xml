@@ -170,7 +170,6 @@
     <string name="skill_hint">Pilih keahlian pekerjaan</string>
     <string name="desc_hint">Masukkan deskripsi diri</string>
     <string name="edit_password">Ubah Password</string>
-    <string name="password_hint">Masukkan password baru anda</string>
 
     <!--About application activity-->
     <string name="about_app_content">Melalui <b>JAPRI (JASA PERHARI)</b> kamu bisa:\n
@@ -179,11 +178,9 @@
 
     <!--Job Fields-->
     <string name="service">Pelayanan</string>
-    <string name="selling">Penjualan</string>
     <string name="education">Pendidikan</string>
     <string name="technicians">Teknisi</string>
     <string name="carpentry">Pertukangan</string>
-    <string name="agriculture">Pertanian</string>
 
     <!--Lists of Job-->
     <string name="question_skill">Apa pekerjaan keahlian kamu?</string>

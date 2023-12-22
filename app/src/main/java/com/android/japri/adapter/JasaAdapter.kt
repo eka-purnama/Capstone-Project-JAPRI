@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.japri.R
-import com.android.japri.data.response.JasaResponseItem
+import com.android.japri.data.response.UserResponse
 import com.android.japri.databinding.ItemJasaBinding
 import com.android.japri.ui.detailjasa.DetailJasaActivity
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.loadImageOrPlaceholder
 
-class JasaAdapter : ListAdapter<JasaResponseItem, JasaAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class JasaAdapter : ListAdapter<UserResponse, JasaAdapter.MyViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemJasaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -25,7 +25,7 @@ class JasaAdapter : ListAdapter<JasaResponseItem, JasaAdapter.MyViewHolder>(DIFF
     }
 
     class MyViewHolder(val binding: ItemJasaBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(jasa: JasaResponseItem) {
+        fun bind(jasa: UserResponse) {
             binding.apply {
 
                 userPhoto.loadImageOrPlaceholder(jasa.photoUrl.toString())
@@ -53,11 +53,11 @@ class JasaAdapter : ListAdapter<JasaResponseItem, JasaAdapter.MyViewHolder>(DIFF
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<JasaResponseItem>() {
-            override fun areItemsTheSame(oldItem: JasaResponseItem, newItem: JasaResponseItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserResponse>() {
+            override fun areItemsTheSame(oldItem: UserResponse, newItem: UserResponse): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: JasaResponseItem, newItem: JasaResponseItem): Boolean {
+            override fun areContentsTheSame(oldItem: UserResponse, newItem: UserResponse): Boolean {
                 return oldItem == newItem
             }
         }

@@ -14,7 +14,6 @@ import com.android.japri.ui.PreferenceViewModel
 import com.android.japri.ui.ViewModelFactory
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_ROLE
-import com.android.japri.utils.EXTRA_USERNAME
 
 class MainActivity : AppCompatActivity() {
 

@@ -18,6 +18,7 @@ import com.android.japri.utils.FINISH
 import com.android.japri.utils.SERVICE_PROVIDER
 import com.android.japri.utils.convertTimestamp
 import com.android.japri.utils.formatToRupiah
+import com.android.japri.utils.loadImageOrPlaceholder
 import com.android.japri.utils.showLoading
 import com.android.japri.utils.showToast
 
@@ -60,7 +61,6 @@ class DetailJobActivity : AppCompatActivity() {
                     is ResultState.Success -> {
                         showDetail(result.data.data?.get(0))
                         showDetailDifferentUser()
-//                        showUserInfo()
                     }
                     is ResultState.Error -> {
                         showToast(result.error)
@@ -92,30 +92,27 @@ class DetailJobActivity : AppCompatActivity() {
             tvDetailJob.text = job?.description
             edReview.setText(job?.feedback?.comment)
             ratingBar.rating = job?.feedback?.rating?.toFloat() ?: 0f
-        }
 
-        if(role == SERVICE_PROVIDER){
-            binding.userRole.text = getString(R.string.client)
-            binding.tvUsername.text = job?.penggunaJasa
-        } else {
-            binding.userRole.text = getString(R.string.service_provider)
-            binding.tvUsername.text = job?.penyediaJasa
+            if(role == SERVICE_PROVIDER){
+                userRole.text = getString(R.string.client)
+                tvUsername.text = job?.penggunaJasa
+                userPhoto.loadImageOrPlaceholder(job?.photoUrlPenggunaJasa.toString())
+            } else {
+                userRole.text = getString(R.string.service_provider)
+                tvUsername.text = job?.penyediaJasa
+                userPhoto.loadImageOrPlaceholder(job?.photoUrlPenyediaJasa.toString())
+            }
         }
     }
 
-//    photoUrl = result.data.photoUrl.toString()
-//    if (photoUrl.isEmpty()){
-//        binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.user_photo))
-//    } else {
-//        binding.userPhoto.loadImage(photoUrl)
-//    }
-
     private fun showDetailDifferentUser() {
         if(role == SERVICE_PROVIDER || jobStatus == FINISH){
-            binding.ratingBar.setIsIndicator(true)
-            binding.edReview.isFocusable = false
-            binding.edReview.isClickable = false
-            binding.btnFinish.isVisible = false
+            binding.apply {
+                ratingBar.setIsIndicator(true)
+                edReview.isFocusable = false
+                edReview.isClickable = false
+                btnFinish.isVisible = false
+            }
         }
     }
 

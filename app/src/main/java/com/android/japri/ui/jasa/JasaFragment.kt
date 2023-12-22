@@ -42,34 +42,17 @@ class JasaFragment : Fragment() {
 
         adapter = JasaAdapter()
 
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvJasa.layoutManager = layoutManager
+        binding.rvJasa.layoutManager = LinearLayoutManager(requireContext())
         binding.rvJasa.adapter = adapter
 
         getJasa()
-
-//        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                adapter.submitList(null)
-//                searchJasa(JasaRequestBody(query.toString()))
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.submitList(null)
-//                searchJasa(JasaRequestBody(newText.toString()))
-//                return true
-//            }
-//        })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 search(query.toString())
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
-                search(newText.toString())
                 return true
             }
         })
@@ -81,7 +64,6 @@ class JasaFragment : Fragment() {
             getJasa()
             binding.noDataFound.visibility = View.INVISIBLE
         } else {
-//            adapter.submitList(null)
             searchJasa(JasaRequestBody(query.toString()))
         }
     }
@@ -99,7 +81,6 @@ class JasaFragment : Fragment() {
                         if(result.data.isEmpty()){
                             binding.noDataFound.visibility = View.VISIBLE
                         } else {
-                            adapter.submitList(null)
                             binding.noDataFound.visibility = View.INVISIBLE
                             adapter.submitList(result.data)
                         }
@@ -125,9 +106,9 @@ class JasaFragment : Fragment() {
                     is ResultState.Success -> {
                         binding.progressBar.showLoading(false)
                         if(result.data.isEmpty()){
+                            adapter.submitList(null)
                             binding.noDataFound.visibility = View.VISIBLE
                         } else {
-                            adapter.submitList(null)
                             binding.noDataFound.visibility = View.INVISIBLE
                             adapter.submitList(result.data)
                         }

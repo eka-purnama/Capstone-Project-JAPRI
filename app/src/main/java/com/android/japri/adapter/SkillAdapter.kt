@@ -44,4 +44,3 @@ class SkillAdapter(private val skills: Array<String>) : RecyclerView.Adapter<Ski
         }
     }
 }
-

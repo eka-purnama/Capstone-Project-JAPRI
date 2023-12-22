@@ -24,7 +24,6 @@ import com.android.japri.ui.camera.CameraActivity
 import com.android.japri.ui.camera.CameraActivity.Companion.CAMERAX_RESULT
 import com.android.japri.utils.EXTRA_ID
 import com.android.japri.utils.EXTRA_PHOTO_URL
-import com.android.japri.utils.loadImage
 import com.android.japri.utils.loadImageOrPlaceholder
 import com.android.japri.utils.reduceFileImage
 import com.android.japri.utils.showLoading
@@ -75,11 +74,6 @@ class PhotoProfileActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(EXTRA_PHOTO_URL)
         imageUri = Uri.parse(imageUrl)
 
-//        if (imageUrl.toString().isEmpty()){
-//            binding.userPhoto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.user_photo))
-//        } else {
-//            binding.userPhoto.loadImage(imageUrl)
-//        }
         binding.userPhoto.loadImageOrPlaceholder(imageUrl.toString())
 
         if (!allPermissionsGranted()) {

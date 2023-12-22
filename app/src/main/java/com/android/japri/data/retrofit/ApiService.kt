@@ -9,7 +9,6 @@ import com.android.japri.data.request.JobHistoryRequestBody
 import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.response.CommonResponse
-import com.android.japri.data.response.JasaResponseItem
 import com.android.japri.data.response.JobDetailResponse
 import com.android.japri.data.response.JobHistoryResponseItem
 import com.android.japri.data.response.LoginResponse
@@ -82,10 +81,16 @@ interface ApiService {
 
     @GET("users")
     suspend fun getJasa(
-    ): List<JasaResponseItem>
+    ): List<UserResponse>
 
     @POST("users/search")
     suspend fun searchJasa(
         @Body requestBody: JasaRequestBody
-    ): List<JasaResponseItem>
+    ): List<UserResponse>
+
+    @GET("users/bidang/{bidang}")
+    suspend fun getJasaByField(
+        @Path("bidang") bidang: String
+    ): List<UserResponse>
+
 }

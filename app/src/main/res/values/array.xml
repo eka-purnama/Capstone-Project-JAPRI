@@ -12,11 +12,9 @@
 
     <string-array name="job_fields">
         <item>@string/service</item>
-        <item>@string/selling</item>
         <item>@string/education</item>
         <item>@string/technicians</item>
         <item>@string/carpentry</item>
-        <item>@string/agriculture</item>
     </string-array>
 
     <string-array name="list_skill">

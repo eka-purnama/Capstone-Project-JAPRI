@@ -3,13 +3,10 @@ package com.android.japri.ui.jobhistory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.viewpager2.widget.ViewPager2
 import com.android.japri.R
 import com.android.japri.databinding.ActivityJobHistoryBinding
-import com.android.japri.ui.PreferenceViewModel
-import com.android.japri.ui.ViewModelFactory
 import com.android.japri.ui.job.SectionsPagerAdapter
 import com.android.japri.utils.EXTRA_ROLE
 import com.android.japri.utils.EXTRA_USERNAME
@@ -22,10 +19,6 @@ class JobHistoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJobHistoryBinding
     private lateinit var role: String
     private var username: String? = null
-
-    private val preferenceViewModel by viewModels<PreferenceViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +37,6 @@ class JobHistoryActivity : AppCompatActivity() {
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         sectionsPagerAdapter.username = username.toString()
-
-//        preferenceViewModel.getSession().observe(this) { user ->
-//            username = user.username
-//        }
 
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter

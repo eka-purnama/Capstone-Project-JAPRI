@@ -14,7 +14,6 @@ import com.android.japri.data.request.LoginRequestBody
 import com.android.japri.data.request.RegisterRequestBody
 import com.android.japri.data.retrofit.ApiService
 import com.android.japri.data.response.CommonResponse
-import com.android.japri.data.response.JasaResponseItem
 import com.android.japri.data.response.LoginResponse
 import com.android.japri.preferences.UserPreference
 import com.android.japri.preferences.UserSessionData
@@ -202,6 +201,18 @@ class AppRepository private constructor(
         emit(ResultState.Loading)
         try {
             val successResponse = apiService.searchJasa(requestBody)
+            emit(ResultState.Success(successResponse))
+        } catch (e: HttpException) {
+            emit(ResultState.Error(errorMessage))
+        } catch (e: Exception) {
+            emit(ResultState.Error(connectionError))
+        }
+    }
+
+    fun getJasaByField(field: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val successResponse = apiService.getJasaByField(field)
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             emit(ResultState.Error(errorMessage))
